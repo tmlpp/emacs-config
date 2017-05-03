@@ -154,7 +154,7 @@
 
 (defvar computer-type nil)
 (defun tsl/desktop-or-laptop ()
-  "Based on screen resolution, define whether Emacs is opened on dasktop or laptop."
+  "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
   (interactive)
   (if (>= (x-display-pixel-height) 900)
       (setq computer-type 'desktop)
@@ -171,6 +171,46 @@
   (global-undo-tree-mode)
   :bind (("C-z" . undo)
   ("C-S-z" . undo-tree-redo)))
+
+(defun tsl/reload-settings ()
+  (interactive)
+  (org-babel-load-file "~/.emacs.d/conf.org"))
+
+(defun tsl/writing-view-3-windows ()
+  (interactive)
+  (split-window-horizontally 167)
+  (split-window-horizontally 70)
+  (clone-indirect-buffer nil t)
+  (clone-indirect-buffer nil t))
+
+(defun tsl/writing-view-2-windows ()
+  (interactive)
+  (split-window-horizontally 70)
+  (clone-indirect-buffer nil t))
+
+(defun copy-region-or-whole-line (beg end flash)
+  (interactive (if (use-region-p)
+		   (list (region-beginning) (region-end) nil)
+		 (list (line-beginning-position)
+		       (line-beginning-position 2) 'flash)))
+  (kill-ring-save beg end)
+  (when flash
+    (save-excursion
+      ((if ) (equal (current-column) 0)
+       (goto-char end)
+       (goto-char beg))
+      (sit-for blink-matching-delay))))
+(global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
+
+(defun cut-region-or-line ()
+  (interactive (if (use-region-p)
+		   (kill-region (region-beginning) (region-end))
+		 (kill-line nil))))
+(global-set-key [remap kill-line] 'cut-region-or-line)
+
+(use-package magit
+:ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 (use-package org-bullets
   :ensure t
@@ -269,27 +309,6 @@
 
 (setq org-agenda-default-appointment-duration 60)
 
-(defun copy-region-or-whole-line (beg end flash)
-  (interactive (if (use-region-p)
-		   (list (region-beginning) (region-end) nil)
-		 (list (line-beginning-position)
-		       (line-beginning-position 2) 'flash)))
-  (kill-ring-save beg end)
-  (when flash
-    (save-excursion
-      ((if ) (equal (current-column) 0)
-       (goto-char end)
-       (goto-char beg))
-      (sit-for blink-matching-delay))))
-(global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
-
-(defun cut-region-or-line ()
-  (interactive (if (use-region-p)
-		   (kill-region (region-beginning) (region-end))
-		 (kill-line nil))))
-(global-set-key [remap kill-line] 'cut-region-or-line)
-(global-set-key [remap org-kill-line] 'cut-region-or-line)
-
 (defun org-set-ascii-text-width ()
   (save-excursion (setq org-ascii-text-width
                         (cadr (goto-longest-line (point-min) (point-max))))))
@@ -297,19 +316,3 @@
 (add-hook 'before-save-hook
           (lambda () (if (eq major-mode 'org-mode)
                          (org-set-ascii-text-width))))
-
-(defun tsl/writing-view-3-windows ()
-  (interactive)
-  (split-window-horizontally 167)
-  (split-window-horizontally 70)
-  (clone-indirect-buffer nil t)
-  (clone-indirect-buffer nil t))
-
-(defun tsl/writing-view-2-windows ()
-  (interactive)
-  (split-window-horizontally 70)
-  (clone-indirect-buffer nil t))
-
-(defun tsl/reload-settings ()
-  (interactive)
-  (org-babel-load-file "~/.emacs.d/conf.org"))

@@ -80,8 +80,8 @@ Commented out at this point, though. Combatibility issue with my ample-light the
   (powerline-center-theme)
 #+end_src
 
-** Some files to register for quick access
-Access files in register with: =C-x r j=
+** Config files to register
+Quick acces to config files by putting them to register. Access with: =C-x r j=
 #+begin_src emacs-lisp
   (set-register ?a '(file . "~/.config/awesome/rc.lua")) ; Awesome window manager config
   (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
@@ -108,7 +108,7 @@ When splitting windows, switch to new one.
   (global-set-key (kbd "C-x 2") (lambda () (interactive) (split-window-below) (other-window 1)))
   (global-set-key (kbd "C-x 3") (lambda () (interactive) (split-window-right) (other-window 1)))
 #+end_src
-I got sick of that C-x o thing. =window-numbering-mode= makes switching between windows more comfortable: Windows are numbered, M-number goes to wanted window.
+I got sick of that =C-x o= thing. =window-numbering-mode= makes switching between windows more comfortable: Windows are numbered, M-number goes to wanted window.
 #+begin_src emacs-lisp
   (use-package window-numbering
     :ensure t
@@ -348,6 +348,12 @@ Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-li
 		   (kill-line nil))))
   (global-set-key [remap kill-line] 'cut-region-or-line)
   #+end_src
+** Magit
+#+begin_src emacs-lisp
+(use-package magit
+:ensure t)
+(global-set-key (kbd "C-x g") 'magit-status)
+#+end_src
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
@@ -529,7 +535,6 @@ When exporting to ascii, I dont want new lines in paragraphs.
             (lambda () (if (eq major-mode 'org-mode)
                            (org-set-ascii-text-width))))
 #+end_src
-* My functions
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
 
