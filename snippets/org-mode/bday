@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: birhtday
+# key: bday
+# --
+%%(org-anniversary $1) $2, %d

@@ -1,0 +1,8 @@
+* My Emacs configuration
+There's probably nothing super exciting here, but if you find something you need, great.
+Bits and pieces are mostly collected from all over the web, by googling solutions to my problems, and finding interesting things to try. 
+
+The actual configuration file is =conf.org=. It is written following guidelines of literate programminr, more or less.
+
+Occasionally I might put stuff I'm not gonna try right away here. Those are marked with tag =disabled=, and org-babel doesn't tangle those source blocks. This way I can easily find them and try them out when I feel like doing so.
+This config is a work in progress. Needs organizing, cleaning and other things.

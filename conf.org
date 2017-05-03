@@ -1,0 +1,535 @@
+* General config
+** Sensitive information
+Load information I don't want to be publicly available – for one reason or another – from a separate file.
+#+begin_src emacs-lisp
+(load "~/.emacs.secrets")
+#+end_src
+** Emacs server
+Start Emacs server.
+#+begin_src emacs-lisp
+(server-start)
+#+end_src
+** UI
+Start with empty scratch and show buffer name in frame.
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+  (setq initial-scratch-message nil)
+  (setq frame-title-format "%b")
+#+end_src
+Remove all those extra bars. I don't want them.
+#+begin_src emacs-lisp
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+#+end_src
+I want a bar cursor instead of the default block one. I also want current line highlighted.
+#+begin_src emacs-lisp
+  (global-hl-line-mode 1)
+  (set-default 'cursor-type 'bar)
+#+end_src
+** Packages
+Where to get packages and stuff.
+#+begin_src emacs-lisp
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (add-to-list 'package-archives
+               '("melpa" . "https://melpa.org/packages/"))
+  (package-initialize)
+  (add-to-list 'load-path
+               "~/.emacs.d/elisp")
+#+end_src
+Use use-package to use packages.
+#+begin_src emacs-lisp
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+#+end_src
+** Move some things out of the way
+Backups to separate folder
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+#+end_src
+custom-set-variables to separate file
+#+begin_src emacs-lisp
+  (setq custom-file "~/.emacs.d/customs.el")
+  (load custom-file)
+#+end_src
+** Appearance
+Load theme and set font.
+#+begin_src emacs-lisp
+  (use-package ample-theme  
+    :ensure t
+    :config (load-theme 'ample-flat t))
+  (add-to-list 'default-frame-alist 
+	       '(font . "Fira Mono-10"))
+#+end_src
+Custom themes location.
+#+begin_src emacs-lisp
+  (let ((basedir "~/.emacs.d/themes/"))
+	(dolist (f (directory-files basedir))
+          (if (and (not (or (equal f ".") (equal f "..")))
+                   (file-directory-p (concat basedir f)))
+              (add-to-list 'custom-theme-load-path (concat basedir f)))))
+#+end_src 
+** Powerline                                                     :disabled:
+Powerline. Just because I've seen it, and it looked cool.
+Commented out at this point, though. Combatibility issue with my ample-light theme (current line number almost invisible). Need to look into it at some point.
+#+begin_src emacs-lisp :tangle no
+  (use-package powerline
+    :ensure t)
+  (powerline-center-theme)
+#+end_src
+
+** Some files to register for quick access
+Access files in register with: =C-x r j=
+#+begin_src emacs-lisp
+  (set-register ?a '(file . "~/.config/awesome/rc.lua")) ; Awesome window manager config
+  (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
+#+end_src 
+** Calendar in Finnish
+Finnish day and month names, and week starts from Monday.
+#+begin_src emacs-lisp
+  (setq calendar-week-start-day 1
+        calendar-day-name-array
+        ["sunnuntai" "maanantai" "tiistai" "keskiviikko"
+         "torstai" "perjantai" "lauantai"]
+        calendar-month-name-array
+        ["tammikuu" "helmikuu" "maaliskuu" "huhtikuu" "toukokuu" 
+         "kesäkuu" "heinäkuu" "elokuu" "syyskuu"
+         "lokakuu" "marraskuu" "joulukuu"]
+        calendar-day-abbrev-array
+        ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
+        calendar-day-header-array
+        ["su" "ma" "ti" "ke" "to" "pe" "la"])
+#+end_src 
+** Windows and buffers
+When splitting windows, switch to new one.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x 2") (lambda () (interactive) (split-window-below) (other-window 1)))
+  (global-set-key (kbd "C-x 3") (lambda () (interactive) (split-window-right) (other-window 1)))
+#+end_src
+I got sick of that C-x o thing. =window-numbering-mode= makes switching between windows more comfortable: Windows are numbered, M-number goes to wanted window.
+#+begin_src emacs-lisp
+  (use-package window-numbering
+    :ensure t
+    :config (window-numbering-mode 1))
+#+end_src
+Use ibuffer. Kill the current buffer without asking.
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  (defalias 'list-buffers 'ibuffer)
+#+end_src
+Some various commands
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-¨") 'save-buffer)
+#+end_src
+** Answer just y or n
+I don't wanna type yes or no
+#+begin_src emacs-lisp
+  (fset 'yes-or-no-p 'y-or-n-p)
+#+end_src
+** Abbrevs
+Use abbrev-mode for less keystrokes.
+#+begin_src emacs-lisp
+  (setq abbrev-file-name
+        "~/.emacs.d/abbrevs")
+  (setq-default abbrev-mode t)
+  (setq save-abbrevs t)
+#+end_src
+** Visual-line-mode
+Use =visual-line-mode= to wrap long lines on screen. More word processor like experience.
+
+Use it in =org-mode= automatically, cause that's where all the writing happens.
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook (lambda () (visual-line-mode 1)))
+#+end_src 
+** Swiper and counsel
+Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
+#+begin_src emacs-lisp
+  (use-package counsel
+    :ensure t
+    )
+
+  (use-package swiper
+    :ensure try
+    :config
+    (progn
+      (ivy-mode 1)
+      (setq ivy-use-virtual-buffers t)
+      (global-set-key "\C-s" 'swiper)
+      (global-set-key (kbd "C-c C-r") 'ivy-resume)
+      (global-set-key (kbd "<f6>") 'ivy-resume)
+      (global-set-key (kbd "M-x") 'counsel-M-x)
+      (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+      (global-set-key (kbd "<f1> f") 'counsel-describe-function)
+      (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
+      (global-set-key (kbd "<f1> l") 'counsel-load-library)
+      (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+      (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+      (global-set-key (kbd "C-c g") 'counsel-git)
+      (global-set-key (kbd "C-c j") 'counsel-git-grep)
+      (global-set-key (kbd "C-c k") 'counsel-ag)
+      (global-set-key (kbd "C-x l") 'counsel-locate)
+      (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+      (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
+      ))
+ #+end_src
+** Help with key commands
+=which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
+#+begin_src emacs-lisp
+  (use-package which-key
+    :ensure t
+    :config (which-key-mode 1))
+#+end_src
+** Clean up modeline
+Remove some minor-modes from modeline. No need to see these there.
+#+begin_src emacs-lisp
+  (diminish 'abbrev-mode)
+  (diminish 'which-key-mode)
+;  (diminish 'yas-minor-mode)
+(diminish 'visual-line-mode)
+#+end_src
+Rename some major modes to take less space on modeline. 
+#+begin_src emacs-lisp
+  (defmacro diminish-major-mode (mode-hook abbrev)
+    `(add-hook ,mode-hook
+               (lambda () (setq mode-name ,abbrev))))
+
+  (diminish-major-mode 'emacs-lisp-mode-hook "el")
+#+end_src
+** word-count
+#+begin_src emacs-lisp
+  (load "word-count")
+#+end_src
+** keyfreq
+Record which commands I'm using the most, to maybe find better key bindings for them one day.
+#+begin_src emacs-lisp
+    (use-package keyfreq
+      :ensure t    
+      :config (keyfreq-mode 1)
+      (keyfreq-autosave-mode 1))
+#+end_src
+** Sentences end with one space
+Why would anyone end sentences with two spaces?
+This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
+#+begin_src emacs-lisp
+(setq sentence-end-double-space nil)
+#+end_src
+** Scrolling
+Hadn't even thought how annoying the default scrolling in Emacs was. This makes it better
+#+begin_src emacs-lisp
+  (setq scroll-step            1
+	scroll-conservatively  10000)
+#+end_src
+** Misc configs
+Keys for bigger and smaller text.
+#+begin_src emacs-lisp
+(bind-key "C-+" 'text-scale-increase)
+(bind-key "C--" 'text-scale-decrease)
+#+end_src
+Transpose things with M-t
+#+begin_src emacs-lisp
+  (bind-key "M-t" nil) ;; which used to be transpose-words
+  (bind-key "M-t l" 'transpose-lines)
+  (bind-key "M-t w" 'transpose-words)
+  (bind-key "M-t t" 'transpose-words)
+  (bind-key "M-t M-t" 'transpose-words)
+  (bind-key "M-t s" 'transpose-sexps)
+#+end_src
+Some aliases.
+#+begin_src emacs-lisp
+(defalias 'qrr 'query-replace-regexp)
+(defalias 'qr 'query-replace)
+(defalias 'rr 'replace-regexp)
+(defalias 'plp 'package-list-packages)
+#+end_src
+Show parenthesis. This is good even for a non-programmer. And of course helps with working with elisp here in config.
+#+begin_src emacs-lisp
+(show-paren-mode 1)
+(setq show-paren-delay 0)
+#+end_src
+Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
+
+My desktop screen resolutions are 1920x1080 and 1440x900. Laptop is 1366x768. So, if screen height is equal or greater than 900, I'm using desktop.
+ 
+This is a work in progress, so far any settings aren't dependent on this. I haven't even tried does this actually work.
+#+begin_src emacs-lisp
+  (defvar computer-type nil)
+  (defun tsl/desktop-or-laptop ()
+    "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
+    (interactive)
+    (if (>= (x-display-pixel-height) 900)
+	(setq computer-type 'desktop)
+      (setq computer-type 'laptop)))
+  (tsl/desktop-or-laptop)
+#+end_src
+** Yasnippet
+Yasnippet
+#+begin_src emacs-lisp
+  (use-package yasnippet
+    :ensure t
+    :config (yas-global-mode 1))
+#+end_src
+** Undo-tree
+#+begin_src emacs-lisp
+  (use-package undo-tree
+    :ensure t
+    :init
+    (global-undo-tree-mode)
+    :bind (("C-z" . undo)
+    ("C-S-z" . undo-tree-redo)))
+#+end_src
+** Save buffer when focus is lost                                :disabled:
+#+begin_src emacs-lisp :tangle no
+ (use-package focus-autosave-mode
+   :ensure t
+   :init (focus-autosave-mode)
+   :diminish focus-autosave-mode)
+#+end_src
+** Save place in files                                           :disabled:
+#+begin_src emacs-lisp :tangle no
+ (use-package saveplace
+   :init (save-place-mode 1)
+   :config
+   (progn
+     (setq-default save-place t)
+     (setq-default save-place-file (expand-file-name "places" user-cache-directory))))
+#+end_src
+** Reload config file
+Make a function to reload the config file.
+#+begin_src emacs-lisp
+(defun tsl/reload-settings ()
+  (interactive)
+  (org-babel-load-file "~/.emacs.d/conf.org"))
+#+end_src
+** Writing view
+Split frame into two or three windows, indirect clone of current buffer to each.
+
+This makes it possible to have actual text I'm working on in one window, and outline of the file, notes, or something else from the same file in another window.
+#+begin_src emacs-lisp
+  (defun tsl/writing-view-3-windows ()
+    (interactive)
+    (split-window-horizontally 167)
+    (split-window-horizontally 70)
+    (clone-indirect-buffer nil t)
+    (clone-indirect-buffer nil t))
+
+  (defun tsl/writing-view-2-windows ()
+    (interactive)
+    (split-window-horizontally 70)
+    (clone-indirect-buffer nil t))
+#+end_src
+** Kill (and save) line or region
+Copy active region with =M-w=. If there's no active region, =M-w= copy /the whole line/.
+Found in: [[https://www.emacswiki.org/emacs/WholeLineOrRegion][Emacs wiki]]
+#+begin_src emacs-lisp
+  (defun copy-region-or-whole-line (beg end flash)
+    (interactive (if (use-region-p)
+		     (list (region-beginning) (region-end) nil)
+		   (list (line-beginning-position)
+			 (line-beginning-position 2) 'flash)))
+    (kill-ring-save beg end)
+    (when flash
+      (save-excursion
+	((if ) (equal (current-column) 0)
+	 (goto-char end)
+	 (goto-char beg))
+	(sit-for blink-matching-delay))))
+  (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
+#+end_src
+
+Cut (kill)the active region with =C-k=. If theres no active region, cut /the rest of the line/.
+
+Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-line=
+#+begin_src emacs-lisp
+  (defun cut-region-or-line ()
+    (interactive (if (use-region-p)
+		     (kill-region (region-beginning) (region-end))
+		   (kill-line nil))))
+  (global-set-key [remap kill-line] 'cut-region-or-line)
+  #+end_src
+* Org
+  Configuration for =org-mode=, which is the main reason why I use Emacs.
+** Pretty org-mode
+Use org-bullets, change the three period ellipsis to something else, and use org-indent-mode
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :ensure t
+    :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
+    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+   (setq org-ellipsis " ▼")
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (org-indent-mode 1)))
+#+end_src
+** Multiple line italics
+Allow italizing and bolding multiple words, or even whole paragraph.
+#+begin_src emacs-lisp
+  (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
+#+end_src
+** Key bindings
+Some random bindings
+#+begin_src emacs-lisp
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
+#+end_src
+
+Move easily between headings
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+   (define-key org-mode-map (kbd "M-p") #'outline-previous-visible-heading)
+   (define-key org-mode-map (kbd "M-n") #'outline-next-visible-heading)
+   (define-key org-mode-map (kbd "M-P") #'org-backward-heading-same-level)
+   (define-key org-mode-map (kbd "M-N") #'org-forward-heading-same-level)
+   (define-key org-mode-map (kbd "M-U") #'outline-up-heading))
+#+end_src
+** Capture anywhere
+Make it possible to pop up a quick capture frame when not in Emacs. This is bound to a key command in my Awesome window manager.
+Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestlaz.github.io/posts/using-emacs-24-capture-2/#.WQmyab2LRhE][Mike Zamansky's blog and video]].
+#+begin_src emacs-lisp
+(defadvice org-capture-finalize 
+    (after delete-capture-frame activate)  
+  "Advise capture-finalize to close the frame"  
+  (if (equal "capture" (frame-parameter nil 'name))  
+    (delete-frame)))
+
+(defadvice org-capture-destroy 
+    (after delete-capture-frame activate)  
+  "Advise capture-destroy to close the frame"  
+  (if (equal "capture" (frame-parameter nil 'name))  
+    (delete-frame)))  
+
+(use-package noflet
+  :ensure t )
+(defun make-capture-frame ()
+  "Create a new frame and run org-capture."
+  (interactive)
+  (make-frame '((name . "capture")))
+  (select-frame-by-name "capture")
+  (delete-other-windows)
+  (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
+    (org-capture)))
+#+end_src
+** Org-agenda and TODO stuff
+Set org-agenda files
+#+begin_src emacs-lisp
+  (setq org-agenda-files (quote ("~/Dropbox/org")))
+#+end_src  
+
+Put logs in LOGBOOK drawer.
+#+begin_src emacs-lisp
+  (setq org-log-into-drawer t)
+#+end_src
+
+Clock into CLOCKING drawer.
+#+begin_src emacs-lisp
+  (setq org-clock-into-drawer "CLOCKING")
+#+end_src 
+
+Set todo keyword sequences. These are in Finnish, because I'm Finnish.
+Some files, for example the one wiht my blog texts, have different todo keyword sequences.
+#+begin_src emacs-lisp
+    (setq org-todo-keywords
+               '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "JOSKUS(j)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
+#+end_src
+
+If the todo item has undone children todos or checkboxes, it can't be marked done.
+#+begin_src emacs-lisp
+(setq org-enforce-todo-dependencies t)
+(setq org-track-ordered-property-with-tag t)
+(setq org-enforce-todo-checkbox-dependencies t)
+#+end_src 
+
+If I want TODO items automatically marked DONE when all the children are DONE, I uncomment this. At this point I don't want that.
+#+begin_src emacs-lisp
+;  (defun org-summary-todo (n-done n-not-done)
+ ;   "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  ;  (let (org-log-done org-log-states)   ; turn off logging
+   ;   (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+;  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
+#+end_src
+
+I usually refile things between org-agenda files. But sometimes need to refile somewhere in current, non-agenda file, for example here in config.
+So, set =org-refile-targets= to include current file and agenda files. Limit them up to level 3 headings.
+#+begin_src emacs-lisp
+  (setq org-refile-targets '((nil :maxlevel . 3)
+                                  (org-agenda-files :maxlevel . 3)))
+
+  (setq org-refile-use-outline-path nil)
+  (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+end_src
+** Exporting
+*** Export macros
+Export current subree, body only, in HTML to buffer. Select all, kill-region.
+#+begin_src emacs-lisp
+  (fset 'tsl/blog-export
+	"\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
+#+end_src
+Export org file to ascii
+#+begin_src emacs-lisp
+  (fset 'tsl/ascii-export
+	"\C-c\C-etU\C-xh\C-w\C-x0")
+#+end_src
+*** org-reveal
+Export org files to [[https://github.com/hakimel/reveal.js/][reveal.js]]
+#+begin_src emacs-lisp
+  (use-package ox-reveal
+    :ensure ox-reveal)
+
+  (setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
+  (setq org-reveal-mathjax t)
+
+  (use-package htmlize
+    :ensure t)
+#+end_src
+** Day lasts until 5 a.m.
+In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampire.
+#+begin_src emacs-lisp
+(setq org-extend-today-until 5) 
+#+end_src
+** hide inherited tags in agenda
+Remove tag clutter from agenda view.
+#+begin_src emacs-lisp
+(setq org-agenda-show-inherited-tags nil)
+#+end_src
+** enter follows links
+In org files, open links by pressing =Enter=
+#+begin_src emacs-lisp
+(setq org-return-follows-link t)
+#+end_src
+** Defalt appointment duration
+If I don't set the ending time when scheduling appointments or whatever, the default duration is 60 minutes.
+#+begin_src emacs-lisp
+(setq org-agenda-default-appointment-duration 60)
+#+end_src
+** Update parent heading cookie                                  :disabled:
+Found here: https://github.com/magnars/.emacs.d
+Renamed to my function namespace
+#+begin_src emacs-lisp :tangle no
+ (defun tsl/update-parent-cookie ()
+  (when (equal major-mode 'org-mode)
+    (save-excursion
+      (ignore-errors
+        (org-back-to-heading)
+        (org-update-parent-todo-statistics)))))
+#+end_src
+** Set org ASCII width
+When exporting to ascii, I dont want new lines in paragraphs.
+#+begin_src emacs-lisp
+  (defun org-set-ascii-text-width ()
+    (save-excursion (setq org-ascii-text-width
+                          (cadr (goto-longest-line (point-min) (point-max))))))
+
+  (add-hook 'before-save-hook
+            (lambda () (if (eq major-mode 'org-mode)
+                           (org-set-ascii-text-width))))
+#+end_src
+* My functions
+* License
+[[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
+

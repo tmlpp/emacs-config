@@ -1,0 +1,9 @@
+*~
+*.log
+elpa
+eshell
+recentf
+backups
+auto-save-list
+themes
+bookmarks
