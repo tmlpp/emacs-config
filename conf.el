@@ -301,6 +301,21 @@
 (use-package htmlize
   :ensure t)
 
+(defun tsl/clean-ascii ()
+"Clean up the buffer by removing equal characters, tildes, extra spaces in beginnings of lines, and extra new lines."
+  (interactive)
+  (while (re-search-forward "[=\|~]" nil t)
+    (replace-match "" nil nil))
+  (beginning-of-buffer)
+  (while (re-search-forward "  " nil t)
+    (replace-match "" nil nil))
+  (beginning-of-buffer)
+  (while (re-search-forward "\^J\^J" nil t)
+    (replace-match "\^J" nil nil))
+  (beginning-of-buffer)
+  (while (re-search-forward "\^J\^J" nil t)
+    (replace-match "\^J" nil nil)))
+
 (setq org-extend-today-until 5)
 
 (setq org-agenda-show-inherited-tags nil)
