@@ -290,7 +290,7 @@
       "\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
 
 (fset 'tsl/ascii-export
-      "\C-c\C-etU\C-xh\C-w\C-x0")
+      "\C-c\C-etA\C-xh\C-w\C-x0")
 
 (use-package ox-reveal
   :ensure ox-reveal)
@@ -301,20 +301,19 @@
 (use-package htmlize
   :ensure t)
 
-(defun tsl/clean-ascii ()
-"Clean up the buffer by removing equal characters, tildes, extra spaces in beginnings of lines, and extra new lines."
-  (interactive)
-  (while (re-search-forward "[=\|~]" nil t)
-    (replace-match "" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "  " nil t)
-    (replace-match "" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "\^J\^J" nil t)
-    (replace-match "\^J" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "\^J\^J" nil t)
-    (replace-match "\^J" nil nil)))
+(defun tsl/org-ascii-clean-text ()
+  (save-excursion (setq org-ascii-text-width
+                        (cadr (goto-longest-line (point-min) (point-max))))
+                        (setq org-ascii-headline-spacing '(0 . 0))
+                        (setq org-ascii-paragraph-spacing 0)
+                        (setq org-ascii-inner-margin 0)
+                        (setq org-ascii-underline '((ascii nil nil nil)
+			(latin1 nil nil nil)
+			(utf-8 nil nil nil nil nil)))))
+
+(add-hook 'before-save-hook
+          (lambda () (if (eq major-mode 'org-mode)
+                         (tsl/org-ascii-clean-text))))
 
 (setq org-extend-today-until 5)
 
@@ -323,11 +322,3 @@
 (setq org-return-follows-link t)
 
 (setq org-agenda-default-appointment-duration 60)
-
-(defun org-set-ascii-text-width ()
-  (save-excursion (setq org-ascii-text-width
-                        (cadr (goto-longest-line (point-min) (point-max))))))
-
-(add-hook 'before-save-hook
-          (lambda () (if (eq major-mode 'org-mode)
-                         (org-set-ascii-text-width))))
