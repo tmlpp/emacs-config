@@ -2,7 +2,7 @@
 ** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
 #+begin_src emacs-lisp
-(load "~/.emacs.secrets")
+(load "~/Dropbox/.emacs.secrets")
 #+end_src
 ** Emacs server
 Start Emacs server.
@@ -493,22 +493,30 @@ Export org files to [[https://github.com/hakimel/reveal.js/][reveal.js]]
   (use-package htmlize
     :ensure t)
 #+end_src
-*** clean up exported ascii
+*** Ascii exporting
+When exporting to ASCII, I want the text to be clean as possible, so I can take it to another program (ie. Scribus or Google Drive) as raw text, and style it there. There are reasons for me needing to do this.
+
+Following function does these things:
+- set width of exported ascii text to the length of the longest line to avoid line breaks in paragraphs
+- set empty lines around headlines and between paragraphs to 0
+- don't indent the body text
+- don't use any characters under headlines
 #+begin_src emacs-lisp
-(defun tsl/clean-ascii ()
-"Clean up the buffer by removing equal characters, tildes, extra spaces in beginnings of lines, and extra new lines."
-  (interactive)
-  (while (re-search-forward "[=\|~]" nil t)
-    (replace-match "" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "  " nil t)
-    (replace-match "" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "\^J\^J" nil t)
-    (replace-match "\^J" nil nil))
-  (beginning-of-buffer)
-  (while (re-search-forward "\^J\^J" nil t)
-    (replace-match "\^J" nil nil)))
+  (defun tsl/org-ascii-clean-text ()
+    (save-excursion (setq org-ascii-text-width
+                          (cadr (goto-longest-line (point-min) (point-max))))
+                          (setq org-ascii-headline-spacing '(0 . 0))
+                          (setq org-ascii-paragraph-spacing 0)
+                          (setq org-ascii-inner-margin 0)
+                          (setq org-ascii-underline '((ascii nil nil nil)
+			  (latin1 nil nil nil)
+			  (utf-8 nil nil nil nil nil)))))
+#+end_src
+Run the function when saving an org-mode buffer. This way the text width keeps up when the text changes.
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook
+            (lambda () (if (eq major-mode 'org-mode)
+                           (tsl/org-ascii-clean-text))))
 #+end_src
 ** Day lasts until 5 a.m.
 In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampire.
@@ -540,17 +548,6 @@ Renamed to my function namespace
       (ignore-errors
         (org-back-to-heading)
         (org-update-parent-todo-statistics)))))
-#+end_src
-** Set org ASCII width
-When exporting to ascii, I dont want new lines in paragraphs.
-#+begin_src emacs-lisp
-  (defun org-set-ascii-text-width ()
-    (save-excursion (setq org-ascii-text-width
-                          (cadr (goto-longest-line (point-min) (point-max))))))
-
-  (add-hook 'before-save-hook
-            (lambda () (if (eq major-mode 'org-mode)
-                           (org-set-ascii-text-width))))
 #+end_src
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
