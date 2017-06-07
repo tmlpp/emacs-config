@@ -1,4 +1,4 @@
-(load "~/.emacs.secrets")
+(load "~/Dropbox/.emacs.secrets")
 
 (server-start)
 
