@@ -1,4 +1,4 @@
-(load "~/.emacs.secrets")
+(load "~/Dropbox/.emacs.secrets")
 
 (server-start)
 
@@ -123,6 +123,9 @@
 (diminish-major-mode 'emacs-lisp-mode-hook "el")
 
 (load "word-count")
+
+(use-package lua-mode
+  :ensure t)
 
 (use-package keyfreq
   :ensure t    
