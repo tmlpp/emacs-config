@@ -124,6 +124,9 @@
 
 (load "word-count")
 
+(use-package lua-mode
+  :ensure t)
+
 (use-package keyfreq
   :ensure t    
   :config (keyfreq-mode 1)
