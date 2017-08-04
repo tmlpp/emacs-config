@@ -541,7 +541,7 @@ In org files, open links by pressing =Enter=
 ** Defalt appointment duration
 If I don't set the ending time when scheduling appointments or whatever, the default duration is 60 minutes.
 #+begin_src emacs-lisp
-(setq org-agenda-default-appointment-duration 60)
+(setq org-agenda-default-appointment-duration 30)
 #+end_src
 ** Update parent heading cookie                                  :disabled:
 Found here: https://github.com/magnars/.emacs.d
