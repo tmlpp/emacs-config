@@ -232,6 +232,7 @@
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-iswitchb)
+(define-key org-mode-map (kbd "C-c e") #'org-table-edit-field)
 
 (with-eval-after-load 'org
  (define-key org-mode-map (kbd "M-p") #'outline-previous-visible-heading)
@@ -324,4 +325,4 @@
 
 (setq org-return-follows-link t)
 
-(setq org-agenda-default-appointment-duration 60)
+(setq org-agenda-default-appointment-duration 30)

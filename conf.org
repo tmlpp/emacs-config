@@ -387,6 +387,7 @@ Some random bindings
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
+  (define-key org-mode-map (kbd "C-c e") #'org-table-edit-field)
 #+end_src
 
 Move easily between headings
