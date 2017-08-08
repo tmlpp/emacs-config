@@ -164,6 +164,11 @@
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
 
+(global-unset-key (kbd "C-x m"))
+;  (global-unset-key (kbd "M-x"))
+  (global-set-key (kbd "C-x m") 'execute-extended-command)
+  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
+
 (use-package yasnippet
   :ensure t
   :config (yas-global-mode 1))

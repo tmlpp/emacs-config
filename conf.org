@@ -232,6 +232,7 @@ Keys for bigger and smaller text.
 (bind-key "C-+" 'text-scale-increase)
 (bind-key "C--" 'text-scale-decrease)
 #+end_src
+
 Transpose things with M-t
 #+begin_src emacs-lisp
   (bind-key "M-t" nil) ;; which used to be transpose-words
@@ -241,6 +242,7 @@ Transpose things with M-t
   (bind-key "M-t M-t" 'transpose-words)
   (bind-key "M-t s" 'transpose-sexps)
 #+end_src
+
 Some aliases.
 #+begin_src emacs-lisp
 (defalias 'qrr 'query-replace-regexp)
@@ -248,11 +250,13 @@ Some aliases.
 (defalias 'rr 'replace-regexp)
 (defalias 'plp 'package-list-packages)
 #+end_src
+
 Show parenthesis. This is good even for a non-programmer. And of course helps with working with elisp here in config.
 #+begin_src emacs-lisp
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 #+end_src
+
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
 My desktop screen resolutions are 1920x1080 and 1440x900. Laptop is 1366x768. So, if screen height is equal or greater than 900, I'm using desktop.
@@ -267,6 +271,20 @@ This is a work in progress, so far any settings aren't dependent on this. I have
 	(setq computer-type 'desktop)
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
+#+end_src
+
+
+** Invoke =M-x= without the Alt key
+Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
+
+As per [[https://sites.google.com/site/steveyegge2/effective-emacs#item2][Yegge's Item 2]]. This unmaps the difficult =M-x= (usually =Alt+x=) to =C-x
+m=, and then add a fat-finger combination of =C-x C-m=:
+
+#+begin_src emacs-lisp
+  (global-unset-key (kbd "C-x m"))
+;  (global-unset-key (kbd "M-x"))
+  (global-set-key (kbd "C-x m") 'execute-extended-command)
+  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
 #+end_src
 ** Yasnippet
 Yasnippet
