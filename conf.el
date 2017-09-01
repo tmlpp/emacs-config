@@ -164,6 +164,19 @@
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
 
+(use-package base16-theme
+  :ensure t)
+(use-package evil
+  :ensure t)
+(use-package evil-org
+  :ensure t)
+(use-package palimpsest
+  :ensure t)
+(use-package paredit
+  :ensure t)
+(use-package rainbow-mode
+  :ensure t)
+
 (global-unset-key (kbd "C-x m"))
 ;  (global-unset-key (kbd "M-x"))
   (global-set-key (kbd "C-x m") 'execute-extended-command)

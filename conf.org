@@ -272,8 +272,28 @@ This is a work in progress, so far any settings aren't dependent on this. I have
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
 #+end_src
-
-
+** Misc packages
+Install some packages.
+#+begin_src emacs-lisp
+  (use-package base16-theme
+    :ensure t)
+  (use-package evil
+    :ensure t)
+  (use-package evil-org
+    :ensure t)
+  (use-package palimpsest
+    :ensure t)
+  (use-package paredit
+    :ensure t)
+  (use-package rainbow-mode
+    :ensure t)
+  (use-package misc-cmds
+    :ensure t)
+  (use-package projectile
+    :ensure t)
+  (use-package unbound
+    :ensure t)
+#+end_src
 ** Invoke =M-x= without the Alt key
 Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
 
