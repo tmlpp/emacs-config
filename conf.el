@@ -320,17 +320,19 @@
 (setq org-refile-allow-creating-parent-nodes 'confirm)
 
 (setq org-agenda-custom-commands
-        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN")
-          ("b" "blogit" todo ""
-           ((org-agenda-files '("~/Dropbox/org/blogit.org"))))
-          ("d" "päivä"
-           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))))))
-          ("u" "media"
-           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
-          ("p" "projektit" tags-todo "proj")
-          ))
-
-; a tT mM sS L C e
+      '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN")
+        ("b" "blogit" todo ""
+         ((org-agenda-files '("~/Dropbox/org/blogit.org"))))
+        ("j" "joskus" todo ""
+         ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+        ("d" "päivä"
+         ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))))))
+        ("u" "media"
+         ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
+        ("p" "projektit" tags-todo "proj")
+        ))
+                                        ; Keys reserved for built-in commands are:
+                                        ; a t T m M s S L C e / ? < > * #
 
 ; (setq org-agenda-show-inherited-tags nil)
 
