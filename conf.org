@@ -467,7 +467,9 @@ Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestla
 ** Org-agenda and TODO stuff
 Set org-agenda files
 #+begin_src emacs-lisp
-  (setq org-agenda-files (quote ("~/Dropbox/org")))
+  (setq org-agenda-files '("~/Dropbox/org/inbox.org"
+        "~/Dropbox/org/tickler.org"
+        "~/Dropbox/org/todo.org"))
 #+end_src  
 
 Put logs in LOGBOOK drawer.
@@ -481,10 +483,10 @@ Clock into CLOCKING drawer.
 #+end_src 
 
 Set todo keyword sequences. These are in Finnish, because I'm Finnish.
-Some files, for example the one wiht my blog texts, have different todo keyword sequences.
+Some files, for example the one with my blog texts, have different todo keyword sequences.
 #+begin_src emacs-lisp
     (setq org-todo-keywords
-               '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "JOSKUS(j)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
+               '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
 #+end_src
 
 If the todo item has undone children todos or checkboxes, it can't be marked done.
@@ -508,19 +510,46 @@ I usually refile things between org-agenda files. But sometimes need to refile s
 So, set =org-refile-targets= to include current file and agenda files. Limit them up to level 3 headings.
 #+begin_src emacs-lisp
   (setq org-refile-targets '((nil :maxlevel . 3)
-                                  (org-agenda-files :maxlevel . 3)))
+                             (org-agenda-files :maxlevel . 3)
+                             ("~/Dropbox/org/someday.org" :maxlevel . 3)
+                             ))
 
-  (setq org-refile-use-outline-path nil)
+  (setq org-refile-use-outline-path 'file
+        org-outline-path-complete-in-steps nil)
   (setq org-refile-allow-creating-parent-nodes 'confirm)
+#+end_src
+** Agenda commands
+#+begin_src emacs-lisp
+  (setq org-agenda-custom-commands
+        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN")
+          ("b" "blogit" todo ""
+           ((org-agenda-files '("~/Dropbox/org/blogit.org"))))
+          ("j" "joskus" todo ""
+           ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+          ("d" "päivä"
+           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))))))
+          ("u" "media"
+           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
+          ("p" "projektit" tags-todo "proj")
+          ))
+                                          ; Keys reserved for built-in commands are:
+                                          ; a t T m M s S L C e / ? < > * #
+#+end_src
+** hide inherited tags in agenda                                 :disabled:
+Remove tag clutter from agenda view. Disabled for now.
+#+begin_src emacs-lisp
+; (setq org-agenda-show-inherited-tags nil)
 #+end_src
 ** Exporting
 *** Export macros
+This is for exporting and copying the result to clipboard, to be pasted to Blogger.
+
 Export current subree, body only, in HTML to buffer. Select all, kill-region.
 #+begin_src emacs-lisp
   (fset 'tsl/blog-export
 	"\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
 #+end_src
-Export org file to ascii
+Export org file to ascii. 
 #+begin_src emacs-lisp
   (fset 'tsl/ascii-export
 	"\C-c\C-etA\C-xh\C-w\C-x0")
@@ -567,11 +596,6 @@ In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampi
 #+begin_src emacs-lisp
 (setq org-extend-today-until 5) 
 #+end_src
-** hide inherited tags in agenda
-Remove tag clutter from agenda view.
-#+begin_src emacs-lisp
-(setq org-agenda-show-inherited-tags nil)
-#+end_src
 ** enter follows links
 In org files, open links by pressing =Enter=
 #+begin_src emacs-lisp
@@ -580,7 +604,7 @@ In org files, open links by pressing =Enter=
 ** Defalt appointment duration
 If I don't set the ending time when scheduling appointments or whatever, the default duration is 60 minutes.
 #+begin_src emacs-lisp
-(setq org-agenda-default-appointment-duration 30)
+(setq org-agenda-default-appointment-duration 60)
 #+end_src
 ** Update parent heading cookie                                  :disabled:
 Found here: https://github.com/magnars/.emacs.d
@@ -593,9 +617,11 @@ Renamed to my function namespace
         (org-back-to-heading)
         (org-update-parent-todo-statistics)))))
 #+end_src
-** Better return for org
-Pressing =enter= adds "new items to lists, new headings after a heading, and new rows to tables. In each case, a double return on an empty item, headline or table row will delete that line, and terminate the list, headlines or table." Copied from [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][here]].
-#+begin_src emacs-lisp
+** Better return for org                                         :disabled:
+Pressing =enter= adds "new items to lists, new headings after a heading, and new rows to tables. In each case, a double return on an empty item, headline or table row will delete that line, and terminate the list, headlines or table." Copied from [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][here]]. 
+
+Disabled for now. Didn't work quite as I expected. Will look into this later.
+#+begin_src emacs-lisp :tangle no
   (require 'org-inlinetask)
   (defun tsl/org-return (&optional ignore)
     "Add new list item, heading or table row with RET.

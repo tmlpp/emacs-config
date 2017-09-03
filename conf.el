@@ -288,14 +288,16 @@
   (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
     (org-capture)))
 
-(setq org-agenda-files (quote ("~/Dropbox/org")))
+(setq org-agenda-files '("~/Dropbox/org/inbox.org"
+      "~/Dropbox/org/tickler.org"
+      "~/Dropbox/org/todo.org"))
 
 (setq org-log-into-drawer t)
 
 (setq org-clock-into-drawer "CLOCKING")
 
 (setq org-todo-keywords
-           '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "JOSKUS(j)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
+           '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
 
 (setq org-enforce-todo-dependencies t)
 (setq org-track-ordered-property-with-tag t)
@@ -309,10 +311,28 @@
 ;  (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 
 (setq org-refile-targets '((nil :maxlevel . 3)
-                                (org-agenda-files :maxlevel . 3)))
+                           (org-agenda-files :maxlevel . 3)
+                           ("~/Dropbox/org/someday.org" :maxlevel . 3)
+                           ))
 
-(setq org-refile-use-outline-path nil)
+(setq org-refile-use-outline-path 'file
+      org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes 'confirm)
+
+(setq org-agenda-custom-commands
+        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN")
+          ("b" "blogit" todo ""
+           ((org-agenda-files '("~/Dropbox/org/blogit.org"))))
+          ("d" "päivä"
+           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))))))
+          ("u" "media"
+           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
+          ("p" "projektit" tags-todo "proj")
+          ))
+
+; a tT mM sS L C e
+
+; (setq org-agenda-show-inherited-tags nil)
 
 (fset 'tsl/blog-export
       "\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
@@ -345,78 +365,6 @@
 
 (setq org-extend-today-until 5)
 
-(setq org-agenda-show-inherited-tags nil)
-
 (setq org-return-follows-link t)
 
-(setq org-agenda-default-appointment-duration 30)
-
-(require 'org-inlinetask)
-(defun tsl/org-return (&optional ignore)
-  "Add new list item, heading or table row with RET.
-A double return on an empty element deletes it.
-Use a prefix arg to get regular RET. "
-  (interactive "P")
-  (if ignore
-      (org-return)
-    (cond
-
-     ((eq 'line-break (car (org-element-context)))
-      (org-return-indent))
-
-     ;; Open links like usual, unless point is at the end of a line.
-     ;; and if at beginning of line, just press enter.
-     ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-          (bolp))
-      (org-return))
-
-     ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
-     ;; Johansson!
-     ((org-inlinetask-in-task-p)
-      (org-return))
-
-     ;; checkboxes too
-     ((org-at-item-checkbox-p)
-      (org-insert-todo-heading nil))
-
-     ;; lists end with two blank lines, so we need to make sure we are also not
-     ;; at the beginning of a line to avoid a loop where a new entry gets
-     ;; created with only one blank line.
-     ((org-in-item-p)
-      (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-          (org-insert-heading)
-        (beginning-of-line)
-        (delete-region (line-beginning-position) (line-end-position))
-        (org-return)))
-
-     ;; org-heading
-     ((org-at-heading-p)
-      (if (not (string= "" (org-element-property :title (org-element-context))))
-          (progn (org-end-of-meta-data)
-                 (org-insert-heading-respect-content)
-                 (outline-show-entry))
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")))
-
-     ;; tables
-     ((org-at-table-p)
-      (if (-any?
-           (lambda (x) (not (string= "" x)))
-           (nth
-            (- (org-table-current-dline) 1)
-            (org-table-to-lisp)))
-          (org-return)
-        ;; empty row
-        (beginning-of-line)
-        (setf (buffer-substring
-               (line-beginning-position) (line-end-position)) "")
-        (org-return)))
-
-     ;; fall-through case
-     (t
-      (org-return)))))
-
-
-(define-key org-mode-map (kbd "RET")
-  'tsl/org-return)
+(setq org-agenda-default-appointment-duration 60)
