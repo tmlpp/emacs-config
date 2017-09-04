@@ -164,6 +164,20 @@
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
 
+(defun tsl/spotify-links-to-embed ()
+  "Convert Spotify song links to embed code."
+  (interactive)
+  (beginning-of-buffer)
+  (while (re-search-forward "https:/+open\\.spotify\\.com/track/\\(.+\\)" nil t)
+    (replace-match "<iframe src=\"https://embed.spotify.com/?uri=spotify%3Atrack%3A\\1\" width=\"100%\" height=\"100\" frameborder=\"0\" allowtransparency=\"true\"></iframe>" nil nil)))
+
+(defun tsl/test-youtube-links-to-embed ()
+  "Convert Youtube song links to embed code."
+  (interactive)
+  (beginning-of-buffer)
+  (while (re-search-forward "^https:/+www\\.youtube\\.com/watch\\?v=\\(.+\\)" nil t) ; Only search for links in beginning of line to avoid replacing links in text.
+    (replace-match "<iframe width=\"100%\" height=\"456\" src=\"https://www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen></iframe>" nil nil)))
+
 (use-package base16-theme
   :ensure t)
 (use-package evil
