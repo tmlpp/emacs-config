@@ -709,6 +709,25 @@ Disabled for now. Didn't work quite as I expected. Will look into this later.
   (define-key org-mode-map (kbd "RET")
     'tsl/org-return)
 #+end_src
+** Create timestamp under heading
+=org-schedule= and =org-deadline= create a timestamp right after the heading of the subtree, no matter where in the subtree the command is run. =org-timestamp= creates the timestamp at cursor position.
+
+I want to use scheduling and deadlines as little as possible, and use simple timestamps to make my tasks appear in agenda instead. My tasks are often only a heading, so it's annoying to create a new line just for the timestamp.
+
+This function is a quick fix for that. If run on a heading, it creates the timestamp under the heading. If run anywhere else, it creates the timestamp at cursor position as it normally would.
+
+Probably not the fanciest fix, but so far it works.
+#+begin_src emacs-lisp
+  (defun tsl/org-timestamp ()
+    (interactive)
+    (if (org-at-heading-p)
+        (progn (org-end-of-line)
+               (org-return)
+               (org-time-stamp nil)) 
+      (org-time-stamp nil)))
+
+(define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
+#+end_src
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
 
