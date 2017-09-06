@@ -74,10 +74,10 @@ Custom themes location.
 ** Powerline                                                     :disabled:
 Powerline. Just because I've seen it, and it looked cool.
 Commented out at this point, though. Combatibility issue with my ample-light theme (current line number almost invisible). Need to look into it at some point.
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
   (use-package powerline
     :ensure t)
-  (powerline-center-theme)
+  (powerline-vim-theme)
 #+end_src
 
 ** Config files to register
@@ -537,20 +537,31 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
-  (setq org-agenda-custom-commands
-        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN")
-          ("b" "blogit" todo ""
-           ((org-agenda-files '("~/Dropbox/org/blogit.org"))))
-          ("j" "joskus" todo ""
-           ((org-agenda-files '("~/Dropbox/org/someday.org"))))
-          ("d" "päivä"
-           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))))))
-          ("u" "media"
-           ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
-          ("p" "projektit" tags-todo "proj")
-          ))
-                                          ; Keys reserved for built-in commands are:
-                                          ; a t T m M s S L C e / ? < > * #
+    (setq org-agenda-custom-commands
+          '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
+             ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
+
+            ("b" "blogit" todo ""
+             ((org-agenda-files '("~/Dropbox/org/blogit.org"))
+              (org-agenda-overriding-header "Blogitekstit")))
+
+            ("j" "joskus" todo ""
+             ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+
+            ("d" "päivä"
+             ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))
+                          (org-agenda-overriding-header "Tänään")))
+              (todo "KESKEN"
+                    ((org-agenda-overriding-header "Kesken olevat")))
+              (todo "SEURAAVA"
+                    ((org-agenda-overriding-header "Projektien seuraavat")))))
+
+            ("u" "media"
+             ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
+            ("p" "projektit" tags-todo "proj")
+            ))
+                                            ; Keys reserved for built-in commands are:
+                                            ; a t T m M s S L C e / ? < > * #
 #+end_src
 ** hide inherited tags in agenda                                 :disabled:
 Remove tag clutter from agenda view. Disabled for now.
