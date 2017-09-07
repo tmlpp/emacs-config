@@ -528,7 +528,8 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+begin_src emacs-lisp
   (setq org-refile-targets '((nil :maxlevel . 3)
                              (org-agenda-files :maxlevel . 3)
-                             ("~/Dropbox/org/someday.org" :maxlevel . 3)
+                             ("~/Dropbox/org/someday.org" :maxlevel . 2)
+                             ("~/Dropbox/org/media.org" :maxlevel . 2)
                              ))
 
   (setq org-refile-use-outline-path 'file
@@ -537,31 +538,41 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
-    (setq org-agenda-custom-commands
-          '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
-             ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
+  (setq org-agenda-custom-commands
+        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
+           ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
 
-            ("b" "blogit" todo ""
-             ((org-agenda-files '("~/Dropbox/org/blogit.org"))
-              (org-agenda-overriding-header "Blogitekstit")))
+          ("b" "blogit" todo ""
+           ((org-agenda-files '("~/Dropbox/org/blogit.org"))
+            (org-agenda-overriding-header "Blogitekstit")))
 
-            ("j" "joskus" todo ""
-             ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+          ("j" "joskus" todo ""
+           ((org-agenda-files '("~/Dropbox/org/someday.org"))))
 
-            ("d" "päivä"
-             ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))
-                          (org-agenda-overriding-header "Tänään")))
-              (todo "KESKEN"
-                    ((org-agenda-overriding-header "Kesken olevat")))
-              (todo "SEURAAVA"
-                    ((org-agenda-overriding-header "Projektien seuraavat")))))
+          ("d" "päivä"
+           ((agenda "" ((org-agenda-span 1)
+                        (org-agenda-overriding-header "Tänään")))
+            (todo "KESKEN"
+                  ((org-agenda-overriding-header "Kesken olevat")))
+            (todo "SEURAAVA"
+                  ((org-agenda-overriding-header "Projektien seuraavat")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
+                        (org-agenda-overriding-header "Media")))))
 
-            ("u" "media"
-             ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
-            ("p" "projektit" tags-todo "proj")
-            ))
-                                            ; Keys reserved for built-in commands are:
-                                            ; a t T m M s S L C e / ? < > * #
+          ("v" "viikko"
+           ((agenda "" ((org-agenda-span 7)
+                        (org-agenda-overriding-header "Tällä viikolla")))
+            (todo "KESKEN"
+                  ((org-agenda-overriding-header "Kesken olevat")))
+            (todo "SEURAAVA"
+                  ((org-agenda-overriding-header "Projektien seuraavat")))
+            (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
+                        (org-agenda-overriding-header "Media")))))
+
+          ("p" "projektit" tags-todo "proj")
+          ))
+                                          ; Keys reserved for built-in commands are:
+                                          ; a t T m M s S L C e / ? < > * #
 #+end_src
 ** hide inherited tags in agenda                                 :disabled:
 Remove tag clutter from agenda view. Disabled for now.

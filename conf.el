@@ -330,7 +330,8 @@
 
 (setq org-refile-targets '((nil :maxlevel . 3)
                            (org-agenda-files :maxlevel . 3)
-                           ("~/Dropbox/org/someday.org" :maxlevel . 3)
+                           ("~/Dropbox/org/someday.org" :maxlevel . 2)
+                           ("~/Dropbox/org/media.org" :maxlevel . 2)
                            ))
 
 (setq org-refile-use-outline-path 'file
@@ -349,15 +350,25 @@
          ((org-agenda-files '("~/Dropbox/org/someday.org"))))
 
         ("d" "päivä"
-         ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("-media"))
+         ((agenda "" ((org-agenda-span 1)
                       (org-agenda-overriding-header "Tänään")))
           (todo "KESKEN"
                 ((org-agenda-overriding-header "Kesken olevat")))
           (todo "SEURAAVA"
-                ((org-agenda-overriding-header "Projektien seuraavat")))))
+                ((org-agenda-overriding-header "Projektien seuraavat")))
+          (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
+                      (org-agenda-overriding-header "Media")))))
 
-        ("u" "media"
-         ((agenda "" ((org-agenda-span 1) (org-agenda-tag-filter-preset '("+media"))))))
+        ("v" "viikko"
+         ((agenda "" ((org-agenda-span 7)
+                      (org-agenda-overriding-header "Tällä viikolla")))
+          (todo "KESKEN"
+                ((org-agenda-overriding-header "Kesken olevat")))
+          (todo "SEURAAVA"
+                ((org-agenda-overriding-header "Projektien seuraavat")))
+          (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
+                      (org-agenda-overriding-header "Media")))))
+
         ("p" "projektit" tags-todo "proj")
         ))
                                         ; Keys reserved for built-in commands are:
