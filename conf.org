@@ -45,9 +45,13 @@ Use use-package to use packages.
     (package-install 'use-package))
 #+end_src
 ** Move some things out of the way
-Backups to separate folder
+Backups to separate folder. And some settings for backups.
 #+begin_src emacs-lisp
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
 #+end_src
 custom-set-variables to separate file
 #+begin_src emacs-lisp
@@ -71,7 +75,7 @@ Custom themes location.
                    (file-directory-p (concat basedir f)))
               (add-to-list 'custom-theme-load-path (concat basedir f)))))
 #+end_src 
-** Powerline                                                     :disabled:
+** Powerline
 Powerline. Just because I've seen it, and it looked cool.
 Commented out at this point, though. Combatibility issue with my ample-light theme (current line number almost invisible). Need to look into it at some point.
 #+begin_src emacs-lisp
@@ -89,18 +93,23 @@ Quick acces to config files by putting them to register. Access with: =C-x r j=
 ** Calendar in Finnish
 Finnish day and month names, and week starts from Monday.
 #+begin_src emacs-lisp
-  (setq calendar-week-start-day 1
-        calendar-day-name-array
-        ["sunnuntai" "maanantai" "tiistai" "keskiviikko"
-         "torstai" "perjantai" "lauantai"]
-        calendar-month-name-array
-        ["tammikuu" "helmikuu" "maaliskuu" "huhtikuu" "toukokuu" 
-         "kesäkuu" "heinäkuu" "elokuu" "syyskuu"
-         "lokakuu" "marraskuu" "joulukuu"]
-        calendar-day-abbrev-array
-        ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
-        calendar-day-header-array
-        ["su" "ma" "ti" "ke" "to" "pe" "la"])
+    (setq calendar-week-start-day 1
+          calendar-day-name-array
+          ["sunnuntai"
+           "maanantai"
+           "tiistai"
+           "keskiviikko"
+           "torstai"
+           "perjantai"
+           "lauantai"]
+          calendar-month-name-array
+          ["tammi" "helmi" "maalis" "huhti" "touko" 
+           "kesä" "heinä" "elo" "syys"
+           "loka" "marras" "joulu"]
+          calendar-day-abbrev-array
+          ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
+          calendar-day-header-array
+          ["su" "ma" "ti" "ke" "to" "pe" "la"])
 #+end_src 
 ** Windows and buffers
 When splitting windows, switch to new one.
@@ -424,7 +433,7 @@ Use org-bullets, change the three period ellipsis to something else, and use org
     :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-   (setq org-ellipsis " ▼")
+  (setq org-ellipsis " ▼")
 
   (add-hook 'org-mode-hook
             (lambda ()
@@ -458,35 +467,36 @@ Move easily between headings
 Make it possible to pop up a quick capture frame when not in Emacs. This is bound to a key command in my Awesome window manager.
 Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestlaz.github.io/posts/using-emacs-24-capture-2/#.WQmyab2LRhE][Mike Zamansky's blog and video]].
 #+begin_src emacs-lisp
-(defadvice org-capture-finalize 
-    (after delete-capture-frame activate)  
-  "Advise capture-finalize to close the frame"  
-  (if (equal "capture" (frame-parameter nil 'name))  
-    (delete-frame)))
+  (defadvice org-capture-finalize 
+      (after delete-capture-frame activate)  
+    "Advise capture-finalize to close the frame"  
+    (if (equal "capture" (frame-parameter nil 'name))  
+        (delete-frame)))
 
-(defadvice org-capture-destroy 
-    (after delete-capture-frame activate)  
-  "Advise capture-destroy to close the frame"  
-  (if (equal "capture" (frame-parameter nil 'name))  
-    (delete-frame)))  
+  (defadvice org-capture-destroy 
+      (after delete-capture-frame activate)  
+    "Advise capture-destroy to close the frame"  
+    (if (equal "capture" (frame-parameter nil 'name))  
+        (delete-frame)))  
 
-(use-package noflet
-  :ensure t )
-(defun make-capture-frame ()
-  "Create a new frame and run org-capture."
-  (interactive)
-  (make-frame '((name . "capture")))
-  (select-frame-by-name "capture")
-  (delete-other-windows)
-  (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
-    (org-capture)))
+  (use-package noflet
+    :ensure t )
+  (defun make-capture-frame ()
+    "Create a new frame and run org-capture."
+    (interactive)
+    (make-frame '((name . "capture")))
+    (select-frame-by-name "capture")
+    (delete-other-windows)
+    (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
+      (org-capture)))
 #+end_src
 ** Org-agenda and TODO stuff
 Set org-agenda files
 #+begin_src emacs-lisp
-  (setq org-agenda-files '("~/Dropbox/org/inbox.org"
-        "~/Dropbox/org/tickler.org"
-        "~/Dropbox/org/todo.org"))
+  (setq org-agenda-files
+        '("~/Dropbox/org/inbox.org"
+          "~/Dropbox/org/tickler.org"
+          "~/Dropbox/org/todo.org"))
 #+end_src  
 
 Put logs in LOGBOOK drawer.
@@ -496,7 +506,7 @@ Put logs in LOGBOOK drawer.
 
 Clock into CLOCKING drawer.
 #+begin_src emacs-lisp
-  (setq org-clock-into-drawer "CLOCKING")
+  (setq org-clock-into-drawer t)
 #+end_src 
 
 Set todo keyword sequences. These are in Finnish, because I'm Finnish.
@@ -573,6 +583,10 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
           ))
                                           ; Keys reserved for built-in commands are:
                                           ; a t T m M s S L C e / ? < > * #
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-agenda-block-separator ?▰)
 #+end_src
 ** hide inherited tags in agenda                                 :disabled:
 Remove tag clutter from agenda view. Disabled for now.
@@ -750,6 +764,17 @@ Probably not the fanciest fix, but so far it works.
 
 (define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
 #+end_src
+** widths
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-prefix-format
+'((agenda . "%-10:c%-12t% s")
+ (todo . "%-12:c%-12t")
+ (tags . "%-12:c")
+ (search . "%-12:c")))
+
+(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
+(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+#+END_SRC 
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
 

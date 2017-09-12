@@ -27,6 +27,10 @@
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
+(setq delete-old-versions -1)
+(setq version-control t)
+(setq vc-make-backup-files t)
+
 (setq custom-file "~/.emacs.d/customs.el")
 (load custom-file)
 
@@ -51,12 +55,17 @@
 
 (setq calendar-week-start-day 1
       calendar-day-name-array
-      ["sunnuntai" "maanantai" "tiistai" "keskiviikko"
-       "torstai" "perjantai" "lauantai"]
+      ["sunnuntai"
+       "maanantai"
+       "tiistai"
+       "keskiviikko"
+       "torstai"
+       "perjantai"
+       "lauantai"]
       calendar-month-name-array
-      ["tammikuu" "helmikuu" "maaliskuu" "huhtikuu" "toukokuu" 
-       "kesäkuu" "heinäkuu" "elokuu" "syyskuu"
-       "lokakuu" "marraskuu" "joulukuu"]
+      ["tammi" "helmi" "maalis" "huhti" "touko" 
+       "kesä" "heinä" "elo" "syys"
+       "loka" "marras" "joulu"]
       calendar-day-abbrev-array
       ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
       calendar-day-header-array
@@ -262,7 +271,7 @@
   :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
- (setq org-ellipsis " ▼")
+(setq org-ellipsis " ▼")
 
 (add-hook 'org-mode-hook
           (lambda ()
@@ -287,13 +296,13 @@
     (after delete-capture-frame activate)  
   "Advise capture-finalize to close the frame"  
   (if (equal "capture" (frame-parameter nil 'name))  
-    (delete-frame)))
+      (delete-frame)))
 
 (defadvice org-capture-destroy 
     (after delete-capture-frame activate)  
   "Advise capture-destroy to close the frame"  
   (if (equal "capture" (frame-parameter nil 'name))  
-    (delete-frame)))  
+      (delete-frame)))  
 
 (use-package noflet
   :ensure t )
@@ -306,13 +315,14 @@
   (noflet ((switch-to-buffer-other-window (buf) (switch-to-buffer buf)))
     (org-capture)))
 
-(setq org-agenda-files '("~/Dropbox/org/inbox.org"
-      "~/Dropbox/org/tickler.org"
-      "~/Dropbox/org/todo.org"))
+(setq org-agenda-files
+      '("~/Dropbox/org/inbox.org"
+        "~/Dropbox/org/tickler.org"
+        "~/Dropbox/org/todo.org"))
 
 (setq org-log-into-drawer t)
 
-(setq org-clock-into-drawer "CLOCKING")
+(setq org-clock-into-drawer t)
 
 (setq org-todo-keywords
            '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
@@ -374,6 +384,8 @@
                                         ; Keys reserved for built-in commands are:
                                         ; a t T m M s S L C e / ? < > * #
 
+(setq org-agenda-block-separator ?▰)
+
 ; (setq org-agenda-show-inherited-tags nil)
 
 (fset 'tsl/blog-export
@@ -420,3 +432,12 @@
       (org-time-stamp nil)))
 
 (define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
+
+(setq org-agenda-prefix-format
+'((agenda . "%-10:c%-12t% s")
+ (todo . "%-12:c%-12t")
+ (tags . "%-12:c")
+ (search . "%-12:c")))
+
+(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
+(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
