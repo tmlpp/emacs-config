@@ -423,6 +423,17 @@ Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-li
 :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 #+end_src
+** Ledger
+I started using  to keep up with my money and stuff. Ledger works well with Emacs.
+
+Put ledger file to register for easy access and tell Emacs to start ledger-mode when opening ledger file.
+#+begin_src emacs-lisp
+  (use-package ledger-mode
+    :ensure t)
+  (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
+
+  (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
+#+end_src
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
@@ -548,41 +559,43 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
-  (setq org-agenda-custom-commands
-        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
-           ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
+    (setq org-agenda-custom-commands
+          '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
+             ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
 
-          ("b" "blogit" todo ""
-           ((org-agenda-files '("~/Dropbox/org/blogit.org"))
-            (org-agenda-overriding-header "Blogitekstit")))
+            ("b" "blogit" todo ""
+             ((org-agenda-files '("~/Dropbox/org/blogit.org"))
+              (org-agenda-overriding-header "Blogitekstit")))
 
-          ("j" "joskus" todo ""
-           ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+            ("j" "joskus" todo ""
+             ((org-agenda-files '("~/Dropbox/org/someday.org"))))
 
-          ("d" "päivä"
-           ((agenda "" ((org-agenda-span 1)
-                        (org-agenda-overriding-header "Tänään")))
-            (todo "KESKEN"
-                  ((org-agenda-overriding-header "Kesken olevat")))
-            (todo "SEURAAVA"
-                  ((org-agenda-overriding-header "Projektien seuraavat")))
-            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
-                        (org-agenda-overriding-header "Media")))))
+            ("d" "päivä"
+             ((agenda "" ((org-agenda-span 1)
+                          (org-agenda-overriding-header "Tänään")))
+              (todo "KESKEN"
+                    ((org-agenda-overriding-header "Kesken olevat")))
+              (todo "SEURAAVA"
+                    ((org-agenda-overriding-header "Projektien seuraavat")))
+              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
+                          (org-agenda-overriding-header "Media")))
+              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
+                          (org-agenda-overriding-header "Kirjasto")))))
 
-          ("v" "viikko"
-           ((agenda "" ((org-agenda-span 7)
-                        (org-agenda-overriding-header "Tällä viikolla")))
-            (todo "KESKEN"
-                  ((org-agenda-overriding-header "Kesken olevat")))
-            (todo "SEURAAVA"
-                  ((org-agenda-overriding-header "Projektien seuraavat")))
-            (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
-                        (org-agenda-overriding-header "Media")))))
+            ("v" "viikko"
+             ((agenda "" ((org-agenda-span 7)
+                          (org-agenda-overriding-header "Tällä viikolla")))
+              (todo "KESKEN"
+                    ((org-agenda-overriding-header "Kesken olevat")))
+              (todo "SEURAAVA"
+                    ((org-agenda-overriding-header "Projektien seuraavat")))
+              (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
+                          (org-agenda-overriding-header "Media")))))
 
-          ("p" "projektit" tags-todo "proj")
-          ))
-                                          ; Keys reserved for built-in commands are:
-                                          ; a t T m M s S L C e / ? < > * #
+            ("p" "projektit" tags-todo "proj")
+            ))
+                                            ; Keys reserved for built-in commands are:
+                                            ; a t T m M s S L C e / ? < > * #
 #+end_src
 
 #+begin_src emacs-lisp

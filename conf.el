@@ -266,6 +266,12 @@
 :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 
+(use-package ledger-mode
+  :ensure t)
+(set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
+
+(add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
+
 (use-package org-bullets
   :ensure t
   :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
@@ -367,7 +373,9 @@
           (todo "SEURAAVA"
                 ((org-agenda-overriding-header "Projektien seuraavat")))
           (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
-                      (org-agenda-overriding-header "Media")))))
+                      (org-agenda-overriding-header "Media")))
+          (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
+                      (org-agenda-overriding-header "Kirjasto")))))
 
         ("v" "viikko"
          ((agenda "" ((org-agenda-span 7)
