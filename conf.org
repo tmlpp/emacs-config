@@ -58,20 +58,36 @@ custom-set-variables to separate file
   (setq custom-file "~/.emacs.d/customs.el")
   (load custom-file)
 #+end_src
+** Laptop or desktop
+Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
+
+My desktop screen resolutions are 1920x1080 and 1440x900. Laptop is 1366x768. So, if screen height is equal or greater than 900, I'm using desktop.
+ 
+This is a work in progress, so far any settings aren't dependent on this. I haven't even tried does this actually work.
+#+begin_src emacs-lisp
+  (defvar computer-type nil)
+  (defun tsl/desktop-or-laptop ()
+    "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
+    (interactive)
+    (if (>= (x-display-pixel-height) 1000)
+        (setq computer-type 'desktop)
+      (setq computer-type 'laptop)))
+  (tsl/desktop-or-laptop)
+#+end_src
 ** Appearance
 Load theme and set font.
 #+begin_src emacs-lisp
-  (use-package ample-theme  
-    :ensure t
-    :config (load-theme 'ample-flat t))
-  (add-to-list 'default-frame-alist 
-	       '(font . "Fira Mono-10"))
+    (use-package ample-theme  
+      :ensure t
+      :config (load-theme 'ample-flat t))
+      (add-to-list 'default-frame-alist 
+                 '(font . "Fira Mono-12"))
 #+end_src
 Custom themes location.
 #+begin_src emacs-lisp
   (let ((basedir "~/.emacs.d/themes/"))
 	(dolist (f (directory-files basedir))
-          (if (and (not (or (equal f ".") (equal f "..")))
+        (if (and (not (or (equal f ".") (equal f "..")))
                    (file-directory-p (concat basedir f)))
               (add-to-list 'custom-theme-load-path (concat basedir f)))))
 #+end_src 
@@ -266,22 +282,6 @@ Show parenthesis. This is good even for a non-programmer. And of course helps wi
 (setq show-paren-delay 0)
 #+end_src
 
-Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
-
-My desktop screen resolutions are 1920x1080 and 1440x900. Laptop is 1366x768. So, if screen height is equal or greater than 900, I'm using desktop.
- 
-This is a work in progress, so far any settings aren't dependent on this. I haven't even tried does this actually work.
-#+begin_src emacs-lisp
-  (defvar computer-type nil)
-  (defun tsl/desktop-or-laptop ()
-    "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
-    (interactive)
-    (if (>= (x-display-pixel-height) 900)
-	(setq computer-type 'desktop)
-      (setq computer-type 'laptop)))
-  (tsl/desktop-or-laptop)
-#+end_src
-
 Functions to convert Spotify song links and Youtube links in file to embed code.
 #+begin_src emacs-lisp
 (defun tsl/spotify-links-to-embed ()
@@ -291,7 +291,7 @@ Functions to convert Spotify song links and Youtube links in file to embed code.
   (while (re-search-forward "https:/+open\\.spotify\\.com/track/\\(.+\\)" nil t)
     (replace-match "<iframe src=\"https://embed.spotify.com/?uri=spotify%3Atrack%3A\\1\" width=\"100%\" height=\"100\" frameborder=\"0\" allowtransparency=\"true\"></iframe>" nil nil)))
 
-(defun tsl/test-youtube-links-to-embed ()
+(defun tsl/youtube-links-to-embed ()
   "Convert Youtube song links to embed code."
   (interactive)
   (beginning-of-buffer)
@@ -433,6 +433,19 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
   (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
 
   (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
+#+end_src
+** Helpful
+"[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information."
+#+begin_src emacs-lisp
+(use-package helpful
+:ensure t)
+
+(global-set-key (kbd "C-h f") #'helpful-callable)
+
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+
+(global-set-key (kbd "C-c C-.") #'helpful-at-point)
 #+end_src
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.

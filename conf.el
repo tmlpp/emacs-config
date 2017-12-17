@@ -34,15 +34,24 @@
 (setq custom-file "~/.emacs.d/customs.el")
 (load custom-file)
 
+(defvar computer-type nil)
+(defun tsl/desktop-or-laptop ()
+  "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
+  (interactive)
+  (if (>= (x-display-pixel-height) 1000)
+      (setq computer-type 'desktop)
+    (setq computer-type 'laptop)))
+(tsl/desktop-or-laptop)
+
 (use-package ample-theme  
   :ensure t
   :config (load-theme 'ample-flat t))
-(add-to-list 'default-frame-alist 
-	     '(font . "Fira Mono-10"))
+  (add-to-list 'default-frame-alist 
+             '(font . "Fira Mono-12"))
 
 (let ((basedir "~/.emacs.d/themes/"))
       (dolist (f (directory-files basedir))
-        (if (and (not (or (equal f ".") (equal f "..")))
+      (if (and (not (or (equal f ".") (equal f "..")))
                  (file-directory-p (concat basedir f)))
             (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
@@ -168,15 +177,6 @@
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-(defvar computer-type nil)
-(defun tsl/desktop-or-laptop ()
-  "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
-  (interactive)
-  (if (>= (x-display-pixel-height) 900)
-      (setq computer-type 'desktop)
-    (setq computer-type 'laptop)))
-(tsl/desktop-or-laptop)
-
 (defun tsl/spotify-links-to-embed ()
   "Convert Spotify song links to embed code."
   (interactive)
@@ -184,7 +184,7 @@
   (while (re-search-forward "https:/+open\\.spotify\\.com/track/\\(.+\\)" nil t)
     (replace-match "<iframe src=\"https://embed.spotify.com/?uri=spotify%3Atrack%3A\\1\" width=\"100%\" height=\"100\" frameborder=\"0\" allowtransparency=\"true\"></iframe>" nil nil)))
 
-(defun tsl/test-youtube-links-to-embed ()
+(defun tsl/youtube-links-to-embed ()
   "Convert Youtube song links to embed code."
   (interactive)
   (beginning-of-buffer)
@@ -271,6 +271,16 @@
 (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
 
 (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
+
+(use-package helpful
+:ensure t)
+
+(global-set-key (kbd "C-h f") #'helpful-callable)
+
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+
+(global-set-key (kbd "C-c C-.") #'helpful-at-point)
 
 (use-package org-bullets
   :ensure t

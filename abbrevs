@@ -67,6 +67,8 @@
 
 (define-abbrev-table 'epa-key-mode-abbrev-table '())
 
+(define-abbrev-table 'eshell-mode-abbrev-table '())
+
 (define-abbrev-table 'evil-command-window-mode-abbrev-table '())
 
 (define-abbrev-table 'evil-list-view-mode-abbrev-table '())
@@ -75,6 +77,7 @@
 
 (define-abbrev-table 'global-abbrev-table
   '(
+    ("aikaseks" "aikaiseksi" nil 0)
     ("amk" "ammattikorkeakoulu" nil 4)
     ("amkeissa" "ammattikorkeakouluissa" nil 1)
     ("amkeista" "ammattikorkeakouluista" nil 1)
@@ -85,8 +88,8 @@
     ("amkit" "ammattikorkeakoulut" nil 3)
     ("bex" "#+BEGIN_EXPORT html" nil 0)
     ("bq" "#+BEGIN_QUOTE" nil 1)
-    ("e" "että" nil 5)
-    ("eei" "ettei" nil 8)
+    ("e" "että" nil 9)
+    ("eei" "ettei" nil 11)
     ("eex" "#+END_EXPORT" nil 0)
     ("elb" "#+BEGIN_SRC emacs-lisp
 
@@ -100,33 +103,34 @@
     ("jokta" "jotka" nil 0)
     ("js" "jos" nil 2)
     ("jt" "jotta" nil 3)
-    ("k" "kun" nil 14)
+    ("k" "kun" nil 16)
     ("kaikkee" "kaikkea" nil 2)
     ("ki" "kuin" nil 10)
     ("kitenkin" "kuitenkin" nil 0)
     ("kos" "koska" nil 20)
     ("ksk" "koska" nil 14)
-    ("ku" "kuin" nil 17)
+    ("ku" "kuin" nil 19)
+    ("kuitnekin" "kuitenkin" nil 0)
     ("käyä" "käydä" nil 0)
     ("lasktea" "lasketa" nil 0)
-    ("m" "mutta" nil 1)
+    ("m" "mutta" nil 5)
     ("mei" "muttei" nil 2)
     ("mm" "muun muassa" nil 10)
-    ("mt" "mutta" nil 54)
-    ("mulla" "minulla" nil 1)
+    ("mt" "mutta" nil 55)
+    ("mulla" "minulla" nil 2)
     ("mulle" "minulle" nil 2)
     ("ni" "niin" nil 21)
     ("ns" "niin sanottu" nil 3)
     ("nähä" "nähdä" nil 0)
     ("oikeesti" "oikeasti" nil 1)
     ("ois" "olisi" nil 1)
-    ("ollu" "ollut" nil 3)
+    ("ollu" "ollut" nil 4)
     ("ont" "opinnäytetyö" nil 0)
     ("ontia" "opinnäytetyötä" nil 0)
     ("ontilla" "opinnäytetyöllä" nil 0)
     ("ontin" "opinnäytetyön" nil 1)
     ("ontista" "opinnäytetyöstä" nil 0)
-    ("oo" "ole" nil 10)
+    ("oo" "ole" nil 12)
     ("rmtag" "#+BEGIN_HTML
     <!--more-->
 #+END_HTML" nil 0)
@@ -163,6 +167,14 @@
 (define-abbrev-table 'ivy-occur-mode-abbrev-table '())
 
 (define-abbrev-table 'latex-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-check-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-reconcile-mode-abbrev-table '())
+
+(define-abbrev-table 'ledger-report-mode-abbrev-table '())
 
 (define-abbrev-table 'lisp-mode-abbrev-table '())
 
