@@ -38,7 +38,7 @@
 (defun tsl/desktop-or-laptop ()
   "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
   (interactive)
-  (if (>= (x-display-pixel-height) 1000)
+  (if (>= (x-display-pixel-height) 901)
       (setq computer-type 'desktop)
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
@@ -284,10 +284,11 @@
 
 (use-package org-bullets
   :ensure t
-  :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
+  ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
+  :init (setq org-bullets-bullet-list '("●"))
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-(setq org-ellipsis " ▼")
+ (setq org-ellipsis " ▼")
 
 (add-hook 'org-mode-hook
           (lambda ()

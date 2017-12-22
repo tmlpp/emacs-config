@@ -61,7 +61,7 @@ custom-set-variables to separate file
 ** Laptop or desktop
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
-My desktop screen resolutions are 1920x1080 and 1440x900. Laptop is 1366x768. So, if screen height is equal or greater than 900, I'm using desktop.
+My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is equal or greater than 900, I'm using desktop.
  
 This is a work in progress, so far any settings aren't dependent on this. I haven't even tried does this actually work.
 #+begin_src emacs-lisp
@@ -69,7 +69,7 @@ This is a work in progress, so far any settings aren't dependent on this. I have
   (defun tsl/desktop-or-laptop ()
     "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
     (interactive)
-    (if (>= (x-display-pixel-height) 1000)
+    (if (>= (x-display-pixel-height) 901)
         (setq computer-type 'desktop)
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
@@ -454,11 +454,12 @@ Use org-bullets, change the three period ellipsis to something else, and use org
 #+begin_src emacs-lisp
   (use-package org-bullets
     :ensure t
-    :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
+    ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
+    :init (setq org-bullets-bullet-list '("●"))
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-  (setq org-ellipsis " ▼")
-
+   (setq org-ellipsis " ▼")
+  
   (add-hook 'org-mode-hook
             (lambda ()
               (org-indent-mode 1)))
