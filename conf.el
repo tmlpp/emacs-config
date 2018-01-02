@@ -193,10 +193,6 @@
 
 (use-package base16-theme
   :ensure t)
-(use-package evil
-  :ensure t)
-(use-package evil-org
-  :ensure t)
 (use-package palimpsest
   :ensure t)
 (use-package paredit
@@ -209,6 +205,17 @@
   :ensure t)
 (use-package unbound
   :ensure t)
+
+(use-package evil
+  :ensure t
+  :config (evil-mode))
+
+(use-package evil-org
+  :ensure t)
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (evil-org-mode)))
 
 (global-unset-key (kbd "C-x m"))
 ;  (global-unset-key (kbd "M-x"))

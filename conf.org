@@ -303,10 +303,6 @@ Install some packages.
 #+begin_src emacs-lisp
   (use-package base16-theme
     :ensure t)
-  (use-package evil
-    :ensure t)
-  (use-package evil-org
-    :ensure t)
   (use-package palimpsest
     :ensure t)
   (use-package paredit
@@ -319,6 +315,19 @@ Install some packages.
     :ensure t)
   (use-package unbound
     :ensure t)
+#+end_src
+** evil-mode and evil-org-mode
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :config (evil-mode))
+
+  (use-package evil-org
+    :ensure t)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (evil-org-mode)))
 #+end_src
 ** Invoke =M-x= without the Alt key
 Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
