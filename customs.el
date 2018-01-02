@@ -32,7 +32,7 @@
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (linum-relative helpful org-pomodoro flatui-dark-theme flatui-theme elpy auto-complete company artbollocks-mode engine-mode ledger-mode labburn-theme moe-theme evil evil-org base16-theme typing typit unbound 2048-game noflet projectile rainbow-mode powerline try bind-key diminish swiper undo-tree yasnippet paredit ox-reveal magit misc-cmds lua-mode org-clock-today zenburn-theme window-numbering which-key use-package underwater-theme sublime-themes solarized-theme purple-haze-theme palimpsest org-bullets org markdown-mode light-soap-theme keyfreq htmlize hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme goose-theme flatland-theme darktooth-theme cycle-themes counsel command-log-mode ample-theme)))
+    (key-chord linum-relative helpful org-pomodoro flatui-dark-theme flatui-theme elpy auto-complete company artbollocks-mode engine-mode ledger-mode labburn-theme moe-theme evil evil-org base16-theme typing typit unbound 2048-game noflet projectile rainbow-mode powerline try bind-key diminish swiper undo-tree yasnippet paredit ox-reveal magit misc-cmds lua-mode org-clock-today zenburn-theme window-numbering which-key use-package underwater-theme sublime-themes solarized-theme purple-haze-theme palimpsest org-bullets org markdown-mode light-soap-theme keyfreq htmlize hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme goose-theme flatland-theme darktooth-theme cycle-themes counsel command-log-mode ample-theme)))
  '(yas-global-mode t))
    
 (custom-set-faces

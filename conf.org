@@ -315,8 +315,10 @@ Install some packages.
     :ensure t)
   (use-package unbound
     :ensure t)
+  (use-package key-chord
+  :ensure t)
 #+end_src
-** evil-mode and evil-org-mode
+** evil-mode and evil-org
 #+begin_src emacs-lisp
   (use-package evil
     :ensure t
@@ -329,6 +331,14 @@ Install some packages.
             (lambda ()
               (evil-org-mode)))
 #+end_src
+
+jj in insert mode to do Esc
+
+#+BEGIN_SRC emacs-lisp
+  (setq key-chord-two-keys-delay 0.5)
+  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-mode 1)
+#+END_SRC
 ** Invoke =M-x= without the Alt key
 Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
 

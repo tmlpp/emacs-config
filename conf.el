@@ -205,6 +205,8 @@
   :ensure t)
 (use-package unbound
   :ensure t)
+(use-package key-chord
+:ensure t)
 
 (use-package evil
   :ensure t
@@ -216,6 +218,10 @@
 (add-hook 'org-mode-hook
           (lambda ()
             (evil-org-mode)))
+
+(setq key-chord-two-keys-delay 0.5)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-mode 1)
 
 (global-unset-key (kbd "C-x m"))
 ;  (global-unset-key (kbd "M-x"))
