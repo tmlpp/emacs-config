@@ -230,6 +230,9 @@
 
 (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
 
+(define-key org-agenda-mode-map "j" 'evil-next-line)
+(define-key org-agenda-mode-map "k" 'evil-previous-line)
+
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
 ; (key-chord-define evil-normal-state-map "ol" 
