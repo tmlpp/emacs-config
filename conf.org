@@ -466,6 +466,10 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 
 (global-set-key (kbd "C-c C-.") #'helpful-at-point)
 #+end_src
+** browser
+#+BEGIN_SRC emacs-lisp
+(setq browse-url-browser-function 'browse-url-xdg-open)
+#+END_SRC
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode

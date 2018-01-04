@@ -295,6 +295,8 @@
 
 (global-set-key (kbd "C-c C-.") #'helpful-at-point)
 
+(setq browse-url-browser-function 'browse-url-xdg-open)
+
 (use-package org-bullets
   :ensure t
   ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
