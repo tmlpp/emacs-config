@@ -167,6 +167,8 @@ Use =visual-line-mode= to wrap long lines on screen. More word processor like ex
 Use it in =org-mode= automatically, cause that's where all the writing happens.
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook (lambda () (visual-line-mode 1)))
+  
+(linum-relative-global-mode)
 #+end_src 
 ** Swiper and counsel
 Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
@@ -320,6 +322,7 @@ Install some packages.
   :ensure t)
 #+end_src
 ** evil-mode and evil-org
+After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
 #+begin_src emacs-lisp
     (use-package evil
       :ensure t
@@ -330,30 +333,29 @@ Install some packages.
 
     (add-hook 'org-mode-hook
               (lambda ()
-                (evil-org-mode)
-  ))
- ; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
-  ; (setq evil-emacs-state-modes nil)
-  
-(defun tsl/evil-insert-line-below ()
-(interactive)
-(evil-open-below nil)
-(evil-normal-state))
-
-(define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
-
-(require 'evil-org-agenda)
-(evil-org-agenda-set-keys)
+                (evil-org-mode)))
 #+end_src
 
-jj in insert mode to do Esc
+Some key stuff.
 
-#+BEGIN_SRC emacs-lisp
+- =Enter= in normal mode: New line under current one
+- In insert mode =jj= does =Esc=
+- Evil commands in =org-agenda=
+
+#+begin_src emacs-lisp  
+  (defun tsl/evil-insert-line-below ()
+    (interactive)
+    (evil-open-below nil)
+    (evil-normal-state))
+  (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
+
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-  ; (key-chord-define evil-normal-state-map "ol" 
   (key-chord-mode 1)
-#+END_SRC
+
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
+#+end_src
 ** Invoke =M-x= without the Alt key
 Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
 
@@ -831,6 +833,8 @@ Probably not the fanciest fix, but so far it works.
 #+end_src
 ** widths
 #+BEGIN_SRC emacs-lisp
+(setq org-agenda-window-setup 'only-window)
+
 (setq org-agenda-prefix-format
 '((agenda . "%-10:c%-12t% s")
  (todo . "%-12:c%-12t")

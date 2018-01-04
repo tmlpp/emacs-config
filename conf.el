@@ -100,6 +100,8 @@
 (setq save-abbrevs t)
 
 (add-hook 'org-mode-hook (lambda () (visual-line-mode 1)))
+  
+(linum-relative-global-mode)
 
 (use-package counsel
   :ensure t
@@ -210,36 +212,28 @@
 :ensure t)
 
 (use-package evil
-      :ensure t
-      :config (evil-mode))
+  :ensure t
+  :config (evil-mode))
 
-    (use-package evil-org
-      :ensure t)
+(use-package evil-org
+  :ensure t)
 
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (evil-org-mode)
-  ))
- ; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
-  ; (setq evil-emacs-state-modes nil)
-  
+(add-hook 'org-mode-hook
+          (lambda ()
+            (evil-org-mode)))
+
 (defun tsl/evil-insert-line-below ()
-(interactive)
-(evil-open-below nil)
-(evil-normal-state))
-
+  (interactive)
+  (evil-open-below nil)
+  (evil-normal-state))
 (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
-
-; (define-key org-agenda-mode-map "j" 'evil-next-line)
-; (define-key org-agenda-mode-map "k" 'evil-previous-line)
-
-(require 'evil-org-agenda)
-(evil-org-agenda-set-keys)
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
-; (key-chord-define evil-normal-state-map "ol" 
 (key-chord-mode 1)
+
+(require 'evil-org-agenda)
+(evil-org-agenda-set-keys)
 
 (global-unset-key (kbd "C-x m"))
 ;  (global-unset-key (kbd "M-x"))
@@ -484,6 +478,8 @@
       (org-time-stamp nil)))
 
 (define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
+
+(setq org-agenda-window-setup 'only-window)
 
 (setq org-agenda-prefix-format
 '((agenda . "%-10:c%-12t% s")
