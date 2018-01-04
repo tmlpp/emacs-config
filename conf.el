@@ -210,18 +210,23 @@
 :ensure t)
 
 (use-package evil
-     :ensure t
-     :config (evil-mode))
+      :ensure t
+      :config (evil-mode))
 
-   (use-package evil-org
-     :ensure t)
+    (use-package evil-org
+      :ensure t)
 
-   (add-hook 'org-mode-hook
-             (lambda ()
-               (evil-org-mode)
- ))
-; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
- ; (setq evil-emacs-state-modes nil)
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (evil-org-mode)
+  ))
+ ; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
+  ; (setq evil-emacs-state-modes nil)
+  
+(defun tsl/evil-insert-line-below ()
+(interactive)
+(evil-open-below 1)
+(evil-normal-state))
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)

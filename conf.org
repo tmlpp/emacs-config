@@ -334,6 +334,13 @@ Install some packages.
   ))
  ; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
   ; (setq evil-emacs-state-modes nil)
+  
+(defun tsl/evil-insert-line-below ()
+(interactive)
+(evil-open-below 1)
+
+(evil-normal-state))
+
 #+end_src
 
 jj in insert mode to do Esc
