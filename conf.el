@@ -225,8 +225,10 @@
   
 (defun tsl/evil-insert-line-below ()
 (interactive)
-(evil-open-below 1)
+(evil-open-below nil)
 (evil-normal-state))
+
+(define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)

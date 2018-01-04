@@ -337,10 +337,10 @@ Install some packages.
   
 (defun tsl/evil-insert-line-below ()
 (interactive)
-(evil-open-below 1)
-
+(evil-open-below nil)
 (evil-normal-state))
 
+(define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
 #+end_src
 
 jj in insert mode to do Esc
