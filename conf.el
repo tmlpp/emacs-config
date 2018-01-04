@@ -137,6 +137,7 @@
   (diminish 'which-key-mode)
 ;  (diminish 'yas-minor-mode)
 (diminish 'visual-line-mode)
+(diminish 'evil-org-mode)
 
 (defmacro diminish-major-mode (mode-hook abbrev)
   `(add-hook ,mode-hook
@@ -209,18 +210,22 @@
 :ensure t)
 
 (use-package evil
-  :ensure t
-  :config (evil-mode))
+     :ensure t
+     :config (evil-mode))
 
-(use-package evil-org
-  :ensure t)
+   (use-package evil-org
+     :ensure t)
 
-(add-hook 'org-mode-hook
-          (lambda ()
-            (evil-org-mode)))
+   (add-hook 'org-mode-hook
+             (lambda ()
+               (evil-org-mode)
+ ))
+; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
+ ; (setq evil-emacs-state-modes nil)
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+; (key-chord-define evil-normal-state-map "ol" 
 (key-chord-mode 1)
 
 (global-unset-key (kbd "C-x m"))

@@ -213,6 +213,7 @@ Remove some minor-modes from modeline. No need to see these there.
   (diminish 'which-key-mode)
 ;  (diminish 'yas-minor-mode)
 (diminish 'visual-line-mode)
+(diminish 'evil-org-mode)
 #+end_src
 Rename some major modes to take less space on modeline. 
 #+begin_src emacs-lisp
@@ -320,16 +321,19 @@ Install some packages.
 #+end_src
 ** evil-mode and evil-org
 #+begin_src emacs-lisp
-  (use-package evil
-    :ensure t
-    :config (evil-mode))
+    (use-package evil
+      :ensure t
+      :config (evil-mode))
 
-  (use-package evil-org
-    :ensure t)
+    (use-package evil-org
+      :ensure t)
 
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (evil-org-mode)))
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (evil-org-mode)
+  ))
+ ; (setq evil-motion-state-modes (append evil-emacs-state-modes evil-motion-state-modes))
+  ; (setq evil-emacs-state-modes nil)
 #+end_src
 
 jj in insert mode to do Esc
@@ -337,6 +341,7 @@ jj in insert mode to do Esc
 #+BEGIN_SRC emacs-lisp
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  ; (key-chord-define evil-normal-state-map "ol" 
   (key-chord-mode 1)
 #+END_SRC
 ** Invoke =M-x= without the Alt key
