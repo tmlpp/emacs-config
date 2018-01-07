@@ -103,7 +103,6 @@ Commented out at this point, though. Combatibility issue with my ample-light the
 ** Config files to register
 Quick acces to config files by putting them to register. Access with: =C-x r j=
 #+begin_src emacs-lisp
-  (set-register ?a '(file . "~/.config/awesome/rc.lua")) ; Awesome window manager config
   (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
 #+end_src 
 ** Calendar in Finnish
@@ -166,9 +165,11 @@ Use =visual-line-mode= to wrap long lines on screen. More word processor like ex
 
 Use it in =org-mode= automatically, cause that's where all the writing happens.
 #+begin_src emacs-lisp
-  (add-hook 'org-mode-hook (lambda () (visual-line-mode 1)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (visual-line-mode 1)))
   
-(linum-relative-global-mode)
+  (linum-relative-global-mode)
 #+end_src 
 ** Swiper and counsel
 Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].

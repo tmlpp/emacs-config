@@ -59,7 +59,6 @@
   :ensure t)
 (powerline-vim-theme)
 
-(set-register ?a '(file . "~/.config/awesome/rc.lua")) ; Awesome window manager config
 (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
 
 (setq calendar-week-start-day 1
@@ -99,8 +98,10 @@
 (setq-default abbrev-mode t)
 (setq save-abbrevs t)
 
-(add-hook 'org-mode-hook (lambda () (visual-line-mode 1)))
-  
+(add-hook 'org-mode-hook
+          (lambda ()
+            (visual-line-mode 1)))
+
 (linum-relative-global-mode)
 
 (use-package counsel
