@@ -104,6 +104,7 @@ Commented out at this point, though. Combatibility issue with my ample-light the
 Quick acces to config files by putting them to register. Access with: =C-x r j=
 #+begin_src emacs-lisp
   (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
+  (set-register ?i '(file . "~/.config/i3/config")) ; i3
 #+end_src 
 ** Calendar in Finnish
 Finnish day and month names, and week starts from Monday.
