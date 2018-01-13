@@ -322,6 +322,8 @@ Install some packages.
     :ensure t)
   (use-package key-chord
   :ensure t)
+  (use-package counsel-projectile
+  :ensure t)
 #+end_src
 ** evil-mode and evil-org
 After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
