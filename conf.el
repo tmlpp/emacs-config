@@ -47,7 +47,7 @@
   :ensure t
   :config (load-theme 'ample-flat t))
   (add-to-list 'default-frame-alist 
-             '(font . "Fira Mono-12"))
+             '(font . "Iosevka-12"))
 
 (let ((basedir "~/.emacs.d/themes/"))
       (dolist (f (directory-files basedir))
@@ -60,6 +60,7 @@
 (powerline-vim-theme)
 
 (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
+(set-register ?i '(file . "~/.config/i3/config")) ; i3
 
 (setq calendar-week-start-day 1
       calendar-day-name-array
@@ -210,6 +211,8 @@
 (use-package unbound
   :ensure t)
 (use-package key-chord
+:ensure t)
+(use-package counsel-projectile
 :ensure t)
 
 (use-package evil

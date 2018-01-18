@@ -81,7 +81,7 @@ Load theme and set font.
       :ensure t
       :config (load-theme 'ample-flat t))
       (add-to-list 'default-frame-alist 
-                 '(font . "Fira Mono-12"))
+                 '(font . "Iosevka-12"))
 #+end_src
 Custom themes location.
 #+begin_src emacs-lisp
