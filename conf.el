@@ -96,12 +96,12 @@
 
 (setq abbrev-file-name
       "~/.emacs.d/abbrevs")
-(setq-default abbrev-mode t)
-(setq save-abbrevs t)
-
+; (setq-default abbrev-mode t)
 (add-hook 'org-mode-hook
           (lambda ()
-            (visual-line-mode 1)))
+            (visual-line-mode 1)
+            (abbrev-mode 1)))
+(setq save-abbrevs t)
 
 (linum-relative-global-mode)
 

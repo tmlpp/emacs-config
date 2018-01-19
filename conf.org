@@ -153,23 +153,22 @@ I don't wanna type yes or no
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
-** Abbrevs
-Use abbrev-mode for less keystrokes.
+** Abbrevs and visual-line-mode
+Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfortable.
+
+=abbrev-mode= makes typing easier by offering abbreviations for common words.
+
+=visual-line-mode= wraps long lines on screen, making the experience more word processor like.
 #+begin_src emacs-lisp
   (setq abbrev-file-name
         "~/.emacs.d/abbrevs")
-  (setq-default abbrev-mode t)
-  (setq save-abbrevs t)
-#+end_src
-** Visual-line-mode
-Use =visual-line-mode= to wrap long lines on screen. More word processor like experience.
-
-Use it in =org-mode= automatically, cause that's where all the writing happens.
-#+begin_src emacs-lisp
+  ; (setq-default abbrev-mode t)
   (add-hook 'org-mode-hook
             (lambda ()
-              (visual-line-mode 1)))
-  
+              (visual-line-mode 1)
+              (abbrev-mode 1)))
+  (setq save-abbrevs t)
+
   (linum-relative-global-mode)
 #+end_src 
 ** Swiper and counsel
