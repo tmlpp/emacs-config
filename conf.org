@@ -246,14 +246,6 @@ Rename some major modes to take less space on modeline.
   (use-package lua-mode
     :ensure t)
 #+end_src
-** keyfreq
-Record which commands I'm using the most, to maybe find better key bindings for them one day.
-#+begin_src emacs-lisp
-    (use-package keyfreq
-      :ensure t    
-      :config (keyfreq-mode 1)
-      (keyfreq-autosave-mode 1))
-#+end_src
 ** Sentences end with one space
 Why would anyone end sentences with two spaces?
 This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
