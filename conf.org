@@ -366,6 +366,8 @@ At this point there's not many keys set. I know some functions I want to have qu
 
 Work in progress.
 #+BEGIN_SRC emacs-lisp
+  (use-package general
+    :ensure t)
   (general-define-key
                   :prefix ","
                   :keymaps 'normal
