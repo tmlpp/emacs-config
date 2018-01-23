@@ -661,10 +661,10 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+begin_src emacs-lisp
 (setq org-agenda-block-separator ?▰)
 #+end_src
-** hide inherited tags in agenda                                 :disabled:
+** hide inherited tags in agenda
 Remove tag clutter from agenda view. Disabled for now.
 #+begin_src emacs-lisp
-; (setq org-agenda-show-inherited-tags nil)
+ (setq org-agenda-show-inherited-tags nil)
 #+end_src
 ** Exporting
 *** Export macros

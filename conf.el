@@ -439,7 +439,7 @@
 
 (setq org-agenda-block-separator ?▰)
 
-; (setq org-agenda-show-inherited-tags nil)
+(setq org-agenda-show-inherited-tags nil)
 
 (fset 'tsl/blog-export
       "\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
