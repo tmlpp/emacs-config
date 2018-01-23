@@ -137,6 +137,16 @@
   :ensure t
   :config (which-key-mode 1))
 
+(use-package helpful
+:ensure t)
+
+(global-set-key (kbd "C-h f") #'helpful-callable)
+
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+
+(global-set-key (kbd "C-c C-.") #'helpful-at-point)
+
 (diminish 'abbrev-mode)
   (diminish 'which-key-mode)
 ;  (diminish 'yas-minor-mode)
@@ -153,11 +163,6 @@
 
 (use-package lua-mode
   :ensure t)
-
-(use-package keyfreq
-  :ensure t    
-  :config (keyfreq-mode 1)
-  (keyfreq-autosave-mode 1))
 
 (setq sentence-end-double-space nil)
 
@@ -332,16 +337,6 @@
 
 (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
 
-(use-package helpful
-:ensure t)
-
-(global-set-key (kbd "C-h f") #'helpful-callable)
-
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-
-(global-set-key (kbd "C-c C-.") #'helpful-at-point)
-
 (setq browse-url-browser-function 'browse-url-xdg-open)
 
 (use-package org-bullets
@@ -467,7 +462,7 @@
 
 (setq org-agenda-block-separator ?▰)
 
-(setq org-agenda-show-inherited-tags nil)
+(setq org-agenda-show-inherited-tags t)
 
 (fset 'tsl/blog-export
       "\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
