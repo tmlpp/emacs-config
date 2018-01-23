@@ -231,7 +231,8 @@
           (lambda ()
             (evil-org-mode)))
 
-(defun tsl/evil-insert-line-below ()
+(defun tsl/evil-insert-line-below-or-open-link ()
+"If cursor is on link, open the link with 'org-open-at-point. Otherwise insert new line under current one and return to evli-normal-state."
   (interactive)
   (if (and org-return-follows-link
            (or (org-in-regexp org-ts-regexp-both nil t)
@@ -240,7 +241,7 @@
       (call-interactively #'org-open-at-point)
     (evil-open-below nil)
     (evil-normal-state)))
-(define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
+(define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below-or-open-link)
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)

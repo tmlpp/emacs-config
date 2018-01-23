@@ -361,7 +361,7 @@ Some key stuff.
         (call-interactively #'org-open-at-point)
       (evil-open-below nil)
       (evil-normal-state)))
-  (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
+  (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below-or-open-link)
 
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
