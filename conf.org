@@ -61,15 +61,15 @@ custom-set-variables to separate file
 ** Laptop or desktop
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
-My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is equal or greater than 900, I'm using desktop.
+My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is greater than 900, I'm using desktop.
  
-This is a work in progress, so far any settings aren't dependent on this. I haven't even tried does this actually work.
+This is a work in progress, so far any settings aren't dependent on this.
 #+begin_src emacs-lisp
   (defvar computer-type nil)
   (defun tsl/desktop-or-laptop ()
     "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
     (interactive)
-    (if (>= (x-display-pixel-height) 901)
+    (if (> (x-display-pixel-height) 900)
         (setq computer-type 'desktop)
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)

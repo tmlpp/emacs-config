@@ -38,7 +38,7 @@
 (defun tsl/desktop-or-laptop ()
   "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
   (interactive)
-  (if (>= (x-display-pixel-height) 901)
+  (if (> (x-display-pixel-height) 900)
       (setq computer-type 'desktop)
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
@@ -239,6 +239,8 @@
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
 
+(use-package general
+  :ensure t)
 (general-define-key
                 :prefix ","
                 :keymaps 'normal
