@@ -200,12 +200,25 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
       ))
  #+end_src
-** Help with key commands
+** Helpful and which-key
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
 #+begin_src emacs-lisp
   (use-package which-key
     :ensure t
     :config (which-key-mode 1))
+#+end_src
+
+"[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information."
+#+begin_src emacs-lisp
+(use-package helpful
+:ensure t)
+
+(global-set-key (kbd "C-h f") #'helpful-callable)
+
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+
+(global-set-key (kbd "C-c C-.") #'helpful-at-point)
 #+end_src
 ** Clean up modeline
 Remove some minor-modes from modeline. No need to see these there.
@@ -508,19 +521,6 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
   (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
 
   (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
-#+end_src
-** Helpful
-"[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information."
-#+begin_src emacs-lisp
-(use-package helpful
-:ensure t)
-
-(global-set-key (kbd "C-h f") #'helpful-callable)
-
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-
-(global-set-key (kbd "C-c C-.") #'helpful-at-point)
 #+end_src
 ** browser
 #+BEGIN_SRC emacs-lisp
