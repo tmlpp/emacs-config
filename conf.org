@@ -359,6 +359,39 @@ Some key stuff.
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 #+end_src
+** general.el
+I decided to go with [[https://github.com/noctuid/general.el][general.el]] for vim-like leader key functionality. And easier key command in general.
+
+At this point there's not many keys set. I know some functions I want to have quick access to, but I don't know the keys to bind them yet.
+
+Work in progress.
+#+BEGIN_SRC emacs-lisp
+  (general-define-key
+                  :prefix ","
+                  :keymaps 'normal
+                  "r" 'jump-to-register
+                  "s" 'save-buffer
+                  "t" 'org-todo
+                  "q" 'evil-quit
+                  "d" 'org-cut-special
+                  "y" 'org-copy-special
+                  "ma" 'abbrev-mode
+                  "ml" 'linum-relative-mode
+                  "mp" 'electric-pair-mode
+                  "u" 'undo-tree-visualize
+                  ;"ss" 'clone-indirect-buffer-other-window
+                  ;"ss" 'evil-window-split
+                  ;"ss" 'evil-window-vsplit
+                  ;"ss" 'evil-window-left
+                  ;"ss" 'evil-window-right
+                  ;"ss" 'evil-window-up
+                  ;"ss" 'evil-window-down
+                  ;"ss" 'find-file-other-window
+                  ;"ss" 'find-file
+                  ;"ss" 'delete-other-windows
+                  ;"ss" 'org-refile
+                  )
+#+END_SRC
 ** Invoke =M-x= without the Alt key
 Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
 

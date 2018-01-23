@@ -239,6 +239,32 @@
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
 
+(general-define-key
+                :prefix ","
+                :keymaps 'normal
+                "r" 'jump-to-register
+                "s" 'save-buffer
+                "t" 'org-todo
+                "q" 'evil-quit
+                "d" 'org-cut-special
+                "y" 'org-copy-special
+                "ma" 'abbrev-mode
+                "ml" 'linum-relative-mode
+                "mp" 'electric-pair-mode
+                "u" 'undo-tree-visualize
+                ;"ss" 'clone-indirect-buffer-other-window
+                ;"ss" 'evil-window-split
+                ;"ss" 'evil-window-vsplit
+                ;"ss" 'evil-window-left
+                ;"ss" 'evil-window-right
+                ;"ss" 'evil-window-up
+                ;"ss" 'evil-window-down
+                ;"ss" 'find-file-other-window
+                ;"ss" 'find-file
+                ;"ss" 'delete-other-windows
+                ;"ss" 'org-refile
+                )
+
 (global-unset-key (kbd "C-x m"))
 ;  (global-unset-key (kbd "M-x"))
   (global-set-key (kbd "C-x m") 'execute-extended-command)
