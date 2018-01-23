@@ -233,8 +233,13 @@
 
 (defun tsl/evil-insert-line-below ()
   (interactive)
-  (evil-open-below nil)
-  (evil-normal-state))
+  (if (and org-return-follows-link
+           (or (org-in-regexp org-ts-regexp-both nil t)
+               (org-in-regexp org-tsr-regexp-both nil  t)
+               (org-in-regexp org-any-link-re nil t)))
+      (call-interactively #'org-open-at-point)
+    (evil-open-below nil)
+    (evil-normal-state)))
 (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
 
 (setq key-chord-two-keys-delay 0.5)

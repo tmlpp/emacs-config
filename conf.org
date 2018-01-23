@@ -344,15 +344,23 @@ After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I
 
 Some key stuff.
 
-- =Enter= in normal mode: New line under current one
+- =Enter= in normal mode:
+  - Insert new line below current one, unless cursor on link
+  - If cursor on link, open the link
 - In insert mode =jj= does =Esc=
 - Evil commands in =org-agenda=
 
 #+begin_src emacs-lisp  
-  (defun tsl/evil-insert-line-below ()
+  (defun tsl/evil-insert-line-below-or-open-link ()
+  "If cursor is on link, open the link with 'org-open-at-point. Otherwise insert new line under current one and return to evli-normal-state."
     (interactive)
-    (evil-open-below nil)
-    (evil-normal-state))
+    (if (and org-return-follows-link
+             (or (org-in-regexp org-ts-regexp-both nil t)
+                 (org-in-regexp org-tsr-regexp-both nil  t)
+                 (org-in-regexp org-any-link-re nil t)))
+        (call-interactively #'org-open-at-point)
+      (evil-open-below nil)
+      (evil-normal-state)))
   (define-key evil-normal-state-map [return] 'tsl/evil-insert-line-below)
 
   (setq key-chord-two-keys-delay 0.5)
