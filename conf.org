@@ -168,7 +168,7 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
   (setq save-abbrevs t)
 
   (linum-relative-global-mode)
-#+end_src 
+  #+end_src 
 ** Swiper and counsel
 Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
 #+begin_src emacs-lisp
@@ -332,6 +332,7 @@ After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I
 #+begin_src emacs-lisp
     (use-package evil
       :ensure t
+      :init (setq evil-want-abbrev-expand-on-insert-exit nil)
       :config (evil-mode))
 
     (use-package evil-org
