@@ -1,29 +1,17 @@
 * General config
-** Sensitive information
-Load information I don't want to be publicly available – for one reason or another – from a separate file.
-#+begin_src emacs-lisp
-(load "~/Dropbox/.emacs.secrets")
-#+end_src
-** Emacs server
+** Initial config
+*** Emacs server
 Start Emacs server.
 #+begin_src emacs-lisp
 (server-start)
 #+end_src
-** UI
-Start with empty scratch and show buffer name in frame.
+*** Sensitive information
+Load information I don't want to be publicly available – for one reason or another – from a separate file.
 #+begin_src emacs-lisp
-  (setq inhibit-startup-message t)
-  (setq initial-scratch-message nil)
-  (setq frame-title-format "%b")
+(load "~/Dropbox/.emacs.secrets")
 #+end_src
-Remove all those extra bars. I don't want them.
-#+begin_src emacs-lisp
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-#+end_src
-** Packages
-Where to get packages and stuff.
+*** Packages configuration
+Set package repositories.
 #+begin_src emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
@@ -39,6 +27,36 @@ Use use-package to use packages.
     (package-refresh-contents)
     (package-install 'use-package))
 #+end_src
+*** UI and appearance
+Start with empty scratch and show buffer name in frame.
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+  (setq initial-scratch-message nil)
+  (setq frame-title-format "%b")
+#+end_src
+
+Remove menu bar, scroll bar, and tool bar.
+#+begin_src emacs-lisp
+  (menu-bar-mode 0)
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+#+end_src
+
+Load theme and set font and set custom themes location.
+#+begin_src emacs-lisp
+  (use-package ample-theme  
+    :ensure t
+    :config (load-theme 'ample-flat t))
+
+  (add-to-list 'default-frame-alist 
+               '(font . "Iosevka-12"))
+
+  (let ((basedir "~/.emacs.d/themes/"))
+    (dolist (f (directory-files basedir))
+      (if (and (not (or (equal f ".") (equal f "..")))
+               (file-directory-p (concat basedir f)))
+          (add-to-list 'custom-theme-load-path (concat basedir f)))))
+#+end_src 
 ** Move some things out of the way
 Backups to separate folder. And some settings for backups.
 #+begin_src emacs-lisp
@@ -69,23 +87,6 @@ This is a work in progress, so far any settings aren't dependent on this.
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
 #+end_src
-** Appearance
-Load theme and set font.
-#+begin_src emacs-lisp
-    (use-package ample-theme  
-      :ensure t
-      :config (load-theme 'ample-flat t))
-      (add-to-list 'default-frame-alist 
-                 '(font . "Iosevka-12"))
-#+end_src
-Custom themes location.
-#+begin_src emacs-lisp
-  (let ((basedir "~/.emacs.d/themes/"))
-	(dolist (f (directory-files basedir))
-        (if (and (not (or (equal f ".") (equal f "..")))
-                   (file-directory-p (concat basedir f)))
-              (add-to-list 'custom-theme-load-path (concat basedir f)))))
-#+end_src 
 ** Powerline
 Powerline. Just because I've seen it, and it looked cool.
 #+begin_src emacs-lisp

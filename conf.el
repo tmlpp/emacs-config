@@ -1,14 +1,6 @@
-(load "~/Dropbox/.emacs.secrets")
-
 (server-start)
 
-(setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
-(setq frame-title-format "%b")
-
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(tool-bar-mode 0)
+(load "~/Dropbox/.emacs.secrets")
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -21,6 +13,27 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+(setq inhibit-startup-message t)
+(setq initial-scratch-message nil)
+(setq frame-title-format "%b")
+
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(tool-bar-mode 0)
+
+(use-package ample-theme  
+  :ensure t
+  :config (load-theme 'ample-flat t))
+
+(add-to-list 'default-frame-alist 
+             '(font . "Iosevka-12"))
+
+(let ((basedir "~/.emacs.d/themes/"))
+  (dolist (f (directory-files basedir))
+    (if (and (not (or (equal f ".") (equal f "..")))
+             (file-directory-p (concat basedir f)))
+        (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
 (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 
@@ -39,18 +52,6 @@
       (setq computer-type 'desktop)
     (setq computer-type 'laptop)))
 (tsl/desktop-or-laptop)
-
-(use-package ample-theme  
-  :ensure t
-  :config (load-theme 'ample-flat t))
-  (add-to-list 'default-frame-alist 
-             '(font . "Iosevka-12"))
-
-(let ((basedir "~/.emacs.d/themes/"))
-      (dolist (f (directory-files basedir))
-      (if (and (not (or (equal f ".") (equal f "..")))
-                 (file-directory-p (concat basedir f)))
-            (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
 (use-package powerline
   :ensure t)
