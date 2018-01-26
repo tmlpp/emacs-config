@@ -390,6 +390,7 @@ Work in progress.
                   "ml" 'linum-relative-mode
                   "mp" 'electric-pair-mode
                   "u" 'undo-tree-visualize
+                  "x" 'execute-extended-command
                   ;"ss" 'clone-indirect-buffer-other-window
                   ;"ss" 'evil-window-split
                   ;"ss" 'evil-window-vsplit
@@ -401,6 +402,7 @@ Work in progress.
                   ;"ss" 'find-file
                   ;"ss" 'delete-other-windows
                   ;"ss" 'org-refile
+                  
                   )
 #+END_SRC
 ** Yasnippet
@@ -635,7 +637,7 @@ So, set =org-refile-targets= to include current file and agenda files. Limit the
 #+begin_src emacs-lisp
 (setq org-agenda-block-separator ?▰)
 #+end_src
-** hide inherited tags in agenda
+** Inherited tags in agenda
 Remove tag clutter from agenda view. Disabled for now.
 #+begin_src emacs-lisp
  (setq org-agenda-show-inherited-tags t)
@@ -705,6 +707,107 @@ In org files, open links by pressing =Enter=
 If I don't set the ending time when scheduling appointments or whatever, the default duration is 60 minutes.
 #+begin_src emacs-lisp
 (setq org-agenda-default-appointment-duration 60)
+#+end_src
+** Create timestamp under heading
+=org-schedule= and =org-deadline= create a timestamp right after the heading of the subtree, no matter where in the subtree the command is run. =org-timestamp= creates the timestamp at cursor position.
+
+I want to use scheduling and deadlines as little as possible, and use simple timestamps to make my tasks appear in agenda instead. My tasks are often only a heading, so it's annoying to create a new line just for the timestamp.
+
+This function is a quick fix for that. If run on a heading, it creates the timestamp under the heading. If run anywhere else, it creates the timestamp at cursor position as it normally would.
+
+Probably not the fanciest fix, but so far it works.
+#+begin_src emacs-lisp
+  (defun tsl/org-timestamp ()
+    (interactive)
+    (if (org-at-heading-p)
+        (progn (org-end-of-line)
+               (org-return)
+               (org-time-stamp nil)) 
+      (org-time-stamp nil)))
+
+(define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
+#+end_src
+** widths
+#+BEGIN_SRC emacs-lisp
+(setq org-agenda-window-setup 'only-window)
+
+(setq org-agenda-prefix-format
+'((agenda . "%-10:c%-12t% s")
+ (todo . "%-12:c%-12t")
+ (tags . "%-12:c")
+ (search . "%-12:c")))
+
+(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
+(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+#+END_SRC 
+* License
+[[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
+* Deprecated and unused
+This section includes settings I don't need anymore, at least right now. Or thing's I've copied from somwhere but didn't use after all.
+
+I'm re-organizing my config file, mostly becuase starting to use evil-mode change things quite a lot. evil-mode also makes some things unnecessary. So I'm moving them here, cause I don't want to get rid of them (yet), just in case.
+** Invoke =M-x= without the Alt key
+Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
+
+As per [[https://sites.google.com/site/steveyegge2/effective-emacs#item2][Yegge's Item 2]]. This unmaps the difficult =M-x= (usually =Alt+x=) to =C-x
+m=, and then add a fat-finger combination of =C-x C-m=:
+
+#+begin_src emacs-lisp :tangle no
+  (global-unset-key (kbd "C-x m"))
+;  (global-unset-key (kbd "M-x"))
+  (global-set-key (kbd "C-x m") 'execute-extended-command)
+  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
+#+end_src
+** Kill (and save) line or region
+Copy active region with =M-w=. If there's no active region, =M-w= copy /the whole line/.
+Found in: [[https://www.emacswiki.org/emacs/WholeLineOrRegion][Emacs wiki]]
+#+begin_src emacs-lisp :tangle no
+  (defun copy-region-or-whole-line (beg end flash)
+    (interactive (if (use-region-p)
+		     (list (region-beginning) (region-end) nil)
+		   (list (line-beginning-position)
+			 (line-beginning-position 2) 'flash)))
+    (kill-ring-save beg end)
+    (when flash
+      (save-excursion
+	((if ) (equal (current-column) 0)
+	 (goto-char end)
+	 (goto-char beg))
+	(sit-for blink-matching-delay))))
+  (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
+#+end_src
+
+Cut (kill)the active region with =C-k=. If theres no active region, cut /the rest of the line/.
+
+Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-line=
+#+begin_src emacs-lisp :tangle no
+  (defun cut-region-or-line ()
+    (interactive (if (use-region-p)
+		     (kill-region (region-beginning) (region-end))
+		   (kill-line nil))))
+  (global-set-key [remap kill-line] 'cut-region-or-line)
+  #+end_src
+
+I want a bar cursor instead of the default block one. I also want current line highlighted.
+#+begin_src emacs-lisp :tangle no
+  (global-hl-line-mode 1)
+  (set-default 'cursor-type 'bar)
+#+end_src
+** Save buffer when focus is lost                                :disabled:
+#+begin_src emacs-lisp :tangle no
+ (use-package focus-autosave-mode
+   :ensure t
+   :init (focus-autosave-mode)
+   :diminish focus-autosave-mode)
+#+end_src
+** Save place in files                                           :disabled:
+#+begin_src emacs-lisp :tangle no
+ (use-package saveplace
+   :init (save-place-mode 1)
+   :config
+   (progn
+     (setq-default save-place t)
+     (setq-default save-place-file (expand-file-name "places" user-cache-directory))))
 #+end_src
 ** Update parent heading cookie                                  :disabled:
 Found here: https://github.com/magnars/.emacs.d
@@ -791,105 +894,4 @@ Disabled for now. Didn't work quite as I expected. Will look into this later.
 
   (define-key org-mode-map (kbd "RET")
     'tsl/org-return)
-#+end_src
-** Create timestamp under heading
-=org-schedule= and =org-deadline= create a timestamp right after the heading of the subtree, no matter where in the subtree the command is run. =org-timestamp= creates the timestamp at cursor position.
-
-I want to use scheduling and deadlines as little as possible, and use simple timestamps to make my tasks appear in agenda instead. My tasks are often only a heading, so it's annoying to create a new line just for the timestamp.
-
-This function is a quick fix for that. If run on a heading, it creates the timestamp under the heading. If run anywhere else, it creates the timestamp at cursor position as it normally would.
-
-Probably not the fanciest fix, but so far it works.
-#+begin_src emacs-lisp
-  (defun tsl/org-timestamp ()
-    (interactive)
-    (if (org-at-heading-p)
-        (progn (org-end-of-line)
-               (org-return)
-               (org-time-stamp nil)) 
-      (org-time-stamp nil)))
-
-(define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
-#+end_src
-** widths
-#+BEGIN_SRC emacs-lisp
-(setq org-agenda-window-setup 'only-window)
-
-(setq org-agenda-prefix-format
-'((agenda . "%-10:c%-12t% s")
- (todo . "%-12:c%-12t")
- (tags . "%-12:c")
- (search . "%-12:c")))
-
-(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
-(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
-#+END_SRC 
-* License
-[[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
-* Deprecated
-This section includes settings I don't need anymore, at least right now.
-
-I'm re-organizing my config file, mostly becuase starting to use evil-mode change things quite a lot. evil-mode also makes some things unnecessary. So I'm moving them here, cause I don't want to get rid of them (yet), just in case.
-** Invoke =M-x= without the Alt key
-Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
-
-As per [[https://sites.google.com/site/steveyegge2/effective-emacs#item2][Yegge's Item 2]]. This unmaps the difficult =M-x= (usually =Alt+x=) to =C-x
-m=, and then add a fat-finger combination of =C-x C-m=:
-
-#+begin_src emacs-lisp :tangle no
-  (global-unset-key (kbd "C-x m"))
-;  (global-unset-key (kbd "M-x"))
-  (global-set-key (kbd "C-x m") 'execute-extended-command)
-  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-#+end_src
-** Kill (and save) line or region
-Copy active region with =M-w=. If there's no active region, =M-w= copy /the whole line/.
-Found in: [[https://www.emacswiki.org/emacs/WholeLineOrRegion][Emacs wiki]]
-#+begin_src emacs-lisp :tangle no
-  (defun copy-region-or-whole-line (beg end flash)
-    (interactive (if (use-region-p)
-		     (list (region-beginning) (region-end) nil)
-		   (list (line-beginning-position)
-			 (line-beginning-position 2) 'flash)))
-    (kill-ring-save beg end)
-    (when flash
-      (save-excursion
-	((if ) (equal (current-column) 0)
-	 (goto-char end)
-	 (goto-char beg))
-	(sit-for blink-matching-delay))))
-  (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
-#+end_src
-
-Cut (kill)the active region with =C-k=. If theres no active region, cut /the rest of the line/.
-
-Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-line=
-#+begin_src emacs-lisp :tangle no
-  (defun cut-region-or-line ()
-    (interactive (if (use-region-p)
-		     (kill-region (region-beginning) (region-end))
-		   (kill-line nil))))
-  (global-set-key [remap kill-line] 'cut-region-or-line)
-  #+end_src
-
-I want a bar cursor instead of the default block one. I also want current line highlighted.
-#+begin_src emacs-lisp :tangle no
-  (global-hl-line-mode 1)
-  (set-default 'cursor-type 'bar)
-#+end_src
-** Save buffer when focus is lost                                :disabled:
-#+begin_src emacs-lisp :tangle no
- (use-package focus-autosave-mode
-   :ensure t
-   :init (focus-autosave-mode)
-   :diminish focus-autosave-mode)
-#+end_src
-** Save place in files                                           :disabled:
-#+begin_src emacs-lisp :tangle no
- (use-package saveplace
-   :init (save-place-mode 1)
-   :config
-   (progn
-     (setq-default save-place t)
-     (setq-default save-place-file (expand-file-name "places" user-cache-directory))))
 #+end_src

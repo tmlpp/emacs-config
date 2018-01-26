@@ -264,6 +264,7 @@
                 "ml" 'linum-relative-mode
                 "mp" 'electric-pair-mode
                 "u" 'undo-tree-visualize
+                "x" 'execute-extended-command
                 ;"ss" 'clone-indirect-buffer-other-window
                 ;"ss" 'evil-window-split
                 ;"ss" 'evil-window-vsplit
@@ -275,6 +276,7 @@
                 ;"ss" 'find-file
                 ;"ss" 'delete-other-windows
                 ;"ss" 'org-refile
+
                 )
 
 (use-package yasnippet
