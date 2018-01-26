@@ -44,6 +44,18 @@
 (setq custom-file "~/.emacs.d/customs.el")
 (load custom-file)
 
+(diminish 'abbrev-mode)
+  (diminish 'which-key-mode)
+;  (diminish 'yas-minor-mode)
+(diminish 'visual-line-mode)
+(diminish 'evil-org-mode)
+
+(defmacro diminish-major-mode (mode-hook abbrev)
+  `(add-hook ,mode-hook
+             (lambda () (setq mode-name ,abbrev))))
+
+(diminish-major-mode 'emacs-lisp-mode-hook "el")
+
 (defvar computer-type nil)
 (defun tsl/desktop-or-laptop ()
   "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
@@ -144,18 +156,6 @@
 (global-set-key (kbd "C-h k") #'helpful-key)
 
 (global-set-key (kbd "C-c C-.") #'helpful-at-point)
-
-(diminish 'abbrev-mode)
-  (diminish 'which-key-mode)
-;  (diminish 'yas-minor-mode)
-(diminish 'visual-line-mode)
-(diminish 'evil-org-mode)
-
-(defmacro diminish-major-mode (mode-hook abbrev)
-  `(add-hook ,mode-hook
-             (lambda () (setq mode-name ,abbrev))))
-
-(diminish-major-mode 'emacs-lisp-mode-hook "el")
 
 (load "word-count")
 
