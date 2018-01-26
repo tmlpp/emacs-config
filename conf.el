@@ -10,9 +10,6 @@
 (scroll-bar-mode 0)
 (tool-bar-mode 0)
 
-(global-hl-line-mode 1)
-(set-default 'cursor-type 'bar)
-
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
@@ -279,11 +276,6 @@
                 ;"ss" 'org-refile
                 )
 
-(global-unset-key (kbd "C-x m"))
-;  (global-unset-key (kbd "M-x"))
-  (global-set-key (kbd "C-x m") 'execute-extended-command)
-  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-
 (use-package yasnippet
   :ensure t
   :config (yas-global-mode 1))
@@ -313,26 +305,6 @@
   (interactive)
   (split-window-horizontally 70)
   (clone-indirect-buffer nil t))
-
-(defun copy-region-or-whole-line (beg end flash)
-  (interactive (if (use-region-p)
-		   (list (region-beginning) (region-end) nil)
-		 (list (line-beginning-position)
-		       (line-beginning-position 2) 'flash)))
-  (kill-ring-save beg end)
-  (when flash
-    (save-excursion
-      ((if ) (equal (current-column) 0)
-       (goto-char end)
-       (goto-char beg))
-      (sit-for blink-matching-delay))))
-(global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
-
-(defun cut-region-or-line ()
-  (interactive (if (use-region-p)
-		   (kill-region (region-beginning) (region-end))
-		 (kill-line nil))))
-(global-set-key [remap kill-line] 'cut-region-or-line)
 
 (use-package magit
 :ensure t)
