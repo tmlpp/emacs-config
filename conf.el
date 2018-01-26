@@ -252,7 +252,7 @@
 (use-package general
   :ensure t)
 (general-define-key
-                :prefix ","
+                :prefix "SPC"
                 :keymaps 'normal
                 "r" 'jump-to-register
                 "s" 'save-buffer
@@ -263,6 +263,8 @@
                 "ma" 'abbrev-mode
                 "ml" 'linum-relative-mode
                 "mp" 'electric-pair-mode
+                "fo" 'find-file
+                "fO" 'find-file-other-window
                 "u" 'undo-tree-visualize
                 "x" 'execute-extended-command
                 ;"ss" 'clone-indirect-buffer-other-window
@@ -272,8 +274,6 @@
                 ;"ss" 'evil-window-right
                 ;"ss" 'evil-window-up
                 ;"ss" 'evil-window-down
-                ;"ss" 'find-file-other-window
-                ;"ss" 'find-file
                 ;"ss" 'delete-other-windows
                 ;"ss" 'org-refile
 
