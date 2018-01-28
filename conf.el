@@ -255,6 +255,8 @@
                 :prefix "SPC"
                 :keymaps 'normal
                 "r" 'jump-to-register
+                "bk" 'kill-this-buffer
+                "bc" 'clone-indirect-buffer-other-window
                 "s" 'save-buffer
                 "t" 'org-todo
                 "q" 'evil-quit
@@ -267,7 +269,6 @@
                 "fO" 'find-file-other-window
                 "u" 'undo-tree-visualize
                 "x" 'execute-extended-command
-                ;"ss" 'clone-indirect-buffer-other-window
                 ;"ss" 'evil-window-split
                 ;"ss" 'evil-window-vsplit
                 ;"ss" 'evil-window-left
