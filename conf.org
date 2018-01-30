@@ -180,8 +180,6 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
               (visual-line-mode 1)
               (abbrev-mode 1)))
   (setq save-abbrevs t)
-
-  (linum-relative-global-mode)
   #+end_src 
 ** Swiper and counsel
 Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
@@ -478,11 +476,11 @@ Use org-bullets, change the three period ellipsis to something else, and use org
   (use-package org-bullets
     :ensure t
     ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
-    :init (setq org-bullets-bullet-list '("●"))
+    ; :init (setq org-bullets-bullet-list '("●"))
+    :init (setq org-bullets-bullet-list '("▶" "▷"))
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
    (setq org-ellipsis " ▼")
-  
   (add-hook 'org-mode-hook
             (lambda ()
               (org-indent-mode 1)))

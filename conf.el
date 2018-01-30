@@ -113,8 +113,6 @@
             (abbrev-mode 1)))
 (setq save-abbrevs t)
 
-(linum-relative-global-mode)
-
 (use-package counsel
   :ensure t
   )
@@ -325,11 +323,11 @@
 (use-package org-bullets
   :ensure t
   ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
-  :init (setq org-bullets-bullet-list '("●"))
+  ; :init (setq org-bullets-bullet-list '("●"))
+  :init (setq org-bullets-bullet-list '("▶" "▷"))
   :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
  (setq org-ellipsis " ▼")
-
 (add-hook 'org-mode-hook
           (lambda ()
             (org-indent-mode 1)))
