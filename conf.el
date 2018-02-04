@@ -44,18 +44,6 @@
 (setq custom-file "~/.emacs.d/customs.el")
 (load custom-file)
 
-(diminish 'abbrev-mode)
-  (diminish 'which-key-mode)
-;  (diminish 'yas-minor-mode)
-(diminish 'visual-line-mode)
-(diminish 'evil-org-mode)
-
-(defmacro diminish-major-mode (mode-hook abbrev)
-  `(add-hook ,mode-hook
-             (lambda () (setq mode-name ,abbrev))))
-
-(diminish-major-mode 'emacs-lisp-mode-hook "el")
-
 (defvar computer-type nil)
 (defun tsl/desktop-or-laptop ()
   "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
@@ -287,8 +275,7 @@
 
 (use-package undo-tree
   :ensure t
-  :init
-  (global-undo-tree-mode)
+  :init (global-undo-tree-mode)
   :bind (("C-z" . undo)
   ("C-S-z" . undo-tree-redo)))
 
@@ -319,6 +306,20 @@
 (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
 
 (setq browse-url-browser-function 'browse-url-xdg-open)
+
+(diminish 'abbrev-mode)
+(diminish 'which-key-mode)
+                                        ;  (diminish 'yas-minor-mode)
+(diminish 'visual-line-mode)
+(diminish 'evil-org-mode)
+(diminish 'undo-tree-mode)
+(diminish 'which-key-mode)
+
+(defmacro diminish-major-mode (mode-hook abbrev)
+  `(add-hook ,mode-hook
+             (lambda () (setq mode-name ,abbrev))))
+
+(diminish-major-mode 'emacs-lisp-mode-hook "el")
 
 (use-package org-bullets
   :ensure t

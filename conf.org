@@ -72,23 +72,6 @@ custom-set-variables to separate file
   (setq custom-file "~/.emacs.d/customs.el")
   (load custom-file)
 #+end_src
-*** Clean up modeline
-Remove some minor-modes from modeline. No need to see these there.
-#+begin_src emacs-lisp
-  (diminish 'abbrev-mode)
-  (diminish 'which-key-mode)
-;  (diminish 'yas-minor-mode)
-(diminish 'visual-line-mode)
-(diminish 'evil-org-mode)
-#+end_src
-Rename some major modes to take less space on modeline. 
-#+begin_src emacs-lisp
-  (defmacro diminish-major-mode (mode-hook abbrev)
-    `(add-hook ,mode-hook
-               (lambda () (setq mode-name ,abbrev))))
-
-  (diminish-major-mode 'emacs-lisp-mode-hook "el")
-#+end_src
 ** Laptop or desktop
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
@@ -418,8 +401,7 @@ Yasnippet
 #+begin_src emacs-lisp
   (use-package undo-tree
     :ensure t
-    :init
-    (global-undo-tree-mode)
+    :init (global-undo-tree-mode)
     :bind (("C-z" . undo)
     ("C-S-z" . undo-tree-redo)))
 #+end_src
@@ -468,6 +450,25 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'browse-url-xdg-open)
 #+END_SRC
+** Clean up modeline
+Remove some minor-modes from modeline. No need to see these there.
+#+begin_src emacs-lisp
+  (diminish 'abbrev-mode)
+  (diminish 'which-key-mode)
+                                          ;  (diminish 'yas-minor-mode)
+  (diminish 'visual-line-mode)
+  (diminish 'evil-org-mode)
+  (diminish 'undo-tree-mode)
+  (diminish 'which-key-mode)
+#+end_src
+Rename some major modes to take less space on modeline. 
+#+begin_src emacs-lisp
+  (defmacro diminish-major-mode (mode-hook abbrev)
+    `(add-hook ,mode-hook
+               (lambda () (setq mode-name ,abbrev))))
+
+  (diminish-major-mode 'emacs-lisp-mode-hook "el")
+#+end_src
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
