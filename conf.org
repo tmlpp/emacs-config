@@ -344,6 +344,7 @@ Some key stuff.
 
   (setq key-chord-two-keys-delay 0.5)
   (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+  (key-chord-define evil-insert-state-map "öa" "\\")
   (key-chord-mode 1)
 
   (require 'evil-org-agenda)
@@ -358,13 +359,19 @@ Work in progress.
 #+BEGIN_SRC emacs-lisp
   (use-package general
     :ensure t)
+
+  (defun tsl/save-all ()
+      (interactive)
+    (save-some-buffers t))
+
   (general-define-key
                   :prefix "SPC"
                   :keymaps 'normal
                   "r" 'jump-to-register
                   "bk" 'kill-this-buffer
                   "bc" 'clone-indirect-buffer-other-window
-                  "s" 'save-buffer
+                  "ss" 'save-buffer
+                  "sa" 'tsl/save-all
                   "t" 'org-todo
                   "q" 'evil-quit
                   "d" 'org-cut-special
@@ -384,7 +391,7 @@ Work in progress.
                   ;"ss" 'evil-window-down
                   ;"ss" 'delete-other-windows
                   ;"ss" 'org-refile
-                  
+
                   )
 #+END_SRC
 ** Yasnippet
@@ -696,7 +703,7 @@ Run the function when saving an org-mode buffer. This way the text width keeps u
 ** Day lasts until 5 a.m.
 In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampire.
 #+begin_src emacs-lisp
-(setq org-extend-today-until 5) 
+; (setq org-extend-today-until 5) 
 #+end_src
 ** enter follows links
 In org files, open links by pressing =Enter=

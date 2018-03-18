@@ -28,6 +28,9 @@
      (#("account" 0 1
 	(idx 3))
       "%(binary) -f %(ledger-file) reg %(account)"))))
+ '(org-agenda-files
+   (quote
+    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/tickler.org" "~/Dropbox/org/todo.org")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))

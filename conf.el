@@ -230,6 +230,7 @@
 
 (setq key-chord-two-keys-delay 0.5)
 (key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "öa" "\\")
 (key-chord-mode 1)
 
 (require 'evil-org-agenda)
@@ -237,13 +238,19 @@
 
 (use-package general
   :ensure t)
+
+(defun tsl/save-all ()
+    (interactive)
+  (save-some-buffers t))
+
 (general-define-key
                 :prefix "SPC"
                 :keymaps 'normal
                 "r" 'jump-to-register
                 "bk" 'kill-this-buffer
                 "bc" 'clone-indirect-buffer-other-window
-                "s" 'save-buffer
+                "ss" 'save-buffer
+                "sa" 'tsl/save-all
                 "t" 'org-todo
                 "q" 'evil-quit
                 "d" 'org-cut-special
@@ -475,7 +482,7 @@
           (lambda () (if (eq major-mode 'org-mode)
                          (tsl/org-ascii-clean-text))))
 
-(setq org-extend-today-until 5)
+; (setq org-extend-today-until 5)
 
 (setq org-return-follows-link t)
 
