@@ -236,6 +236,8 @@
 (require 'evil-org-agenda)
 (evil-org-agenda-set-keys)
 
+(defalias 'org-agenda-bulk-remove-all-marks 'org-agenda-bulk-unmark-all)
+
 (use-package general
   :ensure t)
 

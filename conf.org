@@ -350,6 +350,10 @@ Some key stuff.
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
 #+end_src
+
+#+begin_src emacs-lisp
+(defalias 'org-agenda-bulk-remove-all-marks 'org-agenda-bulk-unmark-all)
+#+end_src
 ** general.el
 I decided to go with [[https://github.com/noctuid/general.el][general.el]] for vim-like leader key functionality. And easier key command in general.
 
