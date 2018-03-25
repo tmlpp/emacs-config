@@ -1,6 +1,6 @@
 (server-start)
 
-(load "~/Dropbox/.emacs.secrets")
+(load "~/Dropbox/.emacs.secrets.el")
 
 (require 'package)
 (setq package-enable-at-startup nil)
