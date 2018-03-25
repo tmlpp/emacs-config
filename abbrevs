@@ -53,9 +53,13 @@
 
 (define-abbrev-table 'doctex-mode-abbrev-table '())
 
+(define-abbrev-table 'edebug-eval-mode-abbrev-table '())
+
 (define-abbrev-table 'edit-abbrevs-mode-abbrev-table '())
 
 (define-abbrev-table 'elisp-byte-code-mode-abbrev-table '())
+
+(define-abbrev-table 'elisp-refs-mode-abbrev-table '())
 
 (define-abbrev-table 'emacs-lisp-byte-code-mode-abbrev-table '())
 
@@ -88,7 +92,7 @@
     ("amkit" "ammattikorkeakoulut" nil 3)
     ("bex" "#+BEGIN_EXPORT html" nil 0)
     ("bq" "#+BEGIN_QUOTE" nil 1)
-    ("e" "että" nil 9)
+    ("e" "että" nil 10)
     ("eei" "ettei" nil 11)
     ("eex" "#+END_EXPORT" nil 0)
     ("elb" "#+BEGIN_SRC emacs-lisp
@@ -103,7 +107,8 @@
     ("jokta" "jotka" nil 0)
     ("js" "jos" nil 2)
     ("jt" "jotta" nil 3)
-    ("k" "kun" nil 16)
+    ("jtn" "jotain" nil 2)
+    ("k" "kun" nil 17)
     ("kaikkee" "kaikkea" nil 2)
     ("ki" "kuin" nil 10)
     ("kitenkin" "kuitenkin" nil 0)
@@ -113,7 +118,7 @@
     ("kuitnekin" "kuitenkin" nil 0)
     ("käyä" "käydä" nil 0)
     ("lasktea" "lasketa" nil 0)
-    ("m" "mutta" nil 5)
+    ("m" "mutta" nil 7)
     ("mei" "muttei" nil 2)
     ("mm" "muun muassa" nil 10)
     ("mt" "mutta" nil 55)
@@ -139,7 +144,7 @@
     ("ss" "siis" nil 1)
     ("st" "sitten" nil 1)
     ("stiä" "sitä" nil 1)
-    ("t" "tai" nil 1)
+    ("t" "tai" nil 3)
     ("tais" "Taisi" nil 0)
     ("tehä" "tehdä" nil 0)
     ("teidä" "tiedä" nil 0)
@@ -154,9 +159,13 @@
     ("äe" "että" nil 0)
    ))
 
+(define-abbrev-table 'gnus-group-mode-abbrev-table '())
+
 (define-abbrev-table 'grep-mode-abbrev-table '())
 
 (define-abbrev-table 'help-mode-abbrev-table '())
+
+(define-abbrev-table 'helpful-mode-abbrev-table '())
 
 (define-abbrev-table 'html-mode-abbrev-table '())
 
@@ -263,6 +272,8 @@
 (define-abbrev-table 'text-mode-abbrev-table '())
 
 (define-abbrev-table 'url-cookie-mode-abbrev-table '())
+
+(define-abbrev-table 'use-package-statistics-mode-abbrev-table '())
 
 (define-abbrev-table 'vc-git-log-edit-mode-abbrev-table '())
 
