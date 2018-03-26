@@ -372,6 +372,7 @@ Work in progress.
                   :prefix "SPC"
                   :keymaps 'normal
                   "r" 'jump-to-register
+                  "bb" 'switch-to-buffer
                   "bk" 'kill-this-buffer
                   "bc" 'clone-indirect-buffer-other-window
                   "ss" 'save-buffer
@@ -387,7 +388,6 @@ Work in progress.
                   "fO" 'find-file-other-window
                   "u" 'undo-tree-visualize
                   "x" 'execute-extended-command
-                  ;"ss" 'evil-window-split
                   ;"ss" 'evil-window-vsplit
                   ;"ss" 'evil-window-left
                   ;"ss" 'evil-window-right
@@ -592,12 +592,11 @@ If I want TODO items automatically marked DONE when all the children are DONE, I
 #+end_src
 
 I usually refile things between org-agenda files. But sometimes need to refile somewhere in current, non-agenda file, for example here in config.
-So, set =org-refile-targets= to include current file and agenda files. Limit them up to level 3 headings.
+Set =org-refile-targets= to include current file, agenda files, and bunch of other files (defined in =.emacs.secrets.el=)
 #+begin_src emacs-lisp
   (setq org-refile-targets '((nil :maxlevel . 3)
                              (org-agenda-files :maxlevel . 3)
-                             ("~/Dropbox/org/someday.org" :maxlevel . 2)
-                             ("~/Dropbox/org/media.org" :maxlevel . 2)
+                             (tsl/refile-files :maxlevel . 3)
                              ))
 
   (setq org-refile-use-outline-path 'file

@@ -249,6 +249,7 @@
                 :prefix "SPC"
                 :keymaps 'normal
                 "r" 'jump-to-register
+                "bb" 'switch-to-buffer
                 "bk" 'kill-this-buffer
                 "bc" 'clone-indirect-buffer-other-window
                 "ss" 'save-buffer
@@ -264,7 +265,6 @@
                 "fO" 'find-file-other-window
                 "u" 'undo-tree-visualize
                 "x" 'execute-extended-command
-                ;"ss" 'evil-window-split
                 ;"ss" 'evil-window-vsplit
                 ;"ss" 'evil-window-left
                 ;"ss" 'evil-window-right
@@ -405,8 +405,7 @@
 
 (setq org-refile-targets '((nil :maxlevel . 3)
                            (org-agenda-files :maxlevel . 3)
-                           ("~/Dropbox/org/someday.org" :maxlevel . 2)
-                           ("~/Dropbox/org/media.org" :maxlevel . 2)
+                           (tsl/refile-files :maxlevel . 3)
                            ))
 
 (setq org-refile-use-outline-path 'file
