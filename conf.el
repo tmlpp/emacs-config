@@ -330,6 +330,23 @@
 
 (diminish-major-mode 'emacs-lisp-mode-hook "el")
 
+(use-package neotree
+    :ensure t)
+
+  (defun tsl/sidebars-toggle ()
+    "Toggle neotree and ibuffer-sidebar"
+    (interactive)
+    (neotree-toggle)
+    (ibuffer-sidebar-toggle-sidebar))
+
+(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+  (global-set-key [f8] 'tsl/sidebars-toggle)
+
+  (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+
 (use-package org-bullets
   :ensure t
   ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
