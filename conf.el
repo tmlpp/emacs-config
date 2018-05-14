@@ -261,10 +261,10 @@
                 "ma" 'abbrev-mode
                 "ml" 'linum-relative-mode
                 "mp" 'electric-pair-mode
-                "fo" 'find-file
+                "fo" 'counsel-find-file
                 "fO" 'find-file-other-window
                 "u" 'undo-tree-visualize
-                "x" 'execute-extended-command
+                "x" 'counsel-M-x
                 ;"ss" 'evil-window-vsplit
                 ;"ss" 'evil-window-left
                 ;"ss" 'evil-window-right
@@ -526,3 +526,40 @@
 
 (setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
 (setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+
+(use-package elfeed
+  :ensure t
+  :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
+  (evil-define-key 'normal elfeed-search-mode-map
+    "o" 'elfeed-search-browse-url
+    "m" 'elfeed-search-untag-all-unread
+    "M" 'elfeed-mark-all-as-read
+    "l" 'elfeed-search-show-entry
+    "q" 'elfeed-search-quit-window
+    "y" 'elfeed-search-yank
+    "s" 'elfeed-search-live-filter
+    "S" 'elfeed-search-set-filter
+    "r" 'elfeed-search-update--force
+    "R" 'elfeed-search-fetch)
+  (evil-define-key 'normal elfeed-show-mode-map
+    "o" 'elfeed-show-visit
+    "q" 'elfeed-kill-buffer
+    "n" 'elfeed-goodies/split-show-next
+    "p" 'elfeed-goodies/split-show-prev
+    "y" 'elfeed-show-yank
+    ))
+
+(defun elfeed-mark-all-as-read ()
+      (interactive)
+      (mark-whole-buffer)
+      (elfeed-search-untag-all-unread))
+
+(use-package elfeed-goodies
+  :ensure t
+  :config (elfeed-goodies/setup))
+
+(use-package elfeed-org
+  :ensure t
+  :config
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
