@@ -484,13 +484,16 @@ Rename some major modes to take less space on modeline.
   (use-package neotree
     :ensure t)
 
+  (use-package ibuffer-sidebar
+    :ensure t)
+
   (defun tsl/sidebars-toggle ()
     "Toggle neotree and ibuffer-sidebar"
     (interactive)
     (neotree-toggle)
     (ibuffer-sidebar-toggle-sidebar))
 
-(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+  (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
   (global-set-key [f8] 'tsl/sidebars-toggle)
 
   (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
