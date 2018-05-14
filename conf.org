@@ -1,16 +1,15 @@
-* General config
-** Initial config
-*** Emacs server
+* Initial config
+** Emacs server
 Start Emacs server.
 #+begin_src emacs-lisp
 (server-start)
 #+end_src
-*** Sensitive information
+** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
 #+begin_src emacs-lisp
 (load "~/Dropbox/.emacs.secrets.el")
 #+end_src
-*** Packages configuration
+** Packages configuration
 Set package repositories.
 #+begin_src emacs-lisp
   (require 'package)
@@ -27,7 +26,7 @@ Use use-package to use packages.
     (package-refresh-contents)
     (package-install 'use-package))
 #+end_src
-*** UI and appearance
+** UI and appearance
 Start with empty scratch and show buffer name in frame.
 #+begin_src emacs-lisp
   (setq inhibit-startup-message t)
@@ -57,8 +56,8 @@ Load theme and set font and set custom themes location.
                (file-directory-p (concat basedir f)))
           (add-to-list 'custom-theme-load-path (concat basedir f)))))
 #+end_src 
-** Clean up
-*** Move some things out of the way
+* Clean up
+** Move some things out of the way
 Backups to separate folder. And some settings for backups.
 #+begin_src emacs-lisp
   (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
@@ -72,7 +71,7 @@ custom-set-variables to separate file
   (setq custom-file "~/.emacs.d/customs.el")
   (load custom-file)
 #+end_src
-** Laptop or desktop
+* Laptop or desktop
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
 My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is greater than 900, I'm using desktop.
@@ -88,20 +87,20 @@ This is a work in progress, so far any settings aren't dependent on this.
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
 #+end_src
-** Powerline
+* Powerline
 Powerline. Just because I've seen it, and it looked cool.
 #+begin_src emacs-lisp
   (use-package powerline
     :ensure t)
   (powerline-vim-theme)
 #+end_src
-** Config files to register
+* Config files to register
 Quick acces to config files by putting them to register. Access with: =C-x r j=
 #+begin_src emacs-lisp
   (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
   (set-register ?i '(file . "~/.config/i3/config")) ; i3
 #+end_src 
-** Calendar in Finnish
+* Calendar in Finnish
 Finnish day and month names, and week starts from Monday.
 #+begin_src emacs-lisp
     (setq calendar-week-start-day 1
@@ -122,7 +121,7 @@ Finnish day and month names, and week starts from Monday.
           calendar-day-header-array
           ["su" "ma" "ti" "ke" "to" "pe" "la"])
 #+end_src 
-** Windows and buffers
+* Windows and buffers
 When splitting windows, switch to new one.
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x 2") (lambda () (interactive) (split-window-below) (other-window 1)))
@@ -143,12 +142,12 @@ Some various commands
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-¨") 'save-buffer)
 #+end_src
-** Answer just y or n
+* Answer just y or n
 Answer "y or n" instead "yes or no"
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
 #+end_src
-** Abbrevs and visual-line-mode
+* Abbrevs and visual-line-mode
 Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfortable.
 
 =abbrev-mode= makes typing easier by offering abbreviations for common words.
@@ -164,7 +163,7 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
               (abbrev-mode 1)))
   (setq save-abbrevs t)
   #+end_src 
-** Swiper and counsel
+* Swiper and counsel
 Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
 #+begin_src emacs-lisp
   (use-package counsel
@@ -195,7 +194,7 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
       (define-key read-expression-map (kbd "C-r") 'counsel-expression-history)
       ))
  #+end_src
-** Helpful and which-key
+* Helpful and which-key
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
 #+begin_src emacs-lisp
   (use-package which-key
@@ -215,28 +214,28 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 
 (global-set-key (kbd "C-c C-.") #'helpful-at-point)
 #+end_src
-** word-count
+* word-count
 #+begin_src emacs-lisp
   (load "word-count")
 #+end_src
-** Lua mode
+* Lua mode
 #+begin_src emacs-lisp
   (use-package lua-mode
     :ensure t)
 #+end_src
-** Sentences end with one space
+* Sentences end with one space
 Why would anyone end sentences with two spaces?
 This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
 #+begin_src emacs-lisp
 (setq sentence-end-double-space nil)
 #+end_src
-** Scrolling
+* Scrolling
 Hadn't even thought how annoying the default scrolling in Emacs was. This makes it better
 #+begin_src emacs-lisp
   (setq scroll-step            1
 	scroll-conservatively  10000)
 #+end_src
-** Misc configs
+* Misc configs
 Keys for bigger and smaller text.
 #+begin_src emacs-lisp
 (bind-key "C-+" 'text-scale-increase)
@@ -283,7 +282,7 @@ Functions to convert Spotify song links and Youtube links in file to embed code.
   (while (re-search-forward "^https:/+www\\.youtube\\.com/watch\\?v=\\(.+\\)" nil t) ; Only search for links in beginning of line to avoid replacing links in text.
     (replace-match "<iframe width=\"100%\" height=\"456\" src=\"https://www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen></iframe>" nil nil)))
 #+end_src
-** Misc packages
+* Misc packages
 Install some packages.
 #+begin_src emacs-lisp
   (use-package base16-theme
@@ -305,7 +304,7 @@ Install some packages.
   (use-package counsel-projectile
   :ensure t)
 #+end_src
-** evil-mode and evil-org
+* evil-mode and evil-org
 After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
 #+begin_src emacs-lisp
     (use-package evil
@@ -354,7 +353,7 @@ Some key stuff.
 #+begin_src emacs-lisp
 (defalias 'org-agenda-bulk-remove-all-marks 'org-agenda-bulk-unmark-all)
 #+end_src
-** general.el
+* general.el
 I decided to go with [[https://github.com/noctuid/general.el][general.el]] for vim-like leader key functionality. And easier key command in general.
 
 At this point there's not many keys set. I know some functions I want to have quick access to, but I don't know the keys to bind them yet.
@@ -398,7 +397,7 @@ Work in progress.
 
                   )
 #+END_SRC
-** Yasnippet
+* Yasnippet
 Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
@@ -408,7 +407,7 @@ Yasnippet
   (use-package yasnippet-snippets
     :ensure t)
 #+end_src
-** Undo-tree
+* Undo-tree
 #+begin_src emacs-lisp
   (use-package undo-tree
     :ensure t
@@ -416,14 +415,14 @@ Yasnippet
     :bind (("C-z" . undo)
     ("C-S-z" . undo-tree-redo)))
 #+end_src
-** Reload config file
+* Reload config file
 Make a function to reload the config file.
 #+begin_src emacs-lisp
 (defun tsl/reload-settings ()
   (interactive)
   (org-babel-load-file "~/.emacs.d/conf.org"))
 #+end_src
-** Writing view
+* Writing view
 Split frame into two or three windows, indirect clone of current buffer to each.
 
 This makes it possible to have actual text I'm working on in one window, and outline of the file, notes, or something else from the same file in another window.
@@ -440,13 +439,13 @@ This makes it possible to have actual text I'm working on in one window, and out
     (split-window-horizontally 70)
     (clone-indirect-buffer nil t))
 #+end_src
-** Magit
+* Magit
 #+begin_src emacs-lisp
 (use-package magit
 :ensure t)
 (global-set-key (kbd "C-x g") 'magit-status)
 #+end_src
-** Ledger
+* Ledger
 I started using Ledger to keep up with my money and stuff. Ledger works well with Emacs.
 
 Put ledger file to register for easy access and tell Emacs to start ledger-mode when opening ledger file.
@@ -457,11 +456,11 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 
   (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
 #+end_src
-** browser
+* browser
 #+BEGIN_SRC emacs-lisp
 (setq browse-url-browser-function 'browse-url-xdg-open)
 #+END_SRC
-** Clean up modeline
+* Clean up modeline
 Remove some minor-modes from modeline. No need to see these there.
 #+begin_src emacs-lisp
   (diminish 'abbrev-mode)
@@ -480,7 +479,7 @@ Rename some major modes to take less space on modeline.
 
   (diminish-major-mode 'emacs-lisp-mode-hook "el")
 #+end_src
-** Neotree and ibuffer-sidebar
+* Neotree and ibuffer-sidebar
 #+BEGIN_SRC emacs-lisp
   (use-package neotree
     :ensure t)
@@ -499,7 +498,6 @@ Rename some major modes to take less space on modeline.
   (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 #+END_SRC
-
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
