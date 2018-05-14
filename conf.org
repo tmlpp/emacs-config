@@ -480,6 +480,26 @@ Rename some major modes to take less space on modeline.
 
   (diminish-major-mode 'emacs-lisp-mode-hook "el")
 #+end_src
+** Neotree and ibuffer-sidebar
+#+BEGIN_SRC emacs-lisp
+  (use-package neotree
+    :ensure t)
+
+  (defun tsl/sidebars-toggle ()
+    "Toggle neotree and ibuffer-sidebar"
+    (interactive)
+    (neotree-toggle)
+    (ibuffer-sidebar-toggle-sidebar))
+
+(setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
+  (global-set-key [f8] 'tsl/sidebars-toggle)
+
+  (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+  (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+#+END_SRC
+
 * Org
   Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
@@ -750,6 +770,45 @@ Probably not the fanciest fix, but so far it works.
 (setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
 (setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
 #+END_SRC 
+* elfeed
+#+BEGIN_SRC emacs-lisp
+  (use-package elfeed
+    :ensure t
+    :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
+    (evil-define-key 'normal elfeed-search-mode-map
+      "o" 'elfeed-search-browse-url
+      "m" 'elfeed-search-untag-all-unread
+      "M" 'elfeed-mark-all-as-read
+      "l" 'elfeed-search-show-entry
+      "q" 'elfeed-search-quit-window
+      "y" 'elfeed-search-yank
+      "s" 'elfeed-search-live-filter
+      "S" 'elfeed-search-set-filter
+      "r" 'elfeed-search-update--force
+      "R" 'elfeed-search-fetch)
+    (evil-define-key 'normal elfeed-show-mode-map
+      "o" 'elfeed-show-visit
+      "q" 'elfeed-kill-buffer
+      "n" 'elfeed-goodies/split-show-next
+      "p" 'elfeed-goodies/split-show-prev
+      "y" 'elfeed-show-yank
+      ))
+
+  (defun elfeed-mark-all-as-read ()
+        (interactive)
+        (mark-whole-buffer)
+        (elfeed-search-untag-all-unread))
+
+  (use-package elfeed-goodies
+    :ensure t
+    :config (elfeed-goodies/setup))
+
+  (use-package elfeed-org
+    :ensure t
+    :config
+    (elfeed-org)
+    (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
+#+END_SRC
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
 * Deprecated and unused
