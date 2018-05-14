@@ -384,10 +384,10 @@ Work in progress.
                   "ma" 'abbrev-mode
                   "ml" 'linum-relative-mode
                   "mp" 'electric-pair-mode
-                  "fo" 'find-file
+                  "fo" 'counsel-find-file
                   "fO" 'find-file-other-window
                   "u" 'undo-tree-visualize
-                  "x" 'execute-extended-command
+                  "x" 'counsel-M-x
                   ;"ss" 'evil-window-vsplit
                   ;"ss" 'evil-window-left
                   ;"ss" 'evil-window-right
