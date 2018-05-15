@@ -385,7 +385,7 @@ Work in progress.
                   "fO" 'find-file-other-window
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
-                  ;"ss" 'evil-window-vsplit
+                  "cc" 'org-ctrl-c-ctrl-c 
                   ;"ss" 'evil-window-left
                   ;"ss" 'evil-window-right
                   ;"ss" 'evil-window-up
