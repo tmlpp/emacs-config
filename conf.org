@@ -218,7 +218,8 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 * Lua mode
 #+begin_src emacs-lisp
   (use-package lua-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.lua\\'")
 #+end_src
 * Sentences end with one space
 Why would anyone end sentences with two spaces?
@@ -448,10 +449,11 @@ I started using Ledger to keep up with my money and stuff. Ledger works well wit
 Put ledger file to register for easy access and tell Emacs to start ledger-mode when opening ledger file.
 #+begin_src emacs-lisp
   (use-package ledger-mode
-    :ensure t)
+    :ensure t
+    :mode "\\.ledger\\'")
+
   (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
 
-  (add-to-list 'auto-mode-alist '("\\.ledger\\'" . ledger-mode))
 #+end_src
 * browser
 #+BEGIN_SRC emacs-lisp
