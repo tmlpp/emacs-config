@@ -776,10 +776,10 @@ Probably not the fanciest fix, but so far it works.
     :ensure t
     :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
     (evil-define-key 'normal elfeed-search-mode-map
-      "o" 'elfeed-search-browse-url
+      "O" 'elfeed-search-browse-url
       "m" 'elfeed-search-untag-all-unread
       "M" 'elfeed-mark-all-as-read
-      "l" 'elfeed-search-show-entry
+      "o" 'elfeed-search-show-entry
       "q" 'elfeed-search-quit-window
       "y" 'elfeed-search-yank
       "s" 'elfeed-search-live-filter
