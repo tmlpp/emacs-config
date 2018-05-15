@@ -203,15 +203,13 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 
 "[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information."
 #+begin_src emacs-lisp
-(use-package helpful
-:ensure t)
-
-(global-set-key (kbd "C-h f") #'helpful-callable)
-
-(global-set-key (kbd "C-h v") #'helpful-variable)
-(global-set-key (kbd "C-h k") #'helpful-key)
-
-(global-set-key (kbd "C-c C-.") #'helpful-at-point)
+  (use-package helpful
+    :ensure t
+    :bind (("C-h f" . helpful-callable)
+           ("C-h v" . helpful-variable)
+           ("C-h k" . helpful-key)
+           ("C-c C-." . helpful-at-point))
+    :config (evil-define-key 'normal helpful-mode-map (kbd "q") 'quit-window))
 #+end_src
 * word-count
 #+begin_src emacs-lisp
