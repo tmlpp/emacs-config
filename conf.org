@@ -785,6 +785,8 @@ Probably not the fanciest fix, but so far it works.
       "s" 'elfeed-search-live-filter
       "S" 'elfeed-search-set-filter
       "r" 'elfeed-search-update--force
+      "w" 'elfeed-search-tag-all-wl
+      "W" 'elfeed-search-untag-all-wl
       "R" 'elfeed-search-fetch)
     (evil-define-key 'normal elfeed-show-mode-map
       "o" 'elfeed-show-visit
@@ -795,9 +797,17 @@ Probably not the fanciest fix, but so far it works.
       ))
 
   (defun elfeed-mark-all-as-read ()
-        (interactive)
-        (mark-whole-buffer)
-        (elfeed-search-untag-all-unread))
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
+
+  (defun elfeed-search-tag-all-wl ()
+     (interactive)
+     (elfeed-search-tag-all 'wl))
+
+  (defun elfeed-search-untag-all-wl ()
+     (interactive)
+     (elfeed-search-untag-all 'wl))
 
   (use-package elfeed-goodies
     :ensure t
