@@ -773,52 +773,59 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC 
 * elfeed
 #+BEGIN_SRC emacs-lisp
-  (use-package elfeed
-    :ensure t
-    :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
-    (evil-define-key 'normal elfeed-search-mode-map
-      "O" 'elfeed-search-browse-url
-      "m" 'elfeed-search-untag-all-unread
-      "M" 'elfeed-mark-all-as-read
-      "o" 'elfeed-search-show-entry
-      "q" 'elfeed-search-quit-window
-      "y" 'elfeed-search-yank
-      "s" 'elfeed-search-live-filter
-      "S" 'elfeed-search-set-filter
-      "r" 'elfeed-search-update--force
-      "w" 'elfeed-search-tag-all-wl
-      "W" 'elfeed-search-untag-all-wl
-      "R" 'elfeed-search-fetch)
-    (evil-define-key 'normal elfeed-show-mode-map
-      "o" 'elfeed-show-visit
-      "q" 'elfeed-kill-buffer
-      "n" 'elfeed-goodies/split-show-next
-      "p" 'elfeed-goodies/split-show-prev
-      "y" 'elfeed-show-yank
-      ))
+    (use-package elfeed
+      :ensure t
+      :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
+      (evil-define-key 'normal elfeed-search-mode-map
+        "O" 'elfeed-search-browse-url
+        "m" 'elfeed-search-untag-all-unread
+        "M" 'elfeed-mark-all-as-read
+        "o" 'elfeed-search-show-entry
+        "q" 'elfeed-search-quit-window
+        "y" 'elfeed-search-yank
+        "s" 'elfeed-search-live-filter
+        "S" 'elfeed-search-set-filter
+        "r" 'elfeed-search-update--force
+        "w" 'elfeed-search-tag-all-wl
+        "W" 'elfeed-search-untag-all-wl
+        "R" 'elfeed-search-fetch)
+      (evil-define-key 'normal elfeed-show-mode-map
+        "o" 'elfeed-show-visit
+        "q" 'elfeed-kill-buffer
+        "n" 'elfeed-goodies/split-show-next
+        "p" 'elfeed-goodies/split-show-prev
+        "y" 'elfeed-show-yank
+        ))
 
-  (defun elfeed-mark-all-as-read ()
-    (interactive)
-    (mark-whole-buffer)
-    (elfeed-search-untag-all-unread))
+  (custom-set-faces
+   '(elfeed-search-unread-title-face
+     ((t :foreground "#a9df90")))
+   '(elfeed-search-title-face
+     ((t :foreground "#857575")))
+    )
 
-  (defun elfeed-search-tag-all-wl ()
-     (interactive)
-     (elfeed-search-tag-all 'wl))
+    (defun elfeed-mark-all-as-read ()
+      (interactive)
+      (mark-whole-buffer)
+      (elfeed-search-untag-all-unread))
 
-  (defun elfeed-search-untag-all-wl ()
-     (interactive)
-     (elfeed-search-untag-all 'wl))
+    (defun elfeed-search-tag-all-wl ()
+       (interactive)
+       (elfeed-search-tag-all 'wl))
 
-  (use-package elfeed-goodies
-    :ensure t
-    :config (elfeed-goodies/setup))
+    (defun elfeed-search-untag-all-wl ()
+       (interactive)
+       (elfeed-search-untag-all 'wl))
 
-  (use-package elfeed-org
-    :ensure t
-    :config
-    (elfeed-org)
-    (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
+    (use-package elfeed-goodies
+      :ensure t
+      :config (elfeed-goodies/setup))
+
+    (use-package elfeed-org
+      :ensure t
+      :config
+      (elfeed-org)
+      (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
 #+END_SRC
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
