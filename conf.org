@@ -781,8 +781,7 @@ Probably not the fanciest fix, but so far it works.
       "m" 'elfeed-search-untag-all-unread
       "M" 'elfeed-mark-all-as-read
       "O" 'elfeed-search-show-entry
-      ; "q" 'elfeed-search-quit-window
-      "q" 'bjm/elfeed-save-db-and-bury
+      "q" 'elfeed-search-quit-window
       "y" 'elfeed-search-yank
       "s" 'elfeed-search-live-filter
       "S" 'elfeed-search-set-filter
@@ -828,12 +827,6 @@ Probably not the fanciest fix, but so far it works.
     (elfeed-db-load)
     (elfeed)
     (elfeed-search-update--force))
-
-  (defun bjm/elfeed-save-db-and-bury ()
-    "Wrapper to save the elfeed db to disk before burying buffer"
-    (interactive)
-    (elfeed-db-save)
-    (quit-window))
 
   (use-package elfeed-org
     :ensure t
