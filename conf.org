@@ -291,11 +291,7 @@ Install some packages.
     :ensure t)
   (use-package rainbow-mode
     :ensure t)
-  (use-package misc-cmds
-    :ensure t)
   (use-package projectile
-    :ensure t)
-  (use-package unbound
     :ensure t)
   (use-package key-chord
   :ensure t)
@@ -380,7 +376,7 @@ Work in progress.
                   "d" 'org-cut-special
                   "y" 'org-copy-special
                   "ma" 'abbrev-mode
-                  "ml" 'linum-relative-mode
+                  "ml" 'display-line-numbers-mode
                   "mp" 'electric-pair-mode
                   "fo" 'counsel-find-file
                   "fO" 'find-file-other-window
