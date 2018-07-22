@@ -2,7 +2,7 @@
 ** Emacs server
 Start Emacs server.
 #+begin_src emacs-lisp
-(server-start)
+; (server-start)
 #+end_src
 ** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
@@ -383,13 +383,6 @@ Work in progress.
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
                   "cc" 'org-ctrl-c-ctrl-c 
-                  ;"ss" 'evil-window-left
-                  ;"ss" 'evil-window-right
-                  ;"ss" 'evil-window-up
-                  ;"ss" 'evil-window-down
-                  ;"ss" 'delete-other-windows
-                  ;"ss" 'org-refile
-
                   )
 #+END_SRC
 * Yasnippet
