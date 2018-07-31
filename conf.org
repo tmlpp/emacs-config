@@ -2,7 +2,7 @@
 ** Emacs server
 Start Emacs server.
 #+begin_src emacs-lisp
-; (server-start)
+ (server-start)
 #+end_src
 ** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
