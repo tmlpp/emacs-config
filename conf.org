@@ -810,6 +810,11 @@ Probably not the fanciest fix, but so far it works.
     (mark-whole-buffer)
     (elfeed-search-untag-all-unread))
 
+  (defun elfeed-mark-all-as-unread ()
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-tag-all-unread))
+    
   (defun elfeed-search-tag-all-wl ()
     (interactive)
     (elfeed-search-tag-all 'wl))
