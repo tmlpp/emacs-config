@@ -220,6 +220,9 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
   (use-package lua-mode
     :ensure t
     :mode "\\.lua\\'")
+  (use-package fountain-mode
+    :ensure t
+    :mode "\\.fountain\\'")
 #+end_src
 * Sentences end with one space
 Why would anyone end sentences with two spaces?
