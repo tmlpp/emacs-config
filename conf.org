@@ -632,6 +632,8 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
             ("d" "päivä"
              ((agenda "" ((org-agenda-span 1)
                           (org-agenda-overriding-header "Tänään")))
+              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/raha.org"))
+                          (org-agenda-overriding-header "Laskut")))
               (todo "KESKEN"
                     ((org-agenda-overriding-header "Kesken olevat")))
               (todo "SEURAAVA"
