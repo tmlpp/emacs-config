@@ -376,8 +376,10 @@ Work in progress.
                   "sa" 'tsl/save-all
                   "t" 'org-todo
                   "q" 'evil-quit
+                  "Q" 'save-buffers-kill-terminal
                   "d" 'org-cut-special
                   "y" 'org-copy-special
+                  "p" 'org-paste-special
                   "ma" 'abbrev-mode
                   "ml" 'display-line-numbers-mode
                   "mp" 'electric-pair-mode
@@ -386,6 +388,10 @@ Work in progress.
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
                   "cc" 'org-ctrl-c-ctrl-c 
+                  "mm" (lambda () (interactive)(set-window-margins nil 60 60))
+                  "mM" (lambda () (interactive)(set-window-margins nil nil nil))
+                  "SPC a" 'org-agenda
+                  "SPC f" 'bjm/elfeed-load-db-and-open
                   )
 #+END_SRC
 * Yasnippet
@@ -774,6 +780,7 @@ Probably not the fanciest fix, but so far it works.
       "o" 'elfeed-search-browse-url
       "m" 'elfeed-search-untag-all-unread
       "M" 'elfeed-mark-all-as-read
+      "u" 'elfeed-search-tag-all-unread
       "O" 'elfeed-search-show-entry
       "q" 'elfeed-search-quit-window
       "y" 'elfeed-search-yank
