@@ -461,6 +461,9 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 * Clean up modeline
 Remove some minor-modes from modeline. No need to see these there.
 #+begin_src emacs-lisp
+  (use-package diminish
+    :ensure t)
+
   (diminish 'abbrev-mode)
   (diminish 'which-key-mode)
                                           ;  (diminish 'yas-minor-mode)
@@ -808,6 +811,9 @@ Probably not the fanciest fix, but so far it works.
      ((t :foreground "#857575")))
    )
 
+  (use-package hydra
+    :ensure t)
+
   (defhydra hydra-elfeed-tags (:exit t)
     "filter"
     ("y" (elfeed-search-set-filter "@6-months-ago +unread +yt ") "youtube")
@@ -855,8 +861,8 @@ Probably not the fanciest fix, but so far it works.
     (when (elfeed-entry-p entry)
       (let ((tags-list (elfeed-entry-tags entry))
             (tags-string "@6-months-ago "))
-	(if (not (member 'unread tags-list))
-	    (setq tags-string (concat tags-string "+unread ")))
+        (if (not (member 'unread tags-list))
+            (setq tags-string (concat tags-string "+unread ")))
         (while tags-list
           (setq tags-string (concat tags-string "+" (format "%s" (car tags-list)) " "))
           (setq tags-list (cdr tags-list)))
