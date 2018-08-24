@@ -773,40 +773,40 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC 
 * elfeed
 #+BEGIN_SRC emacs-lisp
-    (use-package elfeed
-      :ensure t
-      :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
-      (setq-default elfeed-search-filter "@6-months-old +unread ")
-      (evil-define-key 'normal elfeed-search-mode-map
-        "o" 'elfeed-search-browse-url
-        "m" 'elfeed-search-untag-all-unread
-        "M" 'elfeed-mark-all-as-read
-        "u" 'elfeed-search-tag-all-unread
-        "U" 'elfeed-mark-all-as-unread
-        "O" 'elfeed-search-show-entry
-        "q" 'elfeed-search-quit-window
-        "y" 'elfeed-search-yank
-        "s" 'elfeed-search-live-filter
-        "S" 'elfeed-search-set-filter
-        "r" 'elfeed-search-update--force
-        "w" 'elfeed-search-tag-all-wl
-        "W" 'elfeed-search-untag-all-wl
-        "R" 'elfeed-search-fetch
-        "f" 'hydra-elfeed-tags/body)
-      (evil-define-key 'normal elfeed-show-mode-map
-        "o" 'elfeed-show-visit
-        "q" 'elfeed-kill-buffer
-        "n" 'elfeed-goodies/split-show-next
-        "p" 'elfeed-goodies/split-show-prev
-        "y" 'elfeed-show-yank
-        ))
+  (use-package elfeed
+    :ensure t
+    :config (setq elfeed-db-directory "~/Dropbox/.elfeed/db")
+    (setq-default elfeed-search-filter "@6-months-old +unread ")
+    (evil-define-key 'normal elfeed-search-mode-map
+      "o" 'elfeed-search-browse-url
+      "m" 'elfeed-search-untag-all-unread
+      "M" 'elfeed-mark-all-as-read
+      "u" 'elfeed-search-tag-all-unread
+      "U" 'elfeed-mark-all-as-unread
+      "O" 'elfeed-search-show-entry
+      "q" 'elfeed-search-quit-window
+      "y" 'elfeed-search-yank
+      "s" 'elfeed-search-live-filter
+      "S" 'elfeed-search-set-filter
+      "r" 'elfeed-search-update--force
+      "w" 'elfeed-search-tag-all-wl
+      "W" 'elfeed-search-untag-all-wl
+      "R" 'elfeed-search-fetch
+      "f" 'hydra-elfeed-tags/body)
+    (evil-define-key 'normal elfeed-show-mode-map
+      "o" 'elfeed-show-visit
+      "q" 'elfeed-kill-buffer
+      "n" 'elfeed-goodies/split-show-next
+      "p" 'elfeed-goodies/split-show-prev
+      "y" 'elfeed-show-yank
+      ))
 
-    (custom-set-faces
-     '(elfeed-search-unread-title-face
-       ((t :foreground "#a9df90")))
-     '(elfeed-search-title-face
-       ((t :foreground "#857575")))
-     )
+  (custom-set-faces
+   '(elfeed-search-unread-title-face
+     ((t :foreground "#a9df90")))
+   '(elfeed-search-title-face
+     ((t :foreground "#857575")))
+   )
 
   (defhydra hydra-elfeed-tags (:exit t)
     "filter"
@@ -816,43 +816,55 @@ Probably not the fanciest fix, but so far it works.
     ("c" (elfeed-search-set-filter "@6-months-ago +unread +comic ") "sarjakuvat")
     ("u" (elfeed-search-set-filter "@6-months-ago +unread +news +fi ") "uutiset, fi")
     ("n" (elfeed-search-set-filter "@6-months-ago +unread +news +en ") "uutiset, en")
+    ("s" (call-interactively 'tsl/elfeed-set-filter-to-selected) "selected entry")
     ("f" (elfeed-search-set-filter nil) "default")
     )
 
-    (defun elfeed-mark-all-as-read ()
-      (interactive)
-      (mark-whole-buffer)
-      (elfeed-search-untag-all-unread))
+  (defun elfeed-mark-all-as-read ()
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-untag-all-unread))
 
-    (defun elfeed-mark-all-as-unread ()
-      (interactive)
-      (mark-whole-buffer)
-      (elfeed-search-tag-all-unread))
+  (defun elfeed-mark-all-as-unread ()
+    (interactive)
+    (mark-whole-buffer)
+    (elfeed-search-tag-all-unread))
 
-    (defun elfeed-search-tag-all-wl ()
-      (interactive)
-      (elfeed-search-tag-all 'wl))
+  (defun elfeed-search-tag-all-wl ()
+    (interactive)
+    (elfeed-search-tag-all 'wl))
 
-    (defun elfeed-search-untag-all-wl ()
-      (interactive)
-      (elfeed-search-untag-all 'wl))
+  (defun elfeed-search-untag-all-wl ()
+    (interactive)
+    (elfeed-search-untag-all 'wl))
 
-    (use-package elfeed-goodies
-      :ensure t
-      :config (elfeed-goodies/setup))
+  (use-package elfeed-goodies
+    :ensure t
+    :config (elfeed-goodies/setup))
 
-    (defun bjm/elfeed-load-db-and-open ()
-      "Wrapper to load the elfeed db from disk before opening"
-      (interactive)
-      (elfeed-db-load)
-      (elfeed)
-      (elfeed-search-update--force))
+  (defun bjm/elfeed-load-db-and-open ()
+    "Wrapper to load the elfeed db from disk before opening"
+    (interactive)
+    (elfeed-db-load)
+    (elfeed)
+    (elfeed-search-update--force))
 
-    (use-package elfeed-org
-      :ensure t
-      :config
-      (elfeed-org)
-      (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
+  (defun tsl/elfeed-set-filter-to-selected (entry)
+    "Set elfeed filter to tags of the selected entry."
+    (interactive (list (elfeed-search-selected :ignore-region)))
+    (when (elfeed-entry-p entry)
+      (let ((tags-list (elfeed-entry-tags entry))
+            (tags-string "@6-months-ago "))
+        (while tags-list
+          (setq tags-string (concat tags-string "+" (format "%s" (car tags-list)) " "))
+          (setq tags-list (cdr tags-list)))
+        (elfeed-search-set-filter tags-string))))
+
+  (use-package elfeed-org
+    :ensure t
+    :config
+    (elfeed-org)
+    (setq rmh-elfeed-org-files (list "~/Dropbox/.elfeed/elfeed.org")))
 #+END_SRC
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
