@@ -708,21 +708,21 @@ Following function does these things:
 - don't indent the body text
 - don't use any characters under headlines
 #+begin_src emacs-lisp
-  (defun tsl/org-ascii-clean-text ()
-    (save-excursion (setq org-ascii-text-width
-                          (cadr (goto-longest-line (point-min) (point-max))))
-                          (setq org-ascii-headline-spacing '(0 . 0))
-                          (setq org-ascii-paragraph-spacing 0)
-                          (setq org-ascii-inner-margin 0)
-                          (setq org-ascii-underline '((ascii nil nil nil)
-			  (latin1 nil nil nil)
-			  (utf-8 nil nil nil nil nil)))))
+;  (defun tsl/org-ascii-clean-text ()
+;    (save-excursion (setq org-ascii-text-width
+;                          (cadr (goto-longest-line (point-min) (point-max))))
+;                          (setq org-ascii-headline-spacing '(0 . 0))
+;                          (setq org-ascii-paragraph-spacing 0)
+;                          (setq org-ascii-inner-margin 0)
+;                          (setq org-ascii-underline '((ascii nil nil nil)
+;			  (latin1 nil nil nil)
+;			  (utf-8 nil nil nil nil nil)))))
 #+end_src
 Run the function when saving an org-mode buffer. This way the text width keeps up when the text changes.
 #+begin_src emacs-lisp
-  (add-hook 'before-save-hook
-            (lambda () (if (eq major-mode 'org-mode)
-                           (tsl/org-ascii-clean-text))))
+;  (add-hook 'before-save-hook
+;            (lambda () (if (eq major-mode 'org-mode)
+;                           (tsl/org-ascii-clean-text))))
 #+end_src
 ** Day lasts until 5 a.m.
 In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampire.
