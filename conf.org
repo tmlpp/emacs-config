@@ -850,7 +850,8 @@ Probably not the fanciest fix, but so far it works.
 
   (use-package elfeed-goodies
     :ensure t
-    :config (elfeed-goodies/setup))
+    :config (elfeed-goodies/setup)
+(setq elfeed-goodies/powerline-default-separator nil))
 
   (defun bjm/elfeed-load-db-and-open ()
     "Wrapper to load the elfeed db from disk before opening"
