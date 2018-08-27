@@ -43,9 +43,9 @@ Remove menu bar, scroll bar, and tool bar.
 
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
-  (use-package ample-theme  
-    :ensure t
-    :config (load-theme 'ample-flat t))
+  ;(use-package ample-theme  
+  ;  :ensure t
+  ;  :config (load-theme 'ample-flat t))
 
   (add-to-list 'default-frame-alist 
                '(font . "Iosevka-12"))
@@ -55,6 +55,8 @@ Load theme and set font and set custom themes location.
       (if (and (not (or (equal f ".") (equal f "..")))
                (file-directory-p (concat basedir f)))
           (add-to-list 'custom-theme-load-path (concat basedir f)))))
+
+  (load-theme 'ample-flat t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
@@ -515,7 +517,7 @@ Use org-bullets, change the three period ellipsis to something else, and use org
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
    (setq org-ellipsis " ▼")
-   (face-spec-set 'org-ellipsis '((t (:underline nil))))
+   ;(face-spec-set 'org-ellipsis '((t (:underline nil))))
   (add-hook 'org-mode-hook
             (lambda ()
               (org-indent-mode 1)))
