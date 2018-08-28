@@ -798,7 +798,7 @@ Probably not the fanciest fix, but so far it works.
       "w" 'elfeed-search-tag-all-wl
       "W" 'elfeed-search-untag-all-wl
       "R" 'elfeed-search-fetch
-      "ö" 'tsl-elfeed-search-untag-all-unread-go-up
+      "ö" 'tsl-elfeed-flip-sort-order
       "f" 'hydra-elfeed-tags/body)
     (evil-define-key 'normal elfeed-show-mode-map
       "o" 'elfeed-show-visit
@@ -851,7 +851,7 @@ Probably not the fanciest fix, but so far it works.
   (use-package elfeed-goodies
     :ensure t
     :config (elfeed-goodies/setup)
-(setq elfeed-goodies/powerline-default-separator nil))
+    (setq elfeed-goodies/powerline-default-separator nil))
 
   (defun bjm/elfeed-load-db-and-open ()
     "Wrapper to load the elfeed db from disk before opening"
@@ -873,17 +873,14 @@ Probably not the fanciest fix, but so far it works.
           (setq tags-list (cdr tags-list)))
         (elfeed-search-set-filter tags-string))))
 
-  (defalias 'tsl-elfeed-search-untag-all-unread-go-up
-    (elfeed-expose #'tsl-elfeed-search-untag-all-go-up 'unread)
-    "Remove the `unread' tag from all selected entries. Go to previous line.")
-
-  (defun tsl-elfeed-search-untag-all-go-up (tag)
-    "Remove TAG from all selected entries."
-    (interactive (list (intern (read-from-minibuffer "Tag: "))))
-    (let ((entries (elfeed-search-selected)))
-      (elfeed-untag entries tag)
-      (mapc #'elfeed-search-update-entry entries)
-      (unless (use-region-p) (previous-line))))
+  (defun tsl-elfeed-flip-sort-order ()
+    "Switch elfeed-sort-order between 'ascending' and 'descencing'"
+    (interactive)
+    (if (equal (symbol-value 'elfeed-sort-order) 'descending)
+        (setq elfeed-sort-order 'ascending)
+      (setq elfeed-sort-order 'descending))
+    (elfeed-search-update--force)
+    (message "Sort order: %s" elfeed-sort-order))
 
   (use-package elfeed-org
     :ensure t
