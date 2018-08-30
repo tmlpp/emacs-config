@@ -35,13 +35,11 @@
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
  '(package-selected-packages
    (quote
-    (fountain-mode elfeed projectile elfeed-goodies elfeed-org dired-sidebar ibuffer-sidebar evil-magit neotree general evil-leader powerline powerline-evil magit-popup dired+ dracula-theme counsel-projectile yasnippet-snippets hydra evil-ledger key-chord linum-relative helpful org-pomodoro flatui-dark-theme flatui-theme elpy auto-complete company artbollocks-mode engine-mode ledger-mode labburn-theme moe-theme evil evil-org base16-theme typing typit unbound 2048-game noflet rainbow-mode try bind-key diminish swiper undo-tree yasnippet paredit ox-reveal magit misc-cmds lua-mode org-clock-today zenburn-theme window-numbering which-key use-package underwater-theme sublime-themes solarized-theme purple-haze-theme palimpsest org-bullets org markdown-mode light-soap-theme htmlize hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme goose-theme flatland-theme darktooth-theme cycle-themes counsel command-log-mode)))
+    (autothemer fountain-mode elfeed projectile elfeed-goodies elfeed-org dired-sidebar ibuffer-sidebar evil-magit neotree general evil-leader powerline powerline-evil magit-popup dired+ dracula-theme counsel-projectile yasnippet-snippets hydra evil-ledger key-chord linum-relative helpful org-pomodoro flatui-dark-theme flatui-theme elpy auto-complete company artbollocks-mode engine-mode ledger-mode labburn-theme moe-theme evil evil-org base16-theme typing typit unbound 2048-game noflet rainbow-mode try bind-key diminish swiper undo-tree yasnippet paredit ox-reveal magit misc-cmds lua-mode org-clock-today zenburn-theme window-numbering which-key use-package underwater-theme sublime-themes solarized-theme purple-haze-theme palimpsest org-bullets org markdown-mode light-soap-theme htmlize hc-zenburn-theme gruvbox-theme gruber-darker-theme grandshell-theme goose-theme flatland-theme darktooth-theme cycle-themes counsel command-log-mode)))
  '(yas-global-mode t))
-   
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(elfeed-search-title-face ((t :foreground "#857575")))
- '(elfeed-search-unread-title-face ((t :foreground "#a9df90"))))
+ )

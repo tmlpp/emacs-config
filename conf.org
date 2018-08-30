@@ -56,7 +56,7 @@ Load theme and set font and set custom themes location.
                (file-directory-p (concat basedir f)))
           (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
-  (load-theme 'ample-flat t)
+  (load-theme 'darktooth t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
@@ -808,12 +808,12 @@ Probably not the fanciest fix, but so far it works.
       "y" 'elfeed-show-yank
       ))
 
-  (custom-set-faces
-   '(elfeed-search-unread-title-face
-     ((t :foreground "#a9df90")))
-   '(elfeed-search-title-face
-     ((t :foreground "#857575")))
-   )
+  ;(custom-set-faces
+  ; '(elfeed-search-unread-title-face
+  ;   ((t :foreground "#a9df90")))
+  ; '(elfeed-search-title-face
+  ;   ((t :foreground "#857575")))
+  ; )
 
   (use-package hydra
     :ensure t)
