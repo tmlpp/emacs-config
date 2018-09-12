@@ -56,7 +56,8 @@ Load theme and set font and set custom themes location.
                (file-directory-p (concat basedir f)))
           (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
-  (load-theme 'darktooth t)
+  ;(load-theme 'darktooth t)
+  (load-theme 'creamsody t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
