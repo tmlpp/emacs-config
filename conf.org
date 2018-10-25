@@ -513,7 +513,7 @@ Use org-bullets, change the three period ellipsis to something else, and use org
     :ensure t
     ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
     ; :init (setq org-bullets-bullet-list '("●"))
-    :init (setq org-bullets-bullet-list '("▶" "▷"))
+    :init (setq org-bullets-bullet-list '("▶"))
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
    (setq org-ellipsis " ▼")
@@ -596,7 +596,7 @@ Set todo keyword sequences. These are in Finnish, because I'm Finnish.
 Some files, for example the one with my blog texts, have different todo keyword sequences.
 #+begin_src emacs-lisp
     (setq org-todo-keywords
-               '((sequence "TODO(t)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
+               '((sequence "TODO(t!)" "SEURAAVA(s)" "KESKEN(k)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
 #+end_src
 
 If the todo item has undone children todos or checkboxes, it can't be marked done.
