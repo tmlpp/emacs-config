@@ -394,6 +394,8 @@ Work in progress.
                   "mM" (lambda () (interactive)(set-window-margins nil nil nil))
                   "SPC a" 'org-agenda
                   "SPC f" 'bjm/elfeed-load-db-and-open
+                  "ns" 'org-narrow-to-subtree
+                  "nw" 'widen
                   )
 #+END_SRC
 * Yasnippet
