@@ -57,7 +57,8 @@ Load theme and set font and set custom themes location.
           (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
   ;(load-theme 'darktooth t)
-  (load-theme 'creamsody t)
+  ;(load-theme 'creamsody t)
+  ;(load-theme 'tmlpp t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
@@ -521,7 +522,7 @@ Use org-bullets, change the three period ellipsis to something else, and use org
 
    ;(setq org-ellipsis " ▼")↴
    (setq org-ellipsis " ↴")
-   (face-spec-set 'org-ellipsis '((t (:underline nil))))
+   ;(face-spec-set 'org-ellipsis '((t (:underline nil))))
   (add-hook 'org-mode-hook
             (lambda ()
               (org-indent-mode 1)))
@@ -834,13 +835,6 @@ Probably not the fanciest fix, but so far it works.
       "p" 'elfeed-goodies/split-show-prev
       "y" 'elfeed-show-yank
       ))
-
-  ;(custom-set-faces
-  ; '(elfeed-search-unread-title-face
-  ;   ((t :foreground "#a9df90")))
-  ; '(elfeed-search-title-face
-  ;   ((t :foreground "#857575")))
-  ; )
 
   (use-package hydra
     :ensure t)
