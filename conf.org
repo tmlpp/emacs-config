@@ -789,13 +789,20 @@ Probably not the fanciest fix, but so far it works.
 (setq org-agenda-window-setup 'only-window)
 
 (setq org-agenda-prefix-format
-'((agenda . "%-10:c%-12t% s")
+'((agenda . "%-12:c%?-12t%-8 s")
  (todo . "%-12:c%-12t")
  (tags . "%-12:c")
  (search . "%-12:c")))
-
-(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
-(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+; →←
+; ▶►▸◆■●
+;(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
+;(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+;(setq org-agenda-scheduled-leaders '("▶  " "▶   %2d"))
+;(setq org-agenda-deadline-leaders '("  !!  " "-->%3d" "%2d -->"))
+;(setq org-agenda-scheduled-leaders '("■  " "■   %2d"))
+;(setq org-agenda-deadline-leaders '("◆◆◆◆◆◆" "▶▶▶%3d" "%2d ▶▶▶"))
+(setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
+(setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
 #+END_SRC 
 * elfeed
 #+BEGIN_SRC emacs-lisp
@@ -895,6 +902,7 @@ Probably not the fanciest fix, but so far it works.
         (elfeed-search-set-filter tags-string))))
 
   (defun tsl/elfeed-set-filter-to-selected-feed (entry)
+    "Set filter to feed under the cursor."
     (interactive (list (elfeed-search-selected :ignore-region)))
     (let ((feed (elfeed-entry-feed entry)))
       (setq feed-title (elfeed-meta feed :title))
