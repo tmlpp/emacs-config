@@ -289,8 +289,8 @@ Functions to convert Spotify song links and Youtube links in file to embed code.
 * Misc packages
 Install some packages.
 #+begin_src emacs-lisp
-  (use-package base16-theme
-    :ensure t)
+  ;(use-package base16-theme
+  ;  :ensure t)
   (use-package palimpsest
     :ensure t)
   (use-package paredit
