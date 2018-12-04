@@ -632,14 +632,25 @@ If I want TODO items automatically marked DONE when all the children are DONE, I
 I usually refile things between org-agenda files. But sometimes need to refile somewhere in current, non-agenda file, for example here in config.
 Set =org-refile-targets= to include current file, agenda files, and bunch of other files (defined in =.emacs.secrets.el=)
 #+begin_src emacs-lisp
-  (setq org-refile-targets '((nil :maxlevel . 3)
-                             (org-agenda-files :maxlevel . 3)
-                             (tsl/refile-files :maxlevel . 3)
-                             ))
+    (setq org-refile-targets '((nil :maxlevel . 3)
+                               (org-agenda-files :maxlevel . 3)
+                               (tsl/refile-files :maxlevel . 3)
+                               ))
 
-  (setq org-refile-use-outline-path 'file
-        org-outline-path-complete-in-steps nil)
-  (setq org-refile-allow-creating-parent-nodes 'confirm)
+    (setq org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps nil)
+    (setq org-refile-allow-creating-parent-nodes 'confirm)
+    (setq org-agenda-deadline-faces '((1.0 . org-warning)
+                                      (0.9 . org-scheduled-today)
+                                      (0.5 . org-upcoming-deadline)
+                                      (0.0 . org-special-keyword)))
+    (setq org-deadline-warning-days 10)
+
+  ;org-agenda-deadline-faces is a variable defined in ‘org-faces.el’.
+  ;Its value is
+  ;((1.0 . org-warning)
+  ; (0.5 . org-upcoming-deadline)
+  ; (0.0 . default))
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
