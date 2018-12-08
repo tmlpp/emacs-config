@@ -909,7 +909,8 @@ Probably not the fanciest fix, but so far it works.
         (while tags-list
           (setq tags-string (concat tags-string "+" (format "%s" (car tags-list)) " "))
           (setq tags-list (cdr tags-list)))
-        (elfeed-search-set-filter tags-string))))
+        (elfeed-search-set-filter tags-string)
+        (beginning-of-buffer))))
 
   (defun tsl/elfeed-set-filter-to-selected-feed (entry)
     "Set filter to feed under the cursor."
@@ -917,7 +918,8 @@ Probably not the fanciest fix, but so far it works.
     (let ((feed (elfeed-entry-feed entry)))
       (setq feed-title (elfeed-meta feed :title))
       (message "Filter: %s" feed-title)
-      (elfeed-search-set-filter (concat "@6-months-old +unread =^" (replace-regexp-in-string " " "\s-" feed-title) "$"))))
+      (elfeed-search-set-filter (concat "@6-months-old +unread =^" (replace-regexp-in-string " " "\s-" feed-title) "$"))
+      (beginning-of-buffer)))
 
   (defun tsl-elfeed-flip-sort-order ()
     "Switch elfeed-sort-order between 'ascending' and 'descencing'."
