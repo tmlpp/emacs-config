@@ -2,12 +2,12 @@
 ** Emacs server
 Start Emacs server.
 #+begin_src emacs-lisp
- (server-start)
+  (server-start)
 #+end_src
 ** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
 #+begin_src emacs-lisp
-(load "~/Dropbox/.emacs.secrets.el")
+  (load "~/Dropbox/.emacs.secrets.el")
 #+end_src
 ** Packages configuration
 Set package repositories.
@@ -58,7 +58,7 @@ Load theme and set font and set custom themes location.
 
   ;(load-theme 'darktooth t)
   ;(load-theme 'creamsody t)
-  ;(load-theme 'tmlpp t)
+  (load-theme 'teemu t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
@@ -107,23 +107,23 @@ Quick acces to config files by putting them to register. Access with: =C-x r j=
 * Calendar in Finnish
 Finnish day and month names, and week starts from Monday.
 #+begin_src emacs-lisp
-    (setq calendar-week-start-day 1
-          calendar-day-name-array
-          ["sunnuntai"
-           "maanantai"
-           "tiistai"
-           "keskiviikko"
-           "torstai"
-           "perjantai"
-           "lauantai"]
-          calendar-month-name-array
-          ["tammi" "helmi" "maalis" "huhti" "touko" 
-           "kesä" "heinä" "elo" "syys"
-           "loka" "marras" "joulu"]
-          calendar-day-abbrev-array
-          ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
-          calendar-day-header-array
-          ["su" "ma" "ti" "ke" "to" "pe" "la"])
+  (setq calendar-week-start-day 1
+        calendar-day-name-array
+        ["sunnuntai"
+         "maanantai"
+         "tiistai"
+         "keskiviikko"
+         "torstai"
+         "perjantai"
+         "lauantai"]
+        calendar-month-name-array
+        ["tammi" "helmi" "maalis" "huhti" "touko" 
+         "kesä" "heinä" "elo" "syys"
+         "loka" "marras" "joulu"]
+        calendar-day-abbrev-array
+        ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
+        calendar-day-header-array
+        ["su" "ma" "ti" "ke" "to" "pe" "la"])
 #+end_src 
 * Windows and buffers
 When splitting windows, switch to new one.
@@ -232,7 +232,7 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 Why would anyone end sentences with two spaces?
 This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
 #+begin_src emacs-lisp
-(setq sentence-end-double-space nil)
+  (setq sentence-end-double-space nil)
 #+end_src
 * Scrolling
 Hadn't even thought how annoying the default scrolling in Emacs was. This makes it better
@@ -243,8 +243,8 @@ Hadn't even thought how annoying the default scrolling in Emacs was. This makes 
 * Misc configs
 Keys for bigger and smaller text.
 #+begin_src emacs-lisp
-(bind-key "C-+" 'text-scale-increase)
-(bind-key "C--" 'text-scale-decrease)
+  (bind-key "C-+" 'text-scale-increase)
+  (bind-key "C--" 'text-scale-decrease)
 #+end_src
 
 Transpose things with M-t
@@ -259,33 +259,33 @@ Transpose things with M-t
 
 Some aliases.
 #+begin_src emacs-lisp
-(defalias 'qrr 'query-replace-regexp)
-(defalias 'qr 'query-replace)
-(defalias 'rr 'replace-regexp)
-(defalias 'plp 'package-list-packages)
+  (defalias 'qrr 'query-replace-regexp)
+  (defalias 'qr 'query-replace)
+  (defalias 'rr 'replace-regexp)
+  (defalias 'plp 'package-list-packages)
 #+end_src
 
 Show parenthesis. This is good even for a non-programmer. And of course helps with working with elisp here in config.
 #+begin_src emacs-lisp
-(show-paren-mode 1)
-(setq show-paren-delay 0)
+  (show-paren-mode 1)
+  (setq show-paren-delay 0)
 #+end_src
 
 Functions to convert Spotify song links and Youtube links in file to embed code.
 #+begin_src emacs-lisp
-(defun tsl/spotify-links-to-embed ()
-  "Convert Spotify song links to embed code."
-  (interactive)
-  (beginning-of-buffer)
-  (while (re-search-forward "https:/+open\\.spotify\\.com/track/\\(.+\\)" nil t)
-    (replace-match "<iframe src=\"https://embed.spotify.com/?uri=spotify%3Atrack%3A\\1\" width=\"100%\" height=\"100\" frameborder=\"0\" allowtransparency=\"true\"></iframe>" nil nil)))
+  (defun tsl/spotify-links-to-embed ()
+    "Convert Spotify song links to embed code."
+    (interactive)
+    (beginning-of-buffer)
+    (while (re-search-forward "https:/+open\\.spotify\\.com/track/\\(.+\\)" nil t)
+      (replace-match "<iframe src=\"https://embed.spotify.com/?uri=spotify%3Atrack%3A\\1\" width=\"100%\" height=\"100\" frameborder=\"0\" allowtransparency=\"true\"></iframe>" nil nil)))
 
-(defun tsl/youtube-links-to-embed ()
-  "Convert Youtube song links to embed code."
-  (interactive)
-  (beginning-of-buffer)
-  (while (re-search-forward "^https:/+www\\.youtube\\.com/watch\\?v=\\(.+\\)" nil t) ; Only search for links in beginning of line to avoid replacing links in text.
-    (replace-match "<iframe width=\"100%\" height=\"456\" src=\"https://www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen></iframe>" nil nil)))
+  (defun tsl/youtube-links-to-embed ()
+    "Convert Youtube song links to embed code."
+    (interactive)
+    (beginning-of-buffer)
+    (while (re-search-forward "^https:/+www\\.youtube\\.com/watch\\?v=\\(.+\\)" nil t) ; Only search for links in beginning of line to avoid replacing links in text.
+      (replace-match "<iframe width=\"100%\" height=\"456\" src=\"https://www.youtube.com/embed/\\1\" frameborder=\"0\" allowfullscreen></iframe>" nil nil)))
 #+end_src
 * Misc packages
 Install some packages.
@@ -308,17 +308,17 @@ Install some packages.
 * evil-mode and evil-org
 After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
 #+begin_src emacs-lisp
-    (use-package evil
-      :ensure t
-      :init (setq evil-want-abbrev-expand-on-insert-exit nil)
-      :config (evil-mode))
+  (use-package evil
+    :ensure t
+    :init (setq evil-want-abbrev-expand-on-insert-exit nil)
+    :config (evil-mode))
 
-    (use-package evil-org
-      :ensure t)
+  (use-package evil-org
+    :ensure t)
 
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (evil-org-mode)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (evil-org-mode)))
 #+end_src
 
 Some key stuff.
@@ -352,7 +352,7 @@ Some key stuff.
 #+end_src
 
 #+begin_src emacs-lisp
-(defalias 'org-agenda-bulk-remove-all-marks 'org-agenda-bulk-unmark-all)
+  (defalias 'org-agenda-bulk-remove-all-marks 'org-agenda-bulk-unmark-all)
 #+end_src
 * general.el
 I decided to go with [[https://github.com/noctuid/general.el][general.el]] for vim-like leader key functionality. And easier key command in general.
@@ -421,9 +421,9 @@ Yasnippet
 * Reload config file
 Make a function to reload the config file.
 #+begin_src emacs-lisp
-(defun tsl/reload-settings ()
-  (interactive)
-  (org-babel-load-file "~/.emacs.d/conf.org"))
+  (defun tsl/reload-settings ()
+    (interactive)
+    (org-babel-load-file "~/.emacs.d/conf.org"))
 #+end_src
 * Writing view
 Split frame into two or three windows, indirect clone of current buffer to each.
@@ -469,7 +469,7 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 #+end_src
 * browser
 #+BEGIN_SRC emacs-lisp
-(setq browse-url-browser-function 'browse-url-xdg-open)
+  (setq browse-url-browser-function 'browse-url-xdg-open)
 #+END_SRC
 * Clean up modeline
 Remove some minor-modes from modeline. No need to see these there.
@@ -614,9 +614,9 @@ Some files, for example the one with my blog texts, have different todo keyword 
 
 If the todo item has undone children todos or checkboxes, it can't be marked done.
 #+begin_src emacs-lisp
-(setq org-enforce-todo-dependencies t)
-(setq org-track-ordered-property-with-tag t)
-(setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-enforce-todo-dependencies t)
+  (setq org-track-ordered-property-with-tag t)
+  (setq org-enforce-todo-checkbox-dependencies t)
 #+end_src 
 
 If I want TODO items automatically marked DONE when all the children are DONE, I uncomment this. At this point I don't want that.
@@ -654,49 +654,49 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
-    (setq org-agenda-custom-commands
-          '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
-             ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
+  (setq org-agenda-custom-commands
+        '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
+           ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
 
-            ("b" "blogit" todo ""
-             ((org-agenda-files '("~/Dropbox/org/blogit.org"))
-              (org-agenda-overriding-header "Blogitekstit")))
+          ("b" "blogit" todo ""
+           ((org-agenda-files '("~/Dropbox/org/blogit.org"))
+            (org-agenda-overriding-header "Blogitekstit")))
 
-            ("j" "joskus" todo ""
-             ((org-agenda-files '("~/Dropbox/org/someday.org"))))
+          ("j" "joskus" todo ""
+           ((org-agenda-files '("~/Dropbox/org/someday.org"))))
 
-            ("d" "päivä"
-             ((agenda "" ((org-agenda-span 1)
-                          (org-agenda-overriding-header "Tänään")))
-              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/raha.org"))
-                          (org-agenda-overriding-header "Laskut")))
-              (todo "KESKEN"
-                    ((org-agenda-overriding-header "Kesken olevat")))
-              (todo "SEURAAVA"
-                    ((org-agenda-overriding-header "Projektien seuraavat")))
-              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
-                          (org-agenda-overriding-header "Media")))
-              (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
-                          (org-agenda-overriding-header "Kirjasto")))))
+          ("d" "päivä"
+           ((agenda "" ((org-agenda-span 1)
+                        (org-agenda-overriding-header "Tänään")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/raha.org"))
+                        (org-agenda-overriding-header "Laskut")))
+            (todo "KESKEN"
+                  ((org-agenda-overriding-header "Kesken olevat")))
+            (todo "SEURAAVA"
+                  ((org-agenda-overriding-header "Projektien seuraavat")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
+                        (org-agenda-overriding-header "Media")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
+                        (org-agenda-overriding-header "Kirjasto")))))
 
-            ("v" "viikko"
-             ((agenda "" ((org-agenda-span 7)
-                          (org-agenda-overriding-header "Tällä viikolla")))
-              (todo "KESKEN"
-                    ((org-agenda-overriding-header "Kesken olevat")))
-              (todo "SEURAAVA"
-                    ((org-agenda-overriding-header "Projektien seuraavat")))
-              (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
-                          (org-agenda-overriding-header "Media")))))
+          ("v" "viikko"
+           ((agenda "" ((org-agenda-span 7)
+                        (org-agenda-overriding-header "Tällä viikolla")))
+            (todo "KESKEN"
+                  ((org-agenda-overriding-header "Kesken olevat")))
+            (todo "SEURAAVA"
+                  ((org-agenda-overriding-header "Projektien seuraavat")))
+            (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
+                        (org-agenda-overriding-header "Media")))))
 
-            ("p" "projektit" tags-todo "proj")
-            ))
-                                            ; Keys reserved for built-in commands are:
-                                            ; a t T m M s S L C e / ? < > * #
+          ("p" "projektit" tags-todo "proj")
+          ))
+                                          ; Keys reserved for built-in commands are:
+                                          ; a t T m M s S L C e / ? < > * #
 #+end_src
 
 #+begin_src emacs-lisp
-(setq org-agenda-block-separator ?▰)
+  (setq org-agenda-block-separator ?▰)
 #+end_src
 ** Inherited tags in agenda
 Remove tag clutter from agenda view. Disabled for now.
@@ -778,12 +778,12 @@ In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampi
 ** enter follows links
 In org files, open links by pressing =Enter=
 #+begin_src emacs-lisp
-(setq org-return-follows-link t)
+  (setq org-return-follows-link t)
 #+end_src
 ** Defalt appointment duration
 If I don't set the ending time when scheduling appointments or whatever, the default duration is 60 minutes.
 #+begin_src emacs-lisp
-(setq org-agenda-default-appointment-duration 60)
+  (setq org-agenda-default-appointment-duration 60)
 #+end_src
 ** Create timestamp under heading
 =org-schedule= and =org-deadline= create a timestamp right after the heading of the subtree, no matter where in the subtree the command is run. =org-timestamp= creates the timestamp at cursor position.
@@ -802,27 +802,27 @@ Probably not the fanciest fix, but so far it works.
                (org-time-stamp nil)) 
       (org-time-stamp nil)))
 
-(define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
+  (define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
 #+end_src
 ** widths
 #+BEGIN_SRC emacs-lisp
-(setq org-agenda-window-setup 'only-window)
+  (setq org-agenda-window-setup 'only-window)
 
-(setq org-agenda-prefix-format
-'((agenda . "%-12:c%?-12t%-8 s")
- (todo . "%-12:c%-12t")
- (tags . "%-12:c")
- (search . "%-12:c")))
-; →←
-; ▶►▸◆■●
-;(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
-;(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
-;(setq org-agenda-scheduled-leaders '("▶  " "▶   %2d"))
-;(setq org-agenda-deadline-leaders '("  !!  " "-->%3d" "%2d -->"))
-;(setq org-agenda-scheduled-leaders '("■  " "■   %2d"))
-;(setq org-agenda-deadline-leaders '("◆◆◆◆◆◆" "▶▶▶%3d" "%2d ▶▶▶"))
-(setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
-(setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
+  (setq org-agenda-prefix-format
+        '((agenda . "%-12:c%?-12t%-8 s")
+          (todo . "%-12:c%-12t")
+          (tags . "%-12:c")
+          (search . "%-12:c")))
+                                          ; →←
+                                          ; ▶►▸◆■●
+                                          ;(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
+                                          ;(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
+                                          ;(setq org-agenda-scheduled-leaders '("▶  " "▶   %2d"))
+                                          ;(setq org-agenda-deadline-leaders '("  !!  " "-->%3d" "%2d -->"))
+                                          ;(setq org-agenda-scheduled-leaders '("■  " "■   %2d"))
+                                          ;(setq org-agenda-deadline-leaders '("◆◆◆◆◆◆" "▶▶▶%3d" "%2d ▶▶▶"))
+  (setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
+  (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
 #+END_SRC 
 * elfeed
 #+BEGIN_SRC emacs-lisp
