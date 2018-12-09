@@ -449,7 +449,7 @@ This makes it possible to have actual text I'm working on in one window, and out
   (global-set-key (kbd "C-x g") 'magit-status)
 
   (defhydra hydra-magit (:exit t)
-    "filter"
+    "magit"
     ("g" (magit) "magit")
     ("s" (magit-stage) "stage")
     ("c" (magit-commit) "commit")
