@@ -58,7 +58,7 @@ Load theme and set font and set custom themes location.
 
   ;(load-theme 'darktooth t)
   ;(load-theme 'creamsody t)
-  (load-theme 'teemu t)
+  (load-theme 'tmlpp t)
 #+end_src 
 * Clean up
 ** Move some things out of the way
