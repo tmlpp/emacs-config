@@ -48,7 +48,8 @@ Load theme and set font and set custom themes location.
   ;  :config (load-theme 'ample-flat t))
 
   (add-to-list 'default-frame-alist 
-               '(font . "Iosevka-12"))
+               '(font . "Iosevka 12"))
+  (face-spec-set 'variable-pitch '((t (:family "Fira Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
     (dolist (f (directory-files basedir))
@@ -386,6 +387,7 @@ Work in progress.
                   "ma" 'abbrev-mode
                   "ml" 'display-line-numbers-mode
                   "mp" 'electric-pair-mode
+                  "mv" 'variable-pitch-mode
                   "fo" 'counsel-find-file
                   "fO" 'find-file-other-window
                   "u" 'undo-tree-visualize
@@ -672,8 +674,6 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
                         (org-agenda-overriding-header "Laskut")))
             (todo "KESKEN"
                   ((org-agenda-overriding-header "Kesken olevat")))
-            (todo "SEURAAVA"
-                  ((org-agenda-overriding-header "Projektien seuraavat")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
                         (org-agenda-overriding-header "Media")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
