@@ -847,7 +847,7 @@ Probably not the fanciest fix, but so far it works.
       "w" 'elfeed-search-tag-all-wl
       "W" 'elfeed-search-untag-all-wl
       "R" 'elfeed-search-fetch
-      "ö" 'tsl-elfeed-flip-sort-order
+      "ö" 'tsl/elfeed-flip-sort-order
       "f" 'hydra-elfeed-tags/body)
     (evil-define-key 'normal elfeed-show-mode-map
       "o" 'elfeed-show-visit
@@ -923,7 +923,7 @@ Probably not the fanciest fix, but so far it works.
       (elfeed-search-set-filter (concat "@6-months-old +unread =^" (replace-regexp-in-string " " "\s-" feed-title) "$"))
       (beginning-of-buffer)))
 
-  (defun tsl-elfeed-flip-sort-order ()
+  (defun tsl/elfeed-flip-sort-order ()
     "Switch elfeed-sort-order between 'ascending' and 'descencing'."
     (interactive)
     (if (equal (symbol-value 'elfeed-sort-order) 'descending)
