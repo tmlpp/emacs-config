@@ -297,15 +297,23 @@ Install some packages.
     :ensure t)
   (use-package rainbow-mode
     :ensure t)
-  (use-package projectile
-    :ensure t)
   (use-package key-chord
-    :ensure t)
-  (use-package counsel-projectile
     :ensure t)
   (use-package hydra
     :ensure t)
 #+end_src
+* projectile
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (use-package projectile
+    :ensure t
+    :config
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (setq projectile-completion-system 'ivy)
+    (projectile-mode +1))
+
+  (use-package counsel-projectile
+    :ensure t)
+#+END_SRC
 * evil-mode and evil-org
 After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
 #+begin_src emacs-lisp
