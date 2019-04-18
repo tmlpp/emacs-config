@@ -303,7 +303,7 @@ Install some packages.
     :ensure t)
 #+end_src
 * projectile
-#+BEGIN_SRC emacs-lisp :tangle yes
+#+BEGIN_SRC emacs-lisp
   (use-package projectile
     :ensure t
     :config
