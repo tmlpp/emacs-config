@@ -465,6 +465,9 @@ This makes it possible to have actual text I'm working on in one window, and out
     ("c" (magit-commit) "commit")
     )
 
+  (use-package tramp
+    :ensure t)
+
   (add-to-list 'tramp-methods
                '("yadm"
                  (tramp-login-program "yadm")
@@ -859,7 +862,7 @@ Probably not the fanciest fix, but so far it works.
       "u" 'elfeed-search-tag-all-unread
       "U" 'elfeed-mark-all-as-unread
       "O" 'elfeed-search-show-entry
-      "q" 'elfeed-search-quit-window
+      "q" 'tsl/elfeed-save-db-and-kill-buffer
       "y" 'elfeed-search-yank
       "s" 'elfeed-search-live-filter
       "S" 'elfeed-search-set-filter
@@ -889,6 +892,23 @@ Probably not the fanciest fix, but so far it works.
     ("S" (call-interactively 'tsl/elfeed-set-filter-to-selected-feed) "selected feed")
     ("f" (elfeed-search-set-filter nil) "default")
     )
+
+  (defun tsl/check-elfeed-and-update ()
+    "Check if *elfeed-search* buffer exist. If not, create it and load database. Update all feeds, and save database."
+    (interactive)
+    (if (get-buffer "*elfeed-search*")
+        (elfeed-search-fetch nil)
+      (tsl/elfeed-load-db-and-open)
+      (message "päivitetään syötteet")
+      (elfeed-search-fetch nil))
+    (message "tallennetaan tietokanta")
+    (elfeed-db-save)) ; kokeile
+
+  (defun tsl/elfeed-save-db-and-kill-buffer ()
+    "Save elfeed database and kill *elfeed-search* buffer."
+    (interactive)
+    (elfeed-db-save)
+    (elfeed-kill-buffer))
 
   (defun elfeed-mark-all-as-read ()
     (interactive)
