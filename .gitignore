@@ -10,3 +10,6 @@ bookmarks
 conf.el
 url
 elfeed
+/transient/*
+tramp
+projectile-bookmarks.eld
