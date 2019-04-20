@@ -557,7 +557,7 @@ Allow italizing and bolding multiple words, or even whole paragraph.
 #+begin_src emacs-lisp
   (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
 #+end_src
-** Key bindings
+** Some key bindings and config
 Some random bindings
 #+begin_src emacs-lisp
   (global-set-key "\C-cl" 'org-store-link)
@@ -576,6 +576,11 @@ Move easily between headings
    (define-key org-mode-map (kbd "M-N") #'org-forward-heading-same-level)
    (define-key org-mode-map (kbd "M-U") #'outline-up-heading))
 #+end_src
+
+Open code block editor in current window.
+#+BEGIN_SRC emacs-lisp :tangle yes
+  (setq org-src-window-setup 'current-window)
+#+END_SRC
 ** Capture anywhere
 Make it possible to pop up a quick capture frame when not in Emacs. This is bound to a key command in my Awesome window manager.
 Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestlaz.github.io/posts/using-emacs-24-capture-2/#.WQmyab2LRhE][Mike Zamansky's blog and video]].
