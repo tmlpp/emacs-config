@@ -404,7 +404,7 @@ Work in progress.
                   "mm" (lambda () (interactive)(set-window-margins nil 60 60))
                   "mM" (lambda () (interactive)(set-window-margins nil nil nil))
                   "SPC a" 'org-agenda
-                  "SPC f" 'bjm/elfeed-load-db-and-open
+                  "SPC f" 'tsl/elfeed-load-db-and-open
                   "ns" 'org-narrow-to-subtree
                   "nw" 'widen
                   "g" 'hydra-magit/body
@@ -913,7 +913,7 @@ Probably not the fanciest fix, but so far it works.
     :config (elfeed-goodies/setup)
     (setq elfeed-goodies/powerline-default-separator nil))
 
-  (defun bjm/elfeed-load-db-and-open ()
+  (defun tsl/elfeed-load-db-and-open ()
     "Wrapper to load the elfeed db from disk before opening"
     (interactive)
     (elfeed-db-load)
