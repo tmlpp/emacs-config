@@ -581,7 +581,7 @@ Move easily between headings
 #+end_src
 
 Open code block editor in current window.
-#+BEGIN_SRC emacs-lisp :tangle
+#+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+END_SRC
 ** Capture anywhere
