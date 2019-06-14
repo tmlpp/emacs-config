@@ -555,6 +555,13 @@ Use org-bullets, change the three period ellipsis to something else, and use org
             (lambda ()
               (org-indent-mode 1)))
 #+end_src
+
+Demote lists with different bullet.
+#+BEGIN_SRC emacs-lisp
+(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+")))
+(setq org-list-indent-offset 1)
+(setq org-M-RET-may-split-line nil)
+#+END_SRC
 ** Multiple line italics
 Allow italizing and bolding multiple words, or even whole paragraph.
 #+begin_src emacs-lisp
@@ -849,6 +856,19 @@ Probably not the fanciest fix, but so far it works.
   (setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
   (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
 #+END_SRC 
+** uml
+#+BEGIN_SRC emacs-lisp
+  ;; active Org-babel languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(;; other Babel languages
+     (plantuml . t)))
+
+  (setq org-plantuml-jar-path
+        (expand-file-name "~/Downloads/plantuml.jar"))
+  (setq plantuml-jar-path
+        (expand-file-name "~/Downloads/plantuml.jar"))
+#+END_SRC
 * elfeed
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
