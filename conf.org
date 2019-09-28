@@ -683,6 +683,9 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
   ;((1.0 . org-warning)
   ; (0.5 . org-upcoming-deadline)
   ; (0.0 . default))
+
+(setq org-archive-file-header-format nil)
+
 #+end_src
 ** Agenda commands
 #+begin_src emacs-lisp
