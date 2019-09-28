@@ -48,8 +48,8 @@ Load theme and set font and set custom themes location.
   ;  :config (load-theme 'ample-flat t))
 
   (add-to-list 'default-frame-alist 
-               '(font . "Iosevka 12"))
-  (face-spec-set 'variable-pitch '((t (:family "Fira Sans"))))
+               '(font . "IBM Plex Mono 12"))
+  (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
     (dolist (f (directory-files basedir))
