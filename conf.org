@@ -26,6 +26,12 @@ Use use-package to use packages.
     (package-refresh-contents)
     (package-install 'use-package))
 #+end_src
+** org and contrib
+#+begin_src emacs-lisp
+  (use-package org
+    :ensure org-plus-contrib
+    :config (require 'org-checklist))
+#+end_src
 ** UI and appearance
 Start with empty scratch and show buffer name in frame.
 #+begin_src emacs-lisp
