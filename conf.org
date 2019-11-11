@@ -848,6 +848,7 @@ Probably not the fanciest fix, but so far it works.
 ** widths
 #+BEGIN_SRC emacs-lisp
   (setq org-agenda-window-setup 'only-window)
+  (setq org-habit-graph-column 60)
 
   (setq org-agenda-prefix-format
         '((agenda . "%-12:c%?-12t%-8 s")
