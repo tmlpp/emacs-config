@@ -334,6 +334,10 @@ After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I
   (add-hook 'org-mode-hook
             (lambda ()
               (evil-org-mode)))
+
+  (use-package evil-surround
+    :ensure t
+    :config (global-evil-surround-mode 1))
 #+end_src
 
 Some key stuff.
