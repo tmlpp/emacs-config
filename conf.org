@@ -468,6 +468,9 @@ This makes it possible to have actual text I'm working on in one window, and out
     :ensure t)
   (global-set-key (kbd "C-x g") 'magit-status)
 
+  (use-package evil-magit
+    :ensure t)
+
   (defhydra hydra-magit (:exit t)
     "magit"
     ("g" (magit) "magit")
