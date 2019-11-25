@@ -660,10 +660,20 @@ Clock into CLOCKING drawer.
 #+end_src 
 
 Set todo keyword sequences. These are in Finnish, because I'm Finnish.
-Some files, for example the one with my blog texts, have different todo keyword sequences.
+
+- TODO :: A task that is ready to be completed, and planned to as well
+- KESKEN (unfinished) :: Started but not finished
+- ODOTTAA (waiting) :: Waiting for action from someone else than me
+- JOSKUS (someday) :: A task ready to be completed, but not planned in near future
+- TAUOLLA (on break) :: A task like JOSKUS but was already started and then moved to the future
+- IDEA :: More abstract idea or task. Needs planning of more concrete actions.
+- VALMIS (done) :: No need for explanation
+- PERUTTU (cancelled) :: Cancelled, for one reason or anohter
+
+Some files have their own keyword sequences.
 #+begin_src emacs-lisp
-    (setq org-todo-keywords
-               '((sequence "TODO(t!)" "SEURAAVA(s!)" "KESKEN(k!)" "ODOTTAA(o@)" "|" "VALMIS(v!)" "PERUTTU(p@)")))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "KESKEN(k@)" "ODOTTAA(o@)" "JOSKUS(j)" "TAUOLLA(T@)" "IDEA(i)" "|" "VALMIS(v)" "PERUTTU(p@)")))
 #+end_src
 
 If the todo item has undone children todos or checkboxes, it can't be marked done.
