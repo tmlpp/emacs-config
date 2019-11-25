@@ -644,9 +644,14 @@ Set org-agenda files
           "~/Dropbox/org/todo.org"))
 #+end_src  
 
-Put logs in LOGBOOK drawer.
+Turn on some logging and put logs in LOGBOOK drawer.
 #+begin_src emacs-lisp
   (setq org-log-into-drawer t)
+
+  (setq org-log-reschedule 'note)
+  (setq org-log-redeadline 'note)
+
+  (setq org-log-done 'time)
 #+end_src
 
 Clock into CLOCKING drawer.
