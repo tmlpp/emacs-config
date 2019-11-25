@@ -278,6 +278,10 @@ Show parenthesis. This is good even for a non-programmer. And of course helps wi
   (setq show-paren-delay 0)
 #+end_src
 
+Revert files automatically when they change on disk.
+#+BEGIN_SRC emacs-lisp
+  (setq global-auto-revert-mode t)
+#+END_SRC 
 Functions to convert Spotify song links and Youtube links in file to embed code.
 #+begin_src emacs-lisp
   (defun tsl/spotify-links-to-embed ()
