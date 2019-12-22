@@ -639,9 +639,9 @@ Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestla
 Set org-agenda files
 #+begin_src emacs-lisp
   (setq org-agenda-files
-        '("~/Dropbox/org/inbox.org"
-          "~/Dropbox/org/tickler.org"
-          "~/Dropbox/org/todo.org"))
+        '("~/syncdir/org/agenda/inbox.org"
+          "~/syncdir/org/agenda/tickler.org"
+          "~/syncdir/org/agenda/todo.org"))
 #+end_src  
 
 Turn on some logging and put logs in LOGBOOK drawer.
@@ -735,15 +735,15 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
           ("d" "päivä"
            ((agenda "" ((org-agenda-span 1)
                         (org-agenda-overriding-header "Tänään")))
-            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/raha.org"))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/raha.org"))
                         (org-agenda-overriding-header "Laskut")))
             (todo "KESKEN"
                   ((org-agenda-overriding-header "Kesken olevat")))
             (todo "SEURAAVA"
                        ((org-agenda-overriding-header "Seuraavana")))
-            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/media.org"))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/media.org"))
                         (org-agenda-overriding-header "Media")))
-            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/Dropbox/org/kirjasto.org"))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/kirjasto.org"))
                         (org-agenda-overriding-header "Kirjasto")))))
 
           ("v" "viikko"
@@ -753,7 +753,7 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
                   ((org-agenda-overriding-header "Kesken olevat")))
             (todo "SEURAAVA"
                   ((org-agenda-overriding-header "Projektien seuraavat")))
-            (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/Dropbox/org/media.org"))
+            (agenda "" ((org-agenda-span 7) (org-agenda-files '("~/syncdir/org/agenda/media.org"))
                         (org-agenda-overriding-header "Media")))))
 
           ("p" "projektit" tags-todo "proj")
