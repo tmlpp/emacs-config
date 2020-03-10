@@ -49,23 +49,24 @@ Remove menu bar, scroll bar, and tool bar.
 
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
-  ;(use-package ample-theme  
-  ;  :ensure t
-  ;  :config (load-theme 'ample-flat t))
+    ;(use-package ample-theme  
+    ;  :ensure t
+    ;  :config (load-theme 'ample-flat t))
 
-  (add-to-list 'default-frame-alist 
-               '(font . "IBM Plex Mono 12"))
-  (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
+    (add-to-list 'default-frame-alist 
+                 '(font . "IBM Plex Mono 12"))
+    (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
-  (let ((basedir "~/.emacs.d/themes/"))
-    (dolist (f (directory-files basedir))
-      (if (and (not (or (equal f ".") (equal f "..")))
-               (file-directory-p (concat basedir f)))
-          (add-to-list 'custom-theme-load-path (concat basedir f)))))
+    (let ((basedir "~/.emacs.d/themes/"))
+      (dolist (f (directory-files basedir))
+        (if (and (not (or (equal f ".") (equal f "..")))
+                 (file-directory-p (concat basedir f)))
+            (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
-  ;(load-theme 'darktooth t)
-  ;(load-theme 'creamsody t)
-  (load-theme 'tmlpp t)
+    ;(load-theme 'darktooth t)
+    ;(load-theme 'creamsody t)
+    (load-theme 'tmlpp t)
+    (prefer-coding-system 'utf-8)
 #+end_src 
 * Clean up
 ** Move some things out of the way
@@ -566,7 +567,8 @@ Use org-bullets, change the three period ellipsis to something else, and use org
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
    ;(setq org-ellipsis " ▼")↴
-   (setq org-ellipsis " ↴")
+   ;(setq org-ellipsis " ↴")
+   (setq org-ellipsis " ⬎")
    ;(face-spec-set 'org-ellipsis '((t (:underline nil))))
   (add-hook 'org-mode-hook
             (lambda ()
@@ -889,8 +891,10 @@ Probably not the fanciest fix, but so far it works.
                                           ;(setq org-agenda-deadline-leaders '("  !!  " "-->%3d" "%2d -->"))
                                           ;(setq org-agenda-scheduled-leaders '("■  " "■   %2d"))
                                           ;(setq org-agenda-deadline-leaders '("◆◆◆◆◆◆" "▶▶▶%3d" "%2d ▶▶▶"))
-  (setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
-  (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
+  ;; (setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
+  ;; (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
+  (setq org-agenda-scheduled-leaders '("****" "%2d *"))
+  (setq org-agenda-deadline-leaders '(">>>>" ">%3d" "%2d >"))
 #+END_SRC 
 ** uml
 #+BEGIN_SRC emacs-lisp
