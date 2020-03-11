@@ -13,3 +13,5 @@ elfeed
 /transient/*
 tramp
 projectile-bookmarks.eld
+spotify.el
+
