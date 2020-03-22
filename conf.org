@@ -1039,6 +1039,12 @@ Probably not the fanciest fix, but so far it works.
     (elfeed-org)
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed/elfeed.org")))
 #+END_SRC
+* spotify.el
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'load-path "~/.emacs.d/spotify.el")
+  (require 'spotify)
+  (define-key spotify-mode-map (kbd "C-c .") 'spotify-command-map)
+#+END_SRC
 * company-mode
 #+BEGIN_SRC emacs-lisp
   (use-package company
