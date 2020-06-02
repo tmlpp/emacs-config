@@ -924,11 +924,10 @@ Probably not the fanciest fix, but so far it works.
       "O" 'elfeed-search-show-entry
       "q" 'tsl/elfeed-save-db-and-kill-buffer
       "y" 'elfeed-search-yank
-      "s" 'elfeed-search-live-filter
-      "S" 'elfeed-search-set-filter
+      "S" 'elfeed-search-live-filter
+      "s" 'elfeed-search-set-filter
       "r" 'elfeed-search-update--force
-      "w" 'elfeed-search-tag-all-wl
-      "W" 'elfeed-search-untag-all-wl
+      "w" 'tsl/elfeed-save-db
       "R" 'elfeed-search-fetch
       "ö" 'tsl/elfeed-flip-sort-order
       "f" 'hydra-elfeed-tags/body)
@@ -969,6 +968,11 @@ Probably not the fanciest fix, but so far it works.
     (interactive)
     (elfeed-db-save)
     (elfeed-kill-buffer))
+
+  (defun tsl/elfeed-save-db ()
+    "Save database."
+    (interactive)
+    (elfeed-db-save))
 
   (defun elfeed-mark-all-as-read ()
     (interactive)
