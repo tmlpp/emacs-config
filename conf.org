@@ -778,8 +778,10 @@ This is for exporting and copying the result to clipboard, to be pasted to Blogg
 
 Export current subree, body only, in HTML to buffer. Select all, kill-region.
 #+begin_src emacs-lisp
+  ;; (fset 'tsl/blog-export
+  ;;       "\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
   (fset 'tsl/blog-export
-	"\C-c\C-e\C-b\C-shH\C-xh\C-w\C-x0")
+        "\C-c\C-e\C-b\C-shHVGy\C-x0")
 #+end_src
 Export org file to ascii. 
 #+begin_src emacs-lisp
