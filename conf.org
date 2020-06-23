@@ -737,12 +737,14 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
           ("d" "päivä"
            ((agenda "" ((org-agenda-span 1)
                         (org-agenda-overriding-header "Tänään")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/habits.org"))
+                        (org-agenda-overriding-header "Habits")))
+            (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/misc/blogit.org"))
+                        (org-agenda-overriding-header "Blogit")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/raha.org"))
                         (org-agenda-overriding-header "Laskut")))
-            (todo "KESKEN"
-                  ((org-agenda-overriding-header "Kesken olevat")))
-            (todo "SEURAAVA"
-                       ((org-agenda-overriding-header "Seuraavana")))
+            ;; (todo "KESKEN"
+            ;;       ((org-agenda-overriding-header "Kesken olevat")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/media.org"))
                         (org-agenda-overriding-header "Media")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/kirjasto.org"))

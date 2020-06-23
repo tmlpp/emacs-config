@@ -35,7 +35,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(org-agenda-files
    (quote
-    ("~/Dropbox/org/inbox.org" "~/Dropbox/org/tickler.org" "~/Dropbox/org/todo.org")))
+    ("~/syncdir/org/agenda/todo.org" "~/syncdir/org/agenda/inbox.org" "~/syncdir/org/agenda/tickler.org")))
  '(org-modules
    (quote
     (org-bbdb org-bibtex org-docview org-gnus org-habit org-info org-irc org-mhe org-rmail org-w3m)))
