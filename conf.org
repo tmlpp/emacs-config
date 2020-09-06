@@ -16,7 +16,6 @@ Set package repositories.
   (setq package-enable-at-startup nil)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
   (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-  (package-initialize)
   (add-to-list 'load-path
                "~/.emacs.d/elisp")
 #+end_src
@@ -241,6 +240,7 @@ Why would anyone end sentences with two spaces?
 This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
 #+begin_src emacs-lisp
   (setq sentence-end-double-space nil)
+  (setq-default indent-tabs-mode nil)
 #+end_src
 * Scrolling
 Hadn't even thought how annoying the default scrolling in Emacs was. This makes it better
@@ -435,6 +435,14 @@ Yasnippet
   (use-package yasnippet-snippets
     :ensure t)
 #+end_src
+* Hide show
+#+BEGIN_SRC emacs-lisp
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+
+(global-unset-key (kbd "C-\\"))
+(global-set-key "\C-\\" 'hs-toggle-hiding)
+#+END_SRC
 * Undo-tree
 #+begin_src emacs-lisp
   (use-package undo-tree
@@ -593,6 +601,10 @@ Some random bindings
   (global-set-key "\C-ca" 'org-agenda)
   (global-set-key "\C-cc" 'org-capture)
   (global-set-key "\C-cb" 'org-iswitchb)
+  (global-set-key "\C-c\C-x\C-x" 'org-clock-in-last)
+  (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
+  (global-set-key "\C-c\C-x\C-j" 'org-clock-goto)
+  (global-set-key "\C-c\C-x\C-q" 'org-clock-cancel)
   (define-key org-mode-map (kbd "C-c e") #'org-table-edit-field)
 #+end_src
 
@@ -643,7 +655,11 @@ Set org-agenda files
   (setq org-agenda-files
         '("~/syncdir/org/agenda/inbox.org"
           "~/syncdir/org/agenda/tickler.org"
-          "~/syncdir/org/agenda/todo.org"))
+          "~/syncdir/org/agenda/life.org"
+          "~/syncdir/org/agenda/home.org"
+          "~/syncdir/org/agenda/work.org"
+          "~/syncdir/org/agenda/study.org"
+          "~/syncdir/org/agenda/tech.org"))
 #+end_src  
 
 Turn on some logging and put logs in LOGBOOK drawer.
@@ -680,9 +696,9 @@ Some files have their own keyword sequences.
 
 If the todo item has undone children todos or checkboxes, it can't be marked done.
 #+begin_src emacs-lisp
-  (setq org-enforce-todo-dependencies t)
+  (setq org-enforce-todo-dependencies nil)
   (setq org-track-ordered-property-with-tag t)
-  (setq org-enforce-todo-checkbox-dependencies t)
+  (setq org-enforce-todo-checkbox-dependencies nil)
 #+end_src 
 
 If I want TODO items automatically marked DONE when all the children are DONE, I uncomment this. At this point I don't want that.
@@ -899,14 +915,16 @@ Probably not the fanciest fix, but so far it works.
   ;; (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
   (setq org-agenda-scheduled-leaders '("****" "%2d *"))
   (setq org-agenda-deadline-leaders '(">>>>" ">%3d" "%2d >"))
+
+  (setq org-columns-default-format-for-agenda "%40ITEM(Task) %15Effort(Effort){:} %15CLOCKSUM")
 #+END_SRC 
 ** uml
 #+BEGIN_SRC emacs-lisp
   ;; active Org-babel languages
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '(;; other Babel languages
-     (plantuml . t)))
+   '((plantuml . t)
+     (python . t)))
 
   (setq org-plantuml-jar-path
         (expand-file-name "~/Downloads/plantuml.jar"))
@@ -1058,6 +1076,12 @@ Probably not the fanciest fix, but so far it works.
   (use-package company
     :ensure t)
 #+END_SRC
+* C
+#+BEGIN_SRC emacs-lisp
+  (setq c-default-style "linux"
+            c-basic-offset 4)
+#+END_SRC
+
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
 * Deprecated and unused
