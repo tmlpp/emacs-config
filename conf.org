@@ -146,7 +146,7 @@ Use =window-numbering-mode=: Windows are numbered, M-number goes to wanted windo
 #+end_src
 Use ibuffer. Kill the current buffer without asking.
 #+begin_src emacs-lisp
-  (global-set-key (kbd "C-x k") 'kill-this-buffer)
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
   (defalias 'list-buffers 'ibuffer)
 #+end_src
 Some various commands
@@ -397,7 +397,7 @@ Work in progress.
                   :keymaps 'normal
                   "r" 'jump-to-register
                   "bb" 'switch-to-buffer
-                  "bk" 'kill-this-buffer
+                  "bk" 'kill-current-buffer
                   "bc" 'clone-indirect-buffer-other-window
                   "ss" 'save-buffer
                   "sa" 'tsl/save-all
