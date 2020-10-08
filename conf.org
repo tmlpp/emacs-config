@@ -413,6 +413,8 @@ Work in progress.
                   "mv" 'variable-pitch-mode
                   "fo" 'counsel-find-file
                   "fO" 'find-file-other-window
+                  "fp" 'projectile-find-file
+                  "fP" 'projectile-find-file
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
                   "cc" 'org-ctrl-c-ctrl-c 
@@ -701,6 +703,9 @@ If the todo item has undone children todos or checkboxes, it can't be marked don
   (setq org-enforce-todo-checkbox-dependencies nil)
 #+end_src 
 
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+#+end_src
 If I want TODO items automatically marked DONE when all the children are DONE, I uncomment this. At this point I don't want that.
 #+begin_src emacs-lisp
 ;  (defun org-summary-todo (n-done n-not-done)
