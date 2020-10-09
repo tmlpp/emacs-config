@@ -573,10 +573,10 @@ Use org-bullets, change the three period ellipsis to something else, and use org
     ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
     ; :init (setq org-bullets-bullet-list '("●"))
     ; :init (setq org-bullets-bullet-list '("▶"))
-    :init (setq org-bullets-bullet-list '(" "))
+    :init (setq org-bullets-bullet-list '("•" "‣"))
     :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-   ;(setq org-ellipsis " ▼")↴
+   (setq org-ellipsis " …")
    ;(setq org-ellipsis " ↴")
    (setq org-ellipsis " ⬎")
    ;(face-spec-set 'org-ellipsis '((t (:underline nil))))
