@@ -80,7 +80,7 @@ Backups to separate folder. And some settings for backups.
 #+end_src
 custom-set-variables to separate file
 #+begin_src emacs-lisp
-  (setq custom-file "~/.emacs.d/customs.el")
+  (setq custom-file (make-temp-file "emacs-customs"))
   (load custom-file)
 #+end_src
 * Laptop or desktop
