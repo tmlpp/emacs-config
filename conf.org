@@ -284,6 +284,12 @@ Revert files automatically when they change on disk.
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
 #+END_SRC 
+
+Automatically make script files executable.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-save-hook
+    'executable-make-buffer-file-executable-if-script-p)
+#+END_SRC 
 Functions to convert Spotify song links and Youtube links in file to embed code.
 #+begin_src emacs-lisp
   (defun tsl/spotify-links-to-embed ()
@@ -562,6 +568,9 @@ Rename some major modes to take less space on modeline.
   (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
   (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+  (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+  (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 #+END_SRC
 * Org
@@ -1082,8 +1091,8 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC
 * C
 #+BEGIN_SRC emacs-lisp
-  (setq c-default-style "linux"
-            c-basic-offset 4)
+  (setq c-default-style '(("csharp-mode" . "csharp") (other . "linux")))
+            ; c-basic-offset 4)
 #+END_SRC
 
 * License
