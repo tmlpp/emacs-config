@@ -944,6 +944,26 @@ Probably not the fanciest fix, but so far it works.
   (setq plantuml-jar-path
         (expand-file-name "~/Downloads/plantuml.jar"))
 #+END_SRC
+** clocking to bar
+=tsl/current-clock-time-to-file originally found [[https://github.com/schmendrik/OrgClockTray][here]].
+#+BEGIN_SRC emacs-lisp
+  (defun current-clock-time-to-file ()
+    (interactive)
+    (with-temp-file "/tmp/org-clock-string"
+      (if (org-clocking-p)
+          (insert (org-clock-get-clock-string))
+        (insert ""))))
+  (run-with-timer 1 60 'current-clock-time-to-file)
+  (add-hook 'org-clock-in-hook 'current-clock-time-to-file)
+  (add-hook 'org-clock-out-hook 'current-clock-time-to-file)
+  (add-hook 'org-clock-cancel-hook 'current-clock-time-to-file)
+
+  (defun tsl/org-clock-out-or-in-last ()
+    (interactive)
+    (if (org-clocking-p)
+        (org-clock-out)
+      (org-clock-in-last)))
+#+END_SRC
 * elfeed
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
