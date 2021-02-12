@@ -13,5 +13,7 @@ elfeed
 /transient/*
 tramp
 projectile-bookmarks.eld
+projectile.cache
 spotify.el
-
+.cache
+elpy
