@@ -7,7 +7,7 @@ Start Emacs server.
 ** Sensitive information
 Load information I don't want to be publicly available – for one reason or another – from a separate file.
 #+begin_src emacs-lisp
-  (load "~/Dropbox/.emacs.secrets.el")
+  (load "~/syncdir/.emacs.secrets.el")
 #+end_src
 ** Packages configuration
 Set package repositories.
@@ -519,7 +519,7 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
     :ensure t
     :mode "\\.ledger\\'")
 
-  (set-register ?l '(file . "~/Dropbox/ledger/my.ledger"))
+  (set-register ?l '(file . "~/syncdir/ledger/my.ledger"))
 
 #+end_src
 * browser
