@@ -796,7 +796,7 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
 #+end_src
 
 #+begin_src emacs-lisp
-  (setq org-agenda-block-separator ?▰)
+  (setq org-agenda-block-separator ?:)
 #+end_src
 ** Inherited tags in agenda
 Remove tag clutter from agenda view. Disabled for now.
@@ -1112,7 +1112,7 @@ Probably not the fanciest fix, but so far it works.
 * C
 #+BEGIN_SRC emacs-lisp
   (setq c-default-style '(("csharp-mode" . "csharp") (other . "linux")))
-            ; c-basic-offset 4)
+  (setq-default c-basic-offset 4)
 #+END_SRC
 
 * License
