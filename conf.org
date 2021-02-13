@@ -54,7 +54,8 @@ Load theme and set font and set custom themes location.
 
     (add-to-list 'default-frame-alist 
                  ;'(font . "IBM Plex Mono-12"))
-                 '(font . "Victor Mono-12"))
+                 ;'(font . "Victor Mono-12"))
+                 '(font . "Fira Code-12"))
     (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
     (let ((basedir "~/.emacs.d/themes/"))
