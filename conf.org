@@ -53,9 +53,9 @@ Load theme and set font and set custom themes location.
     ;  :config (load-theme 'ample-flat t))
 
     (add-to-list 'default-frame-alist 
-                 ;'(font . "IBM Plex Mono-12"))
+                 '(font . "IBM Plex Mono-12"))
                  ;'(font . "Victor Mono-12"))
-                 '(font . "Fira Code-12"))
+                 ;'(font . "Fira Code-12"))
     (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
     (let ((basedir "~/.emacs.d/themes/"))
@@ -242,6 +242,7 @@ Why would anyone end sentences with two spaces?
 This makes do-whatever-to-sentence commands work with my Finnish text with one space between sentences.
 #+begin_src emacs-lisp
   (setq sentence-end-double-space nil)
+  (setq tab-width 4)
   (setq-default indent-tabs-mode nil)
 #+end_src
 * Scrolling
@@ -522,6 +523,11 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 
   (set-register ?l '(file . "~/syncdir/ledger/my.ledger"))
 
+  (add-hook 'ledger-mode-hook
+            (lambda ()
+              (setq-local tab-always-indent 'complete)
+              (setq-local completion-cycle-threshold t)
+                 (setq-local ledger-complete-in-steps t)))
 #+end_src
 * browser
 #+BEGIN_SRC emacs-lisp
