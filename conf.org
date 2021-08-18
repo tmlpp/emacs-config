@@ -9,21 +9,24 @@ Load information I don't want to be publicly available – for one reason or ano
 #+begin_src emacs-lisp
   (load "~/syncdir/.emacs.secrets.el")
 #+end_src
-** Packages configuration
-Set package repositories.
+** Packages
+
+=use-package= makes using and configuring packages simpler.
+
 #+begin_src emacs-lisp
   (require 'package)
   (setq package-enable-at-startup nil)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-  (add-to-list 'load-path
-               "~/.emacs.d/elisp")
-#+end_src
-Use use-package to use packages.
-#+begin_src emacs-lisp
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                           ("org" . "https://orgmode.org/elpa/")))
+  (add-to-list 'load-path "~/.emacs.d/elisp")
+  
+  (unless package-archive-contents
+    (package-refresh-contents))
   (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
     (package-install 'use-package))
+  
+  (require 'use-package)
+  (setq use-package-always-ensure t)
 #+end_src
 ** org and contrib
 #+begin_src emacs-lisp
@@ -32,20 +35,20 @@ Use use-package to use packages.
     :config (require 'org-checklist))
   (require 'org-collector)
 #+end_src
-** UI and appearance
-Start with empty scratch and show buffer name in frame.
+** Clean up UI
+
+Removing all the extra bars, messages and such makes Emacs cleaner. Setting up some fring gives windows some breathing room.
+
 #+begin_src emacs-lisp
+  (scroll-bar-mode 0)
+  (tool-bar-mode 0)
+  (tooltip-mode 0)
+  (set-fringe-mode 10)
+  (menu-bar-mode 0)
   (setq inhibit-startup-message t)
   (setq initial-scratch-message nil)
   (setq frame-title-format "%b")
-#+end_src
-
-Remove menu bar, scroll bar, and tool bar.
-#+begin_src emacs-lisp
-  (menu-bar-mode 0)
-  (scroll-bar-mode 0)
-  (tool-bar-mode 0)
-#+end_src
+  #+end_src
 
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
