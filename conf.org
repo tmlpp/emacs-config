@@ -28,7 +28,10 @@ Load information I don't want to be publicly available – for one reason or ano
   (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
-** org and contrib
+** Org-mode
+
+=org-plus=contrib= package includes extra things contributed to =org-mode=.
+
 #+begin_src emacs-lisp
   (use-package org
     :ensure org-plus-contrib
@@ -52,27 +55,21 @@ Removing all the extra bars, messages and such makes Emacs cleaner. Setting up s
 
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
-    ;(use-package ample-theme  
-    ;  :ensure t
-    ;  :config (load-theme 'ample-flat t))
+  (add-to-list 'default-frame-alist
+               '(font . "IBM Plex Mono-12"))
+                                          ;'(font . "Victor Mono-12"))
+                                          ;'(font . "Fira Code-12"))
+  (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
-    (add-to-list 'default-frame-alist 
-                 '(font . "IBM Plex Mono-12"))
-                 ;'(font . "Victor Mono-12"))
-                 ;'(font . "Fira Code-12"))
-    (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
+  (let ((basedir "~/.emacs.d/themes/"))
+    (dolist (f (directory-files basedir))
+      (if (and (not (or (equal f ".") (equal f "..")))
+               (file-directory-p (concat basedir f)))
+          (add-to-list 'custom-theme-load-path (concat basedir f)))))
 
-    (let ((basedir "~/.emacs.d/themes/"))
-      (dolist (f (directory-files basedir))
-        (if (and (not (or (equal f ".") (equal f "..")))
-                 (file-directory-p (concat basedir f)))
-            (add-to-list 'custom-theme-load-path (concat basedir f)))))
-
-    ;(load-theme 'darktooth t)
-    ;(load-theme 'creamsody t)
-    (load-theme 'yet-another t)
-    (prefer-coding-system 'utf-8)
-#+end_src 
+  (load-theme 'yet-another t)
+  (prefer-coding-system 'utf-8)
+  #+end_src
 * Clean up
 ** Move some things out of the way
 Backups to separate folder. And some settings for backups.
@@ -185,35 +182,47 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
               (abbrev-mode 1)))
   (setq save-abbrevs t)
   #+end_src 
-* Swiper and counsel
-Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://cestlaz.github.io/posts/using-emacs-6-swiper/#.V3WeZnWLSUE][this video]].
+* Ivy an counsel
 #+begin_src emacs-lisp
-  (use-package counsel
-    :ensure t
-    )
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper)
+         ("C-c C-r" . ivy-resume)
+         ("<f6>" . ivy-resume)
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-l" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done)
+         ("C-d" . ivy-switch-buffer-kill)
+         :map ivy-reverse-i-search-map
+         ("C-k" . ivy-previous-line)
+         ("C-d" . ivy-reverse-i-search-kill))
+  :config
+  (ivy-mode 1)
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-wrap t)
+  (ivy-count-format "(%d/%d)")
+  (enable-recursive-minibuffers t))
 
-  (use-package swiper
-    :ensure try
-    :config
-    (ivy-mode 1)
-    (setq ivy-use-virtual-buffers t)
-    :bind (("\C-s" . swiper)
-           ("C-c C-r" . ivy-resume)
-           ("<f6>" . ivy-resume)
-           ("M-x" . counsel-M-x)
-           ("C-x C-f" . counsel-find-file)
-           ("<f1> f" . counsel-describe-function)
-           ("<f1> v" . counsel-describe-variable)
-           ("<f1> l" . counsel-load-library)
-           ("<f2> i" . counsel-info-lookup-symbol)
-           ("<f2> u" . counsel-unicode-char)
-           ("C-c g" . counsel-git)
-           ("C-c j" . counsel-git-grep)
-           ("C-c k" . counsel-ag)
-           ("C-x l" . counsel-locate)
-           ("C-S-o" . counsel-rhythmbox)
-           :map read-expression-map
-           ("C-r" . counsel-expression-history)))
+(use-package counsel
+  :bind (("M-x" . counsel-M-x)
+         ("C-x b" . counsel-ibuffer)
+         ("C-x C-f" . counsel-find-file)
+         ("<f1> f" . counsel-describe-function)
+         ("<f1> v" . counsel-describe-variable)
+         ("<f1> l" . counsel-load-library)
+         ("<f2> i" . counsel-info-lookup-symbol)
+         ("<f2> u" . counsel-unicode-char)
+         ("C-c g" . counsel-git)
+         ("C-c j" . counsel-git-grep)
+         ("C-c k" . counsel-ag)
+         ("C-x l" . counsel-locate))
+  :custom (ivy-initial-inputs-alist nil))
  #+end_src
 * Helpful and which-key
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
