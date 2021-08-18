@@ -152,7 +152,6 @@ When splitting windows, switch to new one.
 Use =window-numbering-mode=: Windows are numbered, M-number goes to wanted window.
 #+begin_src emacs-lisp
   (use-package window-numbering
-    :ensure t
     :config (window-numbering-mode 1))
   (winner-mode 1)
 #+end_src
@@ -220,14 +219,13 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
 #+begin_src emacs-lisp
   (use-package which-key
-    :ensure t
     :config (which-key-mode 1))
 #+end_src
 
 "[[https://github.com/Wilfred/helpful][Helpful]] is an alternative to the built-in Emacs help that provides much more contextual information."
+
 #+begin_src emacs-lisp
   (use-package helpful
-    :ensure t
     :bind (("C-h f" . helpful-callable)
            ("C-h v" . helpful-variable)
            ("C-h k" . helpful-key)
@@ -237,15 +235,6 @@ Use =swiper= and =counsel= for searching and stuff. Found =swiper= via [[http://
 * word-count
 #+begin_src emacs-lisp
   (load "word-count")
-#+end_src
-* Lua mode
-#+begin_src emacs-lisp
-  (use-package lua-mode
-    :ensure t
-    :mode "\\.lua\\'")
-  (use-package fountain-mode
-    :ensure t
-    :mode "\\.fountain\\'")
 #+end_src
 * Sentences end with one space
 Why would anyone end sentences with two spaces?
@@ -321,33 +310,25 @@ Functions to convert Spotify song links and Youtube links in file to embed code.
 * Misc packages
 Install some packages.
 #+begin_src emacs-lisp
-  (use-package palimpsest
-    :ensure t)
-  (use-package paredit
-    :ensure t)
-  (use-package rainbow-mode
-    :ensure t)
-  (use-package key-chord
-    :ensure t)
-  (use-package hydra
-    :ensure t)
+  (use-package palimpsest)
+  (use-package paredit)
+  (use-package rainbow-mode)
+  (use-package key-chord)
+  (use-package hydra)
 #+end_src
 * projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :ensure t
     :config
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (setq projectile-completion-system 'ivy)
     (projectile-mode +1))
 
-  (use-package counsel-projectile
-    :ensure t)
+  (use-package counsel-projectile)
 #+END_SRC
 * Undo-tree
 #+begin_src emacs-lisp
     (use-package undo-tree
-      :ensure t
       :init (global-undo-tree-mode)
       :bind (("C-z" . undo)
       ("C-S-z" . undo-tree-redo))
@@ -357,19 +338,16 @@ Install some packages.
 After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
 #+begin_src emacs-lisp
     (use-package evil
-      :ensure t
       :init (setq evil-want-abbrev-expand-on-insert-exit nil)
       :config (evil-mode))
 
-    (use-package evil-org
-      :ensure t)
+    (use-package evil-org)
 
     (add-hook 'org-mode-hook
               (lambda ()
                 (evil-org-mode)))
 
     (use-package evil-surround
-      :ensure t
       :config (global-evil-surround-mode 1))
 #+end_src
 
@@ -413,8 +391,7 @@ At this point there's not many keys set. I know some functions I want to have qu
 
 Work in progress.
 #+BEGIN_SRC emacs-lisp
-  (use-package general
-    :ensure t)
+  (use-package general)
 
   (defun tsl/save-all ()
       (interactive)
@@ -459,11 +436,9 @@ Work in progress.
 Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
-    :ensure t
     :config (yas-global-mode 1))
 
-  (use-package yasnippet-snippets
-    :ensure t)
+  (use-package yasnippet-snippets)
 #+end_src
 * Hide show
 #+BEGIN_SRC emacs-lisp
@@ -500,12 +475,10 @@ This makes it possible to have actual text I'm working on in one window, and out
 #+end_src
 * Magit
 #+begin_src emacs-lisp
-  (use-package magit
-    :ensure t)
+  (use-package magit)
   (global-set-key (kbd "C-x g") 'magit-status)
 
-  (use-package evil-magit
-    :ensure t)
+  (use-package evil-magit)
 
   (defhydra hydra-magit (:exit t)
     "magit"
@@ -514,8 +487,7 @@ This makes it possible to have actual text I'm working on in one window, and out
     ("c" (magit-commit) "commit")
     )
 
-  (use-package tramp
-    :ensure t)
+  (use-package tramp)
 
   (add-to-list 'tramp-methods
                '("yadm"
@@ -530,7 +502,6 @@ I started using Ledger to keep up with my money and stuff. Ledger works well wit
 Put ledger file to register for easy access and tell Emacs to start ledger-mode when opening ledger file.
 #+begin_src emacs-lisp
   (use-package ledger-mode
-    :ensure t
     :mode "\\.ledger\\'")
 
   (set-register ?l '(file . "~/syncdir/ledger/my.ledger"))
@@ -545,35 +516,11 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
 #+BEGIN_SRC emacs-lisp
   (setq browse-url-browser-function 'browse-url-xdg-open)
 #+END_SRC
-* Clean up modeline
-Remove some minor-modes from modeline. No need to see these there.
-#+begin_src emacs-lisp
-  (use-package diminish
-    :ensure t)
-
-  (diminish 'abbrev-mode)
-  (diminish 'which-key-mode)
-                                          ;  (diminish 'yas-minor-mode)
-  (diminish 'visual-line-mode)
-  (diminish 'evil-org-mode)
-  (diminish 'undo-tree-mode)
-  (diminish 'which-key-mode)
-#+end_src
-Rename some major modes to take less space on modeline. 
-#+begin_src emacs-lisp
-  (defmacro diminish-major-mode (mode-hook abbrev)
-    `(add-hook ,mode-hook
-               (lambda () (setq mode-name ,abbrev))))
-
-  (diminish-major-mode 'emacs-lisp-mode-hook "el")
-#+end_src
 * Neotree and ibuffer-sidebar
 #+BEGIN_SRC emacs-lisp
-  (use-package neotree
-    :ensure t)
+  (use-package neotree)
 
-  (use-package ibuffer-sidebar
-    :ensure t)
+  (use-package ibuffer-sidebar)
 
   (defun tsl/sidebars-toggle ()
     "Toggle neotree and ibuffer-sidebar"
@@ -598,7 +545,6 @@ Rename some major modes to take less space on modeline.
 Use org-bullets, change the three period ellipsis to something else, and use org-indent-mode
 #+begin_src emacs-lisp
   (use-package org-bullets
-    :ensure t
     ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
     ; :init (setq org-bullets-bullet-list '("●"))
     ; :init (setq org-bullets-bullet-list '("▶"))
@@ -667,8 +613,7 @@ Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestla
     (if (equal "capture" (frame-parameter nil 'name))  
         (delete-frame)))  
 
-  (use-package noflet
-    :ensure t )
+  (use-package noflet)
   (defun make-capture-frame ()
     "Create a new frame and run org-capture."
     (interactive)
@@ -843,16 +788,14 @@ Export org file to ascii.
 *** org-reveal
 Export org files to [[https://github.com/hakimel/reveal.js/][reveal.js]]
 #+begin_src emacs-lisp
-  (use-package ox-reveal
-    :ensure ox-reveal)
+  (use-package ox-reveal)
 
   ;(setq org-reveal-root "http://cdn.jsdelivr.net/reveal.js/3.0.0/")
   (setq org-reveal-root "https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.6.0")
   ;
   (setq org-reveal-mathjax t)
 
-  (use-package htmlize
-    :ensure t)
+  (use-package htmlize)
 
   (fset 'tsl/revealjs-export
 	"\C-c\C-eRB")
@@ -988,7 +931,6 @@ Probably not the fanciest fix, but so far it works.
 * elfeed
 #+BEGIN_SRC emacs-lisp
   (use-package elfeed
-    :ensure t
     :config (setq elfeed-db-directory "~/.emacs.d/elfeed/db")
     (setq-default elfeed-search-filter "@6-months-old +unread ")
     (evil-define-key 'normal elfeed-search-mode-map
@@ -1069,7 +1011,6 @@ Probably not the fanciest fix, but so far it works.
     (elfeed-search-untag-all 'wl))
 
   (use-package elfeed-goodies
-    :ensure t
     :config (elfeed-goodies/setup)
     (setq elfeed-goodies/powerline-default-separator nil))
 
@@ -1114,7 +1055,6 @@ Probably not the fanciest fix, but so far it works.
     (message "Sort order: %s" elfeed-sort-order))
 
   (use-package elfeed-org
-    :ensure t
     :config
     (elfeed-org)
     (setq rmh-elfeed-org-files (list "~/.emacs.d/elfeed/elfeed.org")))
@@ -1127,8 +1067,7 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC
 * company-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package company
-    :ensure t)
+  (use-package company)
 #+END_SRC
 * C
 #+BEGIN_SRC emacs-lisp
@@ -1192,7 +1131,6 @@ I want a bar cursor instead of the default block one. I also want current line h
 ** Save buffer when focus is lost                                :disabled:
 #+begin_src emacs-lisp :tangle no
  (use-package focus-autosave-mode
-   :ensure t
    :init (focus-autosave-mode)
    :diminish focus-autosave-mode)
 #+end_src
