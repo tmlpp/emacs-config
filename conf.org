@@ -33,10 +33,26 @@ Load information I don't want to be publicly available – for one reason or ano
 =org-plus=contrib= package includes extra things contributed to =org-mode=.
 
 #+begin_src emacs-lisp
-  (use-package org
-    :ensure org-plus-contrib
-    :config (require 'org-checklist))
+(use-package org
+  :ensure org-plus-contrib
+  :config
+  (require 'org-checklist)
   (require 'org-collector)
+  (advice-add 'org-clock-out :after 'org-save-all-org-buffers)
+  :custom (org-ellipsis " ↓")
+  :hook (org-mode . tsl/org-mode-setup)
+  )
+
+(use-package org-bullets
+  :init (setq org-bullets-bullet-list '("→")))
+
+(defun tsl/org-mode-setup ()
+  (org-indent-mode 1)
+  (org-bullets-mode 1)
+  (visual-line-mode 1)
+  (setq visual-fill-column-width 100
+        visual-fill-column-center-text t)
+  (visual-fill-column-mode 1))
 #+end_src
 ** Clean up UI
 
@@ -57,8 +73,6 @@ Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist
                '(font . "IBM Plex Mono-12"))
-                                          ;'(font . "Victor Mono-12"))
-                                          ;'(font . "Fira Code-12"))
   (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
@@ -169,11 +183,6 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
 #+begin_src emacs-lisp
   (setq abbrev-file-name
         "~/.emacs.d/abbrevs")
-  ; (setq-default abbrev-mode t)
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (visual-line-mode 1)
-              (abbrev-mode 1)))
   (setq save-abbrevs t)
   #+end_src
 * Ivy an counsel
@@ -527,23 +536,7 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
   (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
 #+END_SRC
 * Org
-  Configuration for =org-mode=, which is the main reason why I use Emacs.
 ** Pretty org-mode
-Use org-bullets, change the three period ellipsis to something else, and use org-indent-mode
-#+begin_src emacs-lisp
-  (use-package org-bullets
-    ; :init (setq org-bullets-bullet-list '("►" "◾" "◆"))
-    ; :init (setq org-bullets-bullet-list '("●"))
-    ; :init (setq org-bullets-bullet-list '("▶"))
-    :init (setq org-bullets-bullet-list '("•"))
-    :config (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-   (setq org-ellipsis " …")
-   ;(face-spec-set 'org-ellipsis '((t (:underline nil))))
-  (add-hook 'org-mode-hook
-            (lambda ()
-              (org-indent-mode 1)))
-#+end_src
 
 Demote lists with different bullet.
 #+BEGIN_SRC emacs-lisp
