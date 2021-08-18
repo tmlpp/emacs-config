@@ -104,12 +104,17 @@ This is a work in progress, so far any settings aren't dependent on this.
       (setq computer-type 'laptop)))
   (tsl/desktop-or-laptop)
 #+end_src
-* Powerline
-Powerline. Just because I've seen it, and it looked cool.
+* Modeline
+
+=doom-modeline= seems like a good choice. =all-the-icons= makes it possible to use all the icons.
+
 #+begin_src emacs-lisp
-  (use-package powerline
-    :ensure t)
-  (powerline-vim-theme)
+  (use-package all-the-icons
+    :custom
+    (all-the-icons-scale-factor 1))
+  
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1))
 #+end_src
 * Config files to register
 Quick acces to config files by putting them to register. Access with: =C-x r j=
