@@ -19,12 +19,12 @@ Load information I don't want to be publicly available – for one reason or ano
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
                            ("org" . "https://orgmode.org/elpa/")))
   (add-to-list 'load-path "~/.emacs.d/elisp")
-  
+
   (unless package-archive-contents
     (package-refresh-contents))
   (unless (package-installed-p 'use-package)
     (package-install 'use-package))
-  
+
   (require 'use-package)
   (setq use-package-always-ensure t)
 #+end_src
@@ -89,7 +89,7 @@ custom-set-variables to separate file
 Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
 
 My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is greater than 900, I'm using desktop.
- 
+
 This is a work in progress, so far any settings aren't dependent on this.
 #+begin_src emacs-lisp
   (defvar computer-type nil)
@@ -109,7 +109,7 @@ This is a work in progress, so far any settings aren't dependent on this.
   (use-package all-the-icons
     :custom
     (all-the-icons-scale-factor 1))
-  
+
   (use-package doom-modeline
     :init (doom-modeline-mode 1))
 #+end_src
@@ -118,7 +118,7 @@ Quick acces to config files by putting them to register. Access with: =C-x r j=
 #+begin_src emacs-lisp
   (set-register ?e '(file . "~/.emacs.d/conf.org")) ; Emacs config
   (set-register ?i '(file . "~/.config/i3/config")) ; i3
-#+end_src 
+#+end_src
 * Calendar in Finnish
 Finnish day and month names, and week starts from Monday.
 #+begin_src emacs-lisp
@@ -132,21 +132,18 @@ Finnish day and month names, and week starts from Monday.
          "perjantai"
          "lauantai"]
         calendar-month-name-array
-        ["tammi" "helmi" "maalis" "huhti" "touko" 
+        ["tammi" "helmi" "maalis" "huhti" "touko"
          "kesä" "heinä" "elo" "syys"
          "loka" "marras" "joulu"]
         calendar-day-abbrev-array
         ["sun" "maa" "tii" "kes" "tor" "per" "lau"]
         calendar-day-header-array
         ["su" "ma" "ti" "ke" "to" "pe" "la"])
-#+end_src 
-* Windows and buffers
-When splitting windows, switch to new one.
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-x 2") (lambda () (interactive) (split-window-below) (other-window 1)))
-  (global-set-key (kbd "C-x 3") (lambda () (interactive) (split-window-right) (other-window 1)))
 #+end_src
-Use =window-numbering-mode=: Windows are numbered, M-number goes to wanted window.
+* Windows and buffers
+
+=window=numbering= gives the ability to move to window with M-number. =winner-mode= lets you undo and redo window changes.
+
 #+begin_src emacs-lisp
   (use-package window-numbering
     :config (window-numbering-mode 1))
@@ -158,10 +155,7 @@ Use ibuffer. Kill the current buffer without asking.
   (defalias 'list-buffers 'ibuffer)
 #+end_src
 Some various commands
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-¨") 'save-buffer)
-#+end_src
-* Answer just y or n
+
 Answer "y or n" instead "yes or no"
 #+begin_src emacs-lisp
   (fset 'yes-or-no-p 'y-or-n-p)
@@ -181,7 +175,7 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
               (visual-line-mode 1)
               (abbrev-mode 1)))
   (setq save-abbrevs t)
-  #+end_src 
+  #+end_src
 * Ivy an counsel
 #+begin_src emacs-lisp
 (use-package ivy
@@ -266,24 +260,6 @@ Keys for bigger and smaller text.
   (bind-key "C--" 'text-scale-decrease)
 #+end_src
 
-Transpose things with M-t
-#+begin_src emacs-lisp
-  (bind-key "M-t" nil) ;; which used to be transpose-words
-  (bind-key "M-t l" 'transpose-lines)
-  (bind-key "M-t w" 'transpose-words)
-  (bind-key "M-t t" 'transpose-words)
-  (bind-key "M-t M-t" 'transpose-words)
-  (bind-key "M-t s" 'transpose-sexps)
-#+end_src
-
-Some aliases.
-#+begin_src emacs-lisp
-  (defalias 'qrr 'query-replace-regexp)
-  (defalias 'qr 'query-replace)
-  (defalias 'rr 'replace-regexp)
-  (defalias 'plp 'package-list-packages)
-#+end_src
-
 Show parenthesis. This is good even for a non-programmer. And of course helps with working with elisp here in config.
 #+begin_src emacs-lisp
   (show-paren-mode 1)
@@ -293,13 +269,13 @@ Show parenthesis. This is good even for a non-programmer. And of course helps wi
 Revert files automatically when they change on disk.
 #+BEGIN_SRC emacs-lisp
   (global-auto-revert-mode t)
-#+END_SRC 
+#+END_SRC
 
 Automatically make script files executable.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'after-save-hook
     'executable-make-buffer-file-executable-if-script-p)
-#+END_SRC 
+#+END_SRC
 Functions to convert Spotify song links and Youtube links in file to embed code.
 #+begin_src emacs-lisp
   (defun tsl/spotify-links-to-embed ()
@@ -368,7 +344,7 @@ Some key stuff.
 - In insert mode =jj= does =Esc=
 - Evil commands in =org-agenda=
 
-#+begin_src emacs-lisp  
+#+begin_src emacs-lisp
   (defun tsl/evil-insert-line-below-or-open-link ()
   "If cursor is on link, open the link with 'org-open-at-point. Otherwise insert new line under current one and return to evli-normal-state."
     (interactive)
@@ -431,7 +407,7 @@ Work in progress.
                   "fP" 'projectile-find-file
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
-                  "cc" 'org-ctrl-c-ctrl-c 
+                  "cc" 'org-ctrl-c-ctrl-c
                   "mm" (lambda () (interactive)(set-window-margins nil 60 60))
                   "mM" (lambda () (interactive)(set-window-margins nil nil nil))
                   "SPC a" 'org-agenda
@@ -506,20 +482,22 @@ This makes it possible to have actual text I'm working on in one window, and out
                  (tramp-remote-shell-args ("-c"))))
 #+end_src
 * Ledger
-I started using Ledger to keep up with my money and stuff. Ledger works well with Emacs.
+
+[[https://www.ledger-cli.org/][Ledger]] is a command line tool for double-entry accounting.
 
 Put ledger file to register for easy access and tell Emacs to start ledger-mode when opening ledger file.
+
 #+begin_src emacs-lisp
   (use-package ledger-mode
-    :mode "\\.ledger\\'")
+    :mode "\\.ledger\\'"
+    :hook (ledger-mode . tsl/ledger-setup)
+    :config
+    (set-register ?l '(file . "~/syncdir/ledger/my.ledger")))
 
-  (set-register ?l '(file . "~/syncdir/ledger/my.ledger"))
-
-  (add-hook 'ledger-mode-hook
-            (lambda ()
-              (setq-local tab-always-indent 'complete)
-              (setq-local completion-cycle-threshold t)
-                 (setq-local ledger-complete-in-steps t)))
+  (defun tsl/ledger-setup ()
+    (setq-local tab-always-indent 'complete)
+    (setq-local completion-cycle-treshold t)
+    (setq-local ledger-complete-in-steps t))
 #+end_src
 * browser
 #+BEGIN_SRC emacs-lisp
@@ -610,17 +588,17 @@ Open code block editor in current window.
 Make it possible to pop up a quick capture frame when not in Emacs. This is bound to a key command in my Awesome window manager.
 Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestlaz.github.io/posts/using-emacs-24-capture-2/#.WQmyab2LRhE][Mike Zamansky's blog and video]].
 #+begin_src emacs-lisp
-  (defadvice org-capture-finalize 
-      (after delete-capture-frame activate)  
-    "Advise capture-finalize to close the frame"  
-    (if (equal "capture" (frame-parameter nil 'name))  
+  (defadvice org-capture-finalize
+      (after delete-capture-frame activate)
+    "Advise capture-finalize to close the frame"
+    (if (equal "capture" (frame-parameter nil 'name))
         (delete-frame)))
 
-  (defadvice org-capture-destroy 
-      (after delete-capture-frame activate)  
-    "Advise capture-destroy to close the frame"  
-    (if (equal "capture" (frame-parameter nil 'name))  
-        (delete-frame)))  
+  (defadvice org-capture-destroy
+      (after delete-capture-frame activate)
+    "Advise capture-destroy to close the frame"
+    (if (equal "capture" (frame-parameter nil 'name))
+        (delete-frame)))
 
   (use-package noflet)
   (defun make-capture-frame ()
@@ -642,7 +620,7 @@ Set org-agenda files
           "~/syncdir/org/agenda/study.org"
           "~/syncdir/org/agenda/jamk.org"
           "~/syncdir/org/agenda/tech.org"))
-#+end_src  
+#+end_src
 
 Turn on some logging and put logs in LOGBOOK drawer.
 #+begin_src emacs-lisp
@@ -657,7 +635,7 @@ Turn on some logging and put logs in LOGBOOK drawer.
 Clock into CLOCKING drawer.
 #+begin_src emacs-lisp
   (setq org-clock-into-drawer t)
-#+end_src 
+#+end_src
 
 Set todo keyword sequences. These are in Finnish, because I'm Finnish.
 
@@ -681,7 +659,7 @@ If the todo item has undone children todos or checkboxes, it can't be marked don
   (setq org-enforce-todo-dependencies nil)
   (setq org-track-ordered-property-with-tag t)
   (setq org-enforce-todo-checkbox-dependencies nil)
-#+end_src 
+#+end_src
 
 #+begin_src emacs-lisp
   (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
@@ -727,17 +705,17 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
   (setq org-agenda-custom-commands
         '(("n" "seuraavat ja kesken" todo "SEURAAVA|KESKEN"
            ((org-agenda-overriding-header "Kesken olevat ja projektien seuraavat")))
-  
+
           ("b" "blogit" todo ""
            ((org-agenda-files '("~/Dropbox/org/blogit.org"))
             (org-agenda-overriding-header "Blogitekstit")))
-  
+
           ("j" "joskus" todo ""
            ((org-agenda-files '("~/Dropbox/org/someday.org"))))
-  
+
           ("o" "opiskelut" todo ""
            ((org-agenda-files '("~/syncdir/org/agenda/study.org"))))
-  
+
           ("d" "päivä"
            ((agenda "" ((org-agenda-span 1)
                         (org-agenda-overriding-header "Tänään")))
@@ -753,7 +731,7 @@ Set =org-refile-targets= to include current file, agenda files, and bunch of oth
             ;;             (org-agenda-overriding-header "Media")))
             (agenda "" ((org-agenda-span 1) (org-agenda-files '("~/syncdir/org/agenda/kirjasto.org"))
                         (org-agenda-overriding-header "Kirjasto")))))
-  
+
           ("v" "viikko"
            ((agenda "" ((org-agenda-span 7)
                         (org-agenda-overriding-header "Tällä viikolla")))
@@ -789,7 +767,7 @@ Export current subree, body only, in HTML to buffer. Select all, kill-region.
   (fset 'tsl/blog-export
         "\C-c\C-e\C-b\C-shHVGy\C-x0")
 #+end_src
-Export org file to ascii. 
+Export org file to ascii.
 #+begin_src emacs-lisp
   (fset 'tsl/ascii-export
 	"\C-c\C-etA\C-xh\C-w\C-x0")
@@ -848,7 +826,7 @@ Run the function when saving an org-mode buffer. This way the text width keeps u
 ** Day lasts until 5 a.m.
 In org-agenda next day starts at 5 a.m. instead of midnight, because I'm a vampire.
 #+begin_src emacs-lisp
-; (setq org-extend-today-until 5) 
+; (setq org-extend-today-until 5)
 #+end_src
 ** enter follows links
 In org files, open links by pressing =Enter=
@@ -874,7 +852,7 @@ Probably not the fanciest fix, but so far it works.
     (if (org-at-heading-p)
         (progn (org-end-of-line)
                (org-return)
-               (org-time-stamp nil)) 
+               (org-time-stamp nil))
       (org-time-stamp nil)))
 
   (define-key org-mode-map (kbd "C-c .") 'tsl/org-timestamp)
@@ -903,7 +881,7 @@ Probably not the fanciest fix, but so far it works.
   (setq org-agenda-deadline-leaders '(">>>>" ">%3d" "%2d >"))
 
   (setq org-columns-default-format-for-agenda "%40ITEM(Task) %TODO %SCHEDULED %DEADLINE %7Effort(Estimated Effort){:} %7CLOCKSUM")
-#+END_SRC 
+#+END_SRC
 ** uml
 #+BEGIN_SRC emacs-lisp
   ;; active Org-babel languages
@@ -1164,7 +1142,7 @@ Renamed to my function namespace
         (org-update-parent-todo-statistics)))))
 #+end_src
 ** Better return for org                                         :disabled:
-Pressing =enter= adds "new items to lists, new headings after a heading, and new rows to tables. In each case, a double return on an empty item, headline or table row will delete that line, and terminate the list, headlines or table." Copied from [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][here]]. 
+Pressing =enter= adds "new items to lists, new headings after a heading, and new rows to tables. In each case, a double return on an empty item, headline or table row will delete that line, and terminate the list, headlines or table." Copied from [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][here]].
 
 Disabled for now. Didn't work quite as I expected. Will look into this later.
 #+begin_src emacs-lisp :tangle no
