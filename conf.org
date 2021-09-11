@@ -449,6 +449,12 @@ Yasnippet
     :bind (:map emmet-mode-keymap
                 ("C-j" . emmet-expand-line)))
 #+END_SRC
+* tiny
+#+BEGIN_SRC emacs-lisp
+  (use-package tiny
+    :bind ("C-;" . tiny-expand))
+  
+#+END_SRC
 
 * Reload config file
 Make a function to reload the config file.
