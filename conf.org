@@ -869,20 +869,10 @@ Probably not the fanciest fix, but so far it works.
   (setq org-habit-graph-column 60)
 
   (setq org-agenda-prefix-format
-        '((agenda . "%-12:c%?-12t%-8 s")
+        '((agenda . "%-20:c%?-12t%-8 s")
           (todo . "%-12:c%-12t")
           (tags . "%-12:c")
           (search . "%-12:c")))
-                                          ; →←
-                                          ; ▶►▸◆■●
-                                          ;(setq org-agenda-scheduled-leaders '("Sch: " "Sch.%2dx"))
-                                          ;(setq org-agenda-deadline-leaders '("DL: " "In.%3d: " "%2d ago: "))
-                                          ;(setq org-agenda-scheduled-leaders '("▶  " "▶   %2d"))
-                                          ;(setq org-agenda-deadline-leaders '("  !!  " "-->%3d" "%2d -->"))
-                                          ;(setq org-agenda-scheduled-leaders '("■  " "■   %2d"))
-                                          ;(setq org-agenda-deadline-leaders '("◆◆◆◆◆◆" "▶▶▶%3d" "%2d ▶▶▶"))
-  ;; (setq org-agenda-scheduled-leaders '("●●●●" "%2d ●"))
-  ;; (setq org-agenda-deadline-leaders '("▶▶▶▶" "▶%3d" "%2d ▶"))
   (setq org-agenda-scheduled-leaders '("****" "%2d *"))
   (setq org-agenda-deadline-leaders '(">>>>" ">%3d" "%2d >"))
 
