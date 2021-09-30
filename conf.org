@@ -33,26 +33,42 @@ Load information I don't want to be publicly available – for one reason or ano
 =org-plus=contrib= package includes extra things contributed to =org-mode=.
 
 #+begin_src emacs-lisp
-(use-package org
-  :ensure org-plus-contrib
-  :config
-  (require 'org-checklist)
-  (require 'org-collector)
-  (advice-add 'org-clock-out :after 'org-save-all-org-buffers)
-  :custom (org-ellipsis " ↓")
-  :hook (org-mode . tsl/org-mode-setup)
-  )
+  (use-package org
+    :ensure org-plus-contrib
+    :config
+    (require 'org-checklist)
+    (require 'org-collector)
+    (advice-add 'org-clock-out :after 'org-save-all-org-buffers)
+    :custom
+    (org-ellipsis " ↓")
+    (org-src-window-setup current-window)
+    :hook (org-mode . tsl/org-mode-setup)
+    :bind (("C-c l" . org-store-link)
+           ("C-c a" . 'org-agenda)
+           ("C-c c" . 'org-capture)
+           ("C-c b" . 'org-iswitchb)
+           ("C-c C-x C-x" . 'org-clock-in-last)
+           ("C-c C-x C-o" . 'org-clock-out)
+           ("C-c C-x C-j" . 'org-clock-goto)
+           ("C-c C-x C-q" . 'org-clock-cancel)
+           :map org-mode-map
+           ("C-c e" . org-table-edit-field)
+           ("M-p" . outline-previous-visible-heading)
+           ("M-n" . outline-next-visible-heading)
+           ("M-P" . org-backward-heading-same-level)
+           ("M-N" . org-forward-heading-same-level)
+           ("M-U" . outline-up-heading)))
 
-(use-package org-bullets
-  :init (setq org-bullets-bullet-list '("→")))
+  (use-package org-bullets
+    :init (setq org-bullets-bullet-list '("→")))
 
-(defun tsl/org-mode-setup ()
-  (org-indent-mode 1)
-  (org-bullets-mode 1)
-  (visual-line-mode 1)
-  (setq visual-fill-column-width 100
-        visual-fill-column-center-text t)
-  (visual-fill-column-mode 1))
+  (defun tsl/org-mode-setup ()
+    (org-indent-mode 1)
+    (org-bullets-mode 1)
+    (visual-line-mode 1)
+    (setq visual-fill-column-width 100
+          visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
 #+end_src
 ** Clean up UI
 
@@ -171,45 +187,49 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
   #+end_src
 * Ivy an counsel
 #+begin_src emacs-lisp
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper)
-         ("C-c C-r" . ivy-resume)
-         ("<f6>" . ivy-resume)
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-l" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done)
-         ("C-d" . ivy-switch-buffer-kill)
-         :map ivy-reverse-i-search-map
-         ("C-k" . ivy-previous-line)
-         ("C-d" . ivy-reverse-i-search-kill))
-  :config
-  (ivy-mode 1)
-  :custom
-  (ivy-use-virtual-buffers t)
-  (ivy-wrap t)
-  (ivy-count-format "(%d/%d)")
-  (enable-recursive-minibuffers t))
-
-(use-package counsel
-  :bind (("M-x" . counsel-M-x)
-         ("C-x b" . counsel-ibuffer)
-         ("C-x C-f" . counsel-find-file)
-         ("<f1> f" . counsel-describe-function)
-         ("<f1> v" . counsel-describe-variable)
-         ("<f1> l" . counsel-load-library)
-         ("<f2> i" . counsel-info-lookup-symbol)
-         ("<f2> u" . counsel-unicode-char)
-         ("C-c g" . counsel-git)
-         ("C-c j" . counsel-git-grep)
-         ("C-c k" . counsel-ag)
-         ("C-x l" . counsel-locate))
-  :custom (ivy-initial-inputs-alist nil))
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+           ("C-c C-r" . ivy-resume)
+           ("<f6>" . ivy-resume)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-alt-done)
+           ("C-l" . ivy-alt-done)
+           ("C-j" . ivy-next-line)
+           ("C-k" . ivy-previous-line)
+           :map ivy-switch-buffer-map
+           ("C-k" . ivy-previous-line)
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-k" . ivy-previous-line)
+           ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1)
+    :custom
+    (ivy-use-virtual-buffers t)
+    (ivy-wrap t)
+    (ivy-count-format "(%d/%d)")
+    (enable-recursive-minibuffers t))
+  
+  (use-package counsel
+    :bind (("M-x" . counsel-M-x)
+           ("C-x b" . counsel-ibuffer)
+           ("C-x C-f" . counsel-find-file)
+           ("<f1> f" . counsel-describe-function)
+           ("<f1> v" . counsel-describe-variable)
+           ("<f1> l" . counsel-load-library)
+           ("<f2> i" . counsel-info-lookup-symbol)
+           ("<f2> u" . counsel-unicode-char)
+           ("C-c g" . counsel-git)
+           ("C-c j" . counsel-git-grep)
+           ("C-c k" . counsel-ag)
+           ("C-x l" . counsel-locate))
+    :custom (ivy-initial-inputs-alist nil))
+  
+  (use-package ivy-rich
+    :after ivy
+    :init (ivy-rich-mode 1))
  #+end_src
 * Helpful and which-key
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
@@ -222,10 +242,14 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
 
 #+begin_src emacs-lisp
   (use-package helpful
-    :bind (("C-h f" . helpful-callable)
-           ("C-h v" . helpful-variable)
-           ("C-h k" . helpful-key)
-           ("C-c C-." . helpful-at-point))
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    (([remap describe-function] . counsel-describe-function)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-key] . helpful-key))
     :config (evil-define-key 'normal helpful-mode-map (kbd "q") 'quit-window))
 #+end_src
 * word-count
@@ -294,39 +318,49 @@ Install some packages.
   (use-package key-chord)
   (use-package hydra)
 #+end_src
-* projectile
+* Projectile
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
-    :config
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    (setq projectile-completion-system 'ivy)
-    (projectile-mode +1))
+    :diminish
+    :config (projectile-mode)
+    :bind-keymap ("C-c p" . projectile-command-map))
 
-  (use-package counsel-projectile)
+  (use-package counsel-projectile
+    :config (counsel-projectile-mode))
+
 #+END_SRC
 * Undo-tree
 #+begin_src emacs-lisp
-    (use-package undo-tree
-      :init (global-undo-tree-mode)
-      :bind (("C-z" . undo)
-      ("C-S-z" . undo-tree-redo))
-  :config (setq evil-undo-system 'undo-tree))
+  (use-package undo-tree
+    :init (global-undo-tree-mode)
+    :config (setq evil-undo-system 'undo-tree))
 #+end_src
-* evil-mode and evil-org
-After some time in Vim, Ranger, Qutebrowser, i3wm and other Vim-like programs, I geuss I have to start using =evil-mode=.
+* Evil-mode
 #+begin_src emacs-lisp
-    (use-package evil
-      :init (setq evil-want-abbrev-expand-on-insert-exit nil)
-      :config (evil-mode))
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    (setq evil-want-abbrev-expand-on-insert-exit nil)
+    :bind (("M-u" . universal-argument)
+           :map universal-argument-map
+           ("M-u" . universal-argument-more))
+    :config (evil-mode 1))
 
-    (use-package evil-org)
+  (use-package evil-org)
 
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (evil-org-mode)))
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (evil-org-mode)))
 
-    (use-package evil-surround
-      :config (global-evil-surround-mode 1))
+  (use-package evil-collection
+    :after evil
+    :config (evil-collection-init))
+
+  (use-package evil-surround
+    :config (global-evil-surround-mode 1))
 #+end_src
 
 Some key stuff.
@@ -420,11 +454,17 @@ Work in progress.
 * Hide show
 #+BEGIN_SRC emacs-lisp
 (add-hook 'prog-mode-hook 'hs-minor-mode)
-(add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (global-unset-key (kbd "C-\\"))
 (global-set-key "\C-\\" 'hs-toggle-hiding)
 #+END_SRC
-* emmet
+* Line numbers
+#+begin_src emacs-lisp
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+  (dolist (mode '(org-mode-hook org-agenda-mode-hook term-mode-hook eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+END_SRC
+* Emmet
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook (css-mode . emmet-mode)
