@@ -99,22 +99,6 @@ custom-set-variables to separate file
   (setq custom-file (make-temp-file "emacs-customs"))
   (load custom-file)
 #+end_src
-* Laptop or desktop
-Based on screen resolution, check whether I'm using desktop or laptop. This information is used on some settings I like to be different between desktop and laptop.
-
-My desktop screen resolutions is 1920x1080. Laptop is 1600x900. So, if screen height is greater than 900, I'm using desktop.
-
-This is a work in progress, so far any settings aren't dependent on this.
-#+begin_src emacs-lisp
-  (defvar computer-type nil)
-  (defun tsl/desktop-or-laptop ()
-    "Based on screen resolution, define whether Emacs is opened on desktop or laptop."
-    (interactive)
-    (if (> (x-display-pixel-height) 900)
-        (setq computer-type 'desktop)
-      (setq computer-type 'laptop)))
-  (tsl/desktop-or-laptop)
-#+end_src
 * Modeline
 
 =doom-modeline= seems like a good choice. =all-the-icons= makes it possible to use all the icons.
@@ -427,7 +411,6 @@ Work in progress.
                   )
 #+END_SRC
 * Yasnippet
-Yasnippet
 #+begin_src emacs-lisp
   (use-package yasnippet
     :config (yas-global-mode 1))
@@ -449,11 +432,11 @@ Yasnippet
     :bind (:map emmet-mode-keymap
                 ("C-j" . emmet-expand-line)))
 #+END_SRC
-* tiny
+* Tiny
 #+BEGIN_SRC emacs-lisp
   (use-package tiny
     :bind ("C-;" . tiny-expand))
-  
+
 #+END_SRC
 
 * Reload config file
@@ -463,29 +446,10 @@ Make a function to reload the config file.
     (interactive)
     (org-babel-load-file "~/.emacs.d/conf.org"))
 #+end_src
-* Writing view
-Split frame into two or three windows, indirect clone of current buffer to each.
-
-This makes it possible to have actual text I'm working on in one window, and outline of the file, notes, or something else from the same file in another window.
-#+begin_src emacs-lisp
-  (defun tsl/writing-view-3-windows ()
-    (interactive)
-    (split-window-horizontally 167)
-    (split-window-horizontally 70)
-    (clone-indirect-buffer nil t)
-    (clone-indirect-buffer nil t))
-
-  (defun tsl/writing-view-2-windows ()
-    (interactive)
-    (split-window-horizontally 70)
-    (clone-indirect-buffer nil t))
-#+end_src
 * Magit
 #+begin_src emacs-lisp
   (use-package magit)
   (global-set-key (kbd "C-x g") 'magit-status)
-
-  (use-package evil-magit)
 
   (defhydra hydra-magit (:exit t)
     "magit"
@@ -493,7 +457,9 @@ This makes it possible to have actual text I'm working on in one window, and out
     ("s" (magit-stage) "stage")
     ("c" (magit-commit) "commit")
     )
-
+#+end_src
+* Tramp
+#+begin_src emacs-lisp
   (use-package tramp)
 
   (add-to-list 'tramp-methods
@@ -562,34 +528,6 @@ Allow italizing and bolding multiple words, or even whole paragraph.
 #+begin_src emacs-lisp
   (setcar (nthcdr 2 org-emphasis-regexp-components) " \t\r\n,\"")
 #+end_src
-** Some key bindings and config
-Some random bindings
-#+begin_src emacs-lisp
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
-  (global-set-key "\C-c\C-x\C-x" 'org-clock-in-last)
-  (global-set-key "\C-c\C-x\C-o" 'org-clock-out)
-  (global-set-key "\C-c\C-x\C-j" 'org-clock-goto)
-  (global-set-key "\C-c\C-x\C-q" 'org-clock-cancel)
-  (define-key org-mode-map (kbd "C-c e") #'org-table-edit-field)
-#+end_src
-
-Move easily between headings
-#+begin_src emacs-lisp
-  (with-eval-after-load 'org
-   (define-key org-mode-map (kbd "M-p") #'outline-previous-visible-heading)
-   (define-key org-mode-map (kbd "M-n") #'outline-next-visible-heading)
-   (define-key org-mode-map (kbd "M-P") #'org-backward-heading-same-level)
-   (define-key org-mode-map (kbd "M-N") #'org-forward-heading-same-level)
-   (define-key org-mode-map (kbd "M-U") #'outline-up-heading))
-#+end_src
-
-Open code block editor in current window.
-#+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
-#+END_SRC
 ** Capture anywhere
 Make it possible to pop up a quick capture frame when not in Emacs. This is bound to a key command in my Awesome window manager.
 Makes it possible to capture notes, tasks, whatever. Copied from [[http://cestlaz.github.io/posts/using-emacs-24-capture-2/#.WQmyab2LRhE][Mike Zamansky's blog and video]].
@@ -892,18 +830,18 @@ Probably not the fanciest fix, but so far it works.
         (expand-file-name "~/Downloads/plantuml.jar"))
 #+END_SRC
 ** clocking to bar
-=tsl/current-clock-time-to-file originally found [[https://github.com/schmendrik/OrgClockTray][here]].
+=tsl/current-clock-time-to-file= originally found [[https://github.com/schmendrik/OrgClockTray][here]].
 #+BEGIN_SRC emacs-lisp
-  (defun current-clock-time-to-file ()
+  (defun tsl/current-clock-time-to-file ()
     (interactive)
     (with-temp-file "/tmp/org-clock-string"
       (if (org-clocking-p)
           (insert (org-clock-get-clock-string))
         (insert ""))))
-  (run-with-timer 1 60 'current-clock-time-to-file)
-  (add-hook 'org-clock-in-hook 'current-clock-time-to-file)
-  (add-hook 'org-clock-out-hook 'current-clock-time-to-file)
-  (add-hook 'org-clock-cancel-hook 'current-clock-time-to-file)
+  (run-with-timer 1 60 'tsl/current-clock-time-to-file)
+  (add-hook 'org-clock-in-hook 'tsl/current-clock-time-to-file)
+  (add-hook 'org-clock-out-hook 'tsl/current-clock-time-to-file)
+  (add-hook 'org-clock-cancel-hook 'tsl/current-clock-time-to-file)
 
   (defun tsl/org-clock-out-or-in-last ()
     (interactive)
@@ -1060,155 +998,3 @@ Probably not the fanciest fix, but so far it works.
 
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
-* Deprecated and unused
-This section includes settings I don't need anymore, at least right now. Or thing's I've copied from somwhere but didn't use after all.
-
-I'm re-organizing my config file, mostly becuase starting to use evil-mode change things quite a lot. evil-mode also makes some things unnecessary. So I'm moving them here, cause I don't want to get rid of them (yet), just in case.
-** Invoke =M-x= without the Alt key
-Copied from: https://github.com/bradwright/emacs.d. Althoug, at this point I decided to leave the old =M-x= in use as well.
-
-As per [[https://sites.google.com/site/steveyegge2/effective-emacs#item2][Yegge's Item 2]]. This unmaps the difficult =M-x= (usually =Alt+x=) to =C-x
-m=, and then add a fat-finger combination of =C-x C-m=:
-
-#+begin_src emacs-lisp :tangle no
-  (global-unset-key (kbd "C-x m"))
-;  (global-unset-key (kbd "M-x"))
-  (global-set-key (kbd "C-x m") 'execute-extended-command)
-  (global-set-key (kbd "C-x C-m") 'execute-extended-command)
-#+end_src
-** Kill (and save) line or region
-Copy active region with =M-w=. If there's no active region, =M-w= copy /the whole line/.
-Found in: [[https://www.emacswiki.org/emacs/WholeLineOrRegion][Emacs wiki]]
-#+begin_src emacs-lisp :tangle no
-  (defun copy-region-or-whole-line (beg end flash)
-    (interactive (if (use-region-p)
-		     (list (region-beginning) (region-end) nil)
-		   (list (line-beginning-position)
-			 (line-beginning-position 2) 'flash)))
-    (kill-ring-save beg end)
-    (when flash
-      (save-excursion
-	((if ) (equal (current-column) 0)
-	 (goto-char end)
-	 (goto-char beg))
-	(sit-for blink-matching-delay))))
-  (global-set-key [remap kill-ring-save] 'copy-region-or-whole-line)
-#+end_src
-
-Cut (kill)the active region with =C-k=. If theres no active region, cut /the rest of the line/.
-
-Needs some fixing to work with org-mode, cause org-mode has its own =org-kill-line=
-#+begin_src emacs-lisp :tangle no
-  (defun cut-region-or-line ()
-    (interactive (if (use-region-p)
-		     (kill-region (region-beginning) (region-end))
-		   (kill-line nil))))
-  (global-set-key [remap kill-line] 'cut-region-or-line)
-  #+end_src
-
-I want a bar cursor instead of the default block one. I also want current line highlighted.
-#+begin_src emacs-lisp :tangle no
-  (global-hl-line-mode 1)
-  (set-default 'cursor-type 'bar)
-#+end_src
-** Save buffer when focus is lost                                :disabled:
-#+begin_src emacs-lisp :tangle no
- (use-package focus-autosave-mode
-   :init (focus-autosave-mode)
-   :diminish focus-autosave-mode)
-#+end_src
-** Save place in files                                           :disabled:
-#+begin_src emacs-lisp :tangle no
- (use-package saveplace
-   :init (save-place-mode 1)
-   :config
-   (progn
-     (setq-default save-place t)
-     (setq-default save-place-file (expand-file-name "places" user-cache-directory))))
-#+end_src
-** Update parent heading cookie                                  :disabled:
-Found here: https://github.com/magnars/.emacs.d
-Renamed to my function namespace
-#+begin_src emacs-lisp :tangle no
- (defun tsl/update-parent-cookie ()
-  (when (equal major-mode 'org-mode)
-    (save-excursion
-      (ignore-errors
-        (org-back-to-heading)
-        (org-update-parent-todo-statistics)))))
-#+end_src
-** Better return for org                                         :disabled:
-Pressing =enter= adds "new items to lists, new headings after a heading, and new rows to tables. In each case, a double return on an empty item, headline or table row will delete that line, and terminate the list, headlines or table." Copied from [[http://kitchingroup.cheme.cmu.edu/blog/2017/04/09/A-better-return-in-org-mode/][here]].
-
-Disabled for now. Didn't work quite as I expected. Will look into this later.
-#+begin_src emacs-lisp :tangle no
-  (require 'org-inlinetask)
-  (defun tsl/org-return (&optional ignore)
-    "Add new list item, heading or table row with RET.
-  A double return on an empty element deletes it.
-  Use a prefix arg to get regular RET. "
-    (interactive "P")
-    (if ignore
-        (org-return)
-      (cond
-
-       ((eq 'line-break (car (org-element-context)))
-        (org-return-indent))
-
-       ;; Open links like usual, unless point is at the end of a line.
-       ;; and if at beginning of line, just press enter.
-       ((or (and (eq 'link (car (org-element-context))) (not (eolp)))
-            (bolp))
-        (org-return))
-
-       ;; It doesn't make sense to add headings in inline tasks. Thanks Anders
-       ;; Johansson!
-       ((org-inlinetask-in-task-p)
-        (org-return))
-
-       ;; checkboxes too
-       ((org-at-item-checkbox-p)
-        (org-insert-todo-heading nil))
-
-       ;; lists end with two blank lines, so we need to make sure we are also not
-       ;; at the beginning of a line to avoid a loop where a new entry gets
-       ;; created with only one blank line.
-       ((org-in-item-p)
-        (if (save-excursion (beginning-of-line) (org-element-property :contents-begin (org-element-context)))
-            (org-insert-heading)
-          (beginning-of-line)
-          (delete-region (line-beginning-position) (line-end-position))
-          (org-return)))
-
-       ;; org-heading
-       ((org-at-heading-p)
-        (if (not (string= "" (org-element-property :title (org-element-context))))
-            (progn (org-end-of-meta-data)
-                   (org-insert-heading-respect-content)
-                   (outline-show-entry))
-          (beginning-of-line)
-          (setf (buffer-substring
-                 (line-beginning-position) (line-end-position)) "")))
-
-       ;; tables
-       ((org-at-table-p)
-        (if (-any?
-             (lambda (x) (not (string= "" x)))
-             (nth
-              (- (org-table-current-dline) 1)
-              (org-table-to-lisp)))
-            (org-return)
-          ;; empty row
-          (beginning-of-line)
-          (setf (buffer-substring
-                 (line-beginning-position) (line-end-position)) "")
-          (org-return)))
-
-       ;; fall-through case
-       (t
-        (org-return)))))
-
-
-  (define-key org-mode-map (kbd "RET")
-    'tsl/org-return)
-#+end_src
