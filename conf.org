@@ -17,7 +17,8 @@ Load information I don't want to be publicly available – for one reason or ano
   (require 'package)
   (setq package-enable-at-startup nil)
   (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                           ("org" . "https://orgmode.org/elpa/")))
+                           ("gnu"   . "http://elpa.gnu.org/packages/")
+                           ("nongnu" . "https://elpa.nongnu.org/nongnu/")))
   (add-to-list 'load-path "~/.emacs.d/elisp")
 
   (unless package-archive-contents
@@ -34,14 +35,14 @@ Load information I don't want to be publicly available – for one reason or ano
 
 #+begin_src emacs-lisp
   (use-package org
-    :ensure org-plus-contrib
+    :ensure org-contrib
     :config
     (require 'org-checklist)
     (require 'org-collector)
     (advice-add 'org-clock-out :after 'org-save-all-org-buffers)
     :custom
     (org-ellipsis " ↓")
-    (org-src-window-setup current-window)
+    (org-src-window-setup 'current-window)
     :hook (org-mode . tsl/org-mode-setup)
     :bind (("C-c l" . org-store-link)
            ("C-c a" . 'org-agenda)
@@ -88,7 +89,7 @@ Removing all the extra bars, messages and such makes Emacs cleaner. Setting up s
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist
-               '(font . "IBM Plex Mono-12"))
+               '(font . "Cascadia Code-12"))
   (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
@@ -227,9 +228,9 @@ Use =abbrev-mode= and =visual-line-mode= in org-mode to make writing more comfor
            ("C-x l" . counsel-locate))
     :custom (ivy-initial-inputs-alist nil))
   
-  (use-package ivy-rich
-    :after ivy
-    :init (ivy-rich-mode 1))
+  ;; (use-package ivy-rich
+  ;;   :after ivy
+  ;;   :init (ivy-rich-mode 1))
  #+end_src
 * Helpful and which-key
 =which-key= is a nice and helpful thing to have. After a prefix shows possible commands to use.
@@ -464,13 +465,50 @@ Work in progress.
   (dolist (mode '(org-mode-hook org-agenda-mode-hook term-mode-hook eshell-mode-hook))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+END_SRC
-* Emmet
+* Indentation highlight
+#+BEGIN_SRC emacs-lisp
+  (use-package highlight-indent-guides
+    :hook (prog-mode . highlight-indent-guides-mode)
+    :custom
+    (highlight-indent-guides-method 'column)
+    (highlight-indent-guides-character ?X)
+    (highlight-indent-guides-responsive 'stack)
+    )
+#+END_SRC
+* Web development
+
 #+begin_src emacs-lisp
   (use-package emmet-mode
     :hook (css-mode . emmet-mode)
     (html-mode . emmet-mode)
     :bind (:map emmet-mode-keymap
                 ("C-j" . emmet-expand-line)))
+
+  (use-package js2-mode
+    :mode
+    (("\\.js\\'" . js2-mode))
+    :hook (js2-mode . lsp-deferred)
+    :custom
+    (js2-prefer-let-over-var t)
+    (js-indent-level 2)
+    (js2-strict-missing-semi-warning nil)
+    )
+
+  (use-package js2-refactor
+    :hook (js2-mode . js2-refactor-mode))
+
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    ;; :init
+    ;; (define-key input-decode-map [?\C-i] [C-i])
+    ;; (setq lsp-keymap-prefix "C-i")
+    :config 
+    (evil-define-key 'normal lsp-mode-map (kbd "C-c l") lsp-command-map)
+    (lsp-enable-which-key-integration t))
+
+  (use-package restclient
+    :mode (("\\.rest\\'" . restclient-mode)))
+
 #+END_SRC
 * Tiny
 #+BEGIN_SRC emacs-lisp
@@ -646,7 +684,7 @@ If the todo item has undone children todos or checkboxes, it can't be marked don
 #+end_src
 
 #+begin_src emacs-lisp
-  (setq org-agenda-skip-deadline-prewarning-if-scheduled t)
+  (setq org-agenda-skip-deadline-prewarning-if-scheduled nil)
 #+end_src
 If I want TODO items automatically marked DONE when all the children are DONE, I uncomment this. At this point I don't want that.
 #+begin_src emacs-lisp
@@ -845,8 +883,8 @@ Probably not the fanciest fix, but so far it works.
           (todo . "%-20:c%-12t")
           (tags . "%-20:c")
           (search . "%-20:c")))
-  (setq org-agenda-scheduled-leaders '("****" "%2d *"))
-  (setq org-agenda-deadline-leaders '(">>>>" ">%3d" "%2d >"))
+  (setq org-agenda-scheduled-leaders '("++++" "%2d +"))
+  (setq org-agenda-deadline-leaders '("!!!!" "!%3d" "%2d !"))
 
   (setq org-columns-default-format-for-agenda "%40ITEM(Task) %TODO %SCHEDULED %DEADLINE %7Effort(Estimated Effort){:} %7CLOCKSUM")
 
@@ -1024,7 +1062,13 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC
 * company-mode
 #+BEGIN_SRC emacs-lisp
-  (use-package company)
+    (use-package company
+      :custom
+      (company-minimum-prefix-length 3)
+      (company-idle-delay 0.3)
+      :bind (:map company-active-map
+                  ("<tab>" . yas-expand))
+  )
 #+END_SRC
 * C
 #+BEGIN_SRC emacs-lisp
