@@ -1075,6 +1075,18 @@ Probably not the fanciest fix, but so far it works.
   (setq c-default-style '(("csharp-mode" . "csharp") (other . "linux")))
   (setq-default c-basic-offset 4)
 #+END_SRC
-
+* week number
+#+BEGIN_SRC emacs-lisp
+(copy-face font-lock-constant-face 'calendar-iso-week-face)
+(set-face-attribute 'calendar-iso-week-face nil
+                    :height 0.7)
+(setq calendar-intermonth-text
+      '(propertize
+        (format "%2d"
+                (car
+                 (calendar-iso-from-absolute
+                  (calendar-absolute-from-gregorian (list month day year)))))
+        'font-lock-face 'calendar-iso-week-face))
+#+END_SRC
 * License
 [[https://www.gnu.org/licenses/gpl-3.0.en.html][GNU General Public License]]
