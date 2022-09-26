@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: class selector
+# key: .
+# --
+.$1 {
+$0
+}

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: printf-debug
+# key: prd
+# --
+printf("***dbg*** ${1:format string}\n"${2: ,a0,a1});

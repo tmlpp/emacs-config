@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: localhost get
+# key: lget
+# --
+# ${1:name/comment}
+GET http://localhost:${2:port}/${3:endpoint}
+$0

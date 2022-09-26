@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: localhost put
+# key: lput
+# --
+PUT http://localhost:${1:port}/${2:endpoint}
+$0

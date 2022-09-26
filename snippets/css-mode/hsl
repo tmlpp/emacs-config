@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: hsl
+# key: hsl
+# --
+hsl($1 $2% $3% / $4%)

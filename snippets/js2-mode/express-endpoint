@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: express endpoint
+# key: exep
+# --
+${1:app}.${2:get}('/${3:path}', (${4:req, res}) => {
+  $0
+})

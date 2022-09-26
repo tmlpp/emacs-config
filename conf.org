@@ -41,7 +41,9 @@ Load information I don't want to be publicly available – for one reason or ano
     (require 'org-collector)
     (advice-add 'org-clock-out :after 'org-save-all-org-buffers)
     :custom
-    (org-ellipsis " ↓")
+    ;; (org-ellipsis " ↓")
+    (org-ellipsis " …")
+    (org-cycle-separator-lines 0)
     (org-src-window-setup 'current-window)
     :hook (org-mode . tsl/org-mode-setup)
     :bind (("C-c l" . org-store-link)
@@ -61,7 +63,9 @@ Load information I don't want to be publicly available – for one reason or ano
            ("M-U" . outline-up-heading)))
 
   (use-package org-bullets
-    :init (setq org-bullets-bullet-list '("→")))
+    :init (setq org-bullets-bullet-list '("•")))
+
+  (use-package visual-fill-column)
 
   (defun tsl/org-mode-setup ()
     (org-indent-mode 1)
@@ -90,6 +94,7 @@ Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist
                '(font . "Cascadia Code-12"))
+               '(font . "Input Mono-11"))
   (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
@@ -334,7 +339,9 @@ Install some packages.
 #+begin_src emacs-lisp
   (use-package undo-tree
     :init (global-undo-tree-mode)
-    :config (setq evil-undo-system 'undo-tree))
+    :config (setq evil-undo-system 'undo-tree)
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree-history")))
+    )
 #+end_src
 * Evil-mode
 #+begin_src emacs-lisp
@@ -641,6 +648,7 @@ Set org-agenda files
           "~/syncdir/org/agenda/life.org"
           "~/syncdir/org/agenda/study.org"
           "~/syncdir/org/agenda/jamk.org"
+          "~/syncdir/org/agenda/code.org"
           "~/syncdir/org/agenda/tech.org"))
 #+end_src
 
@@ -648,8 +656,8 @@ Turn on some logging and put logs in LOGBOOK drawer.
 #+begin_src emacs-lisp
   (setq org-log-into-drawer t)
 
-  (setq org-log-reschedule 'time)
-  (setq org-log-redeadline 'time)
+  (setq org-log-reschedule nil)
+  (setq org-log-redeadline nil)
 
   (setq org-log-done 'time)
 #+end_src
@@ -1056,9 +1064,9 @@ Probably not the fanciest fix, but so far it works.
 #+END_SRC
 * spotify.el
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'load-path "~/.emacs.d/spotify.el")
-  (require 'spotify)
-  (define-key spotify-mode-map (kbd "C-c .") 'spotify-command-map)
+  ;; (add-to-list 'load-path "~/.emacs.d/spotify.el")
+  ;; (require 'spotify)
+  ;; (define-key spotify-mode-map (kbd "C-c .") 'spotify-command-map)
 #+END_SRC
 * company-mode
 #+BEGIN_SRC emacs-lisp
@@ -1074,6 +1082,28 @@ Probably not the fanciest fix, but so far it works.
 #+BEGIN_SRC emacs-lisp
   (setq c-default-style '(("csharp-mode" . "csharp") (other . "linux")))
   (setq-default c-basic-offset 4)
+#+END_SRC
+* Python
+http://lgmoneda.github.io/2017/02/19/emacs-python-shell-config-eng.html
+#+BEGIN_SRC emacs-lisp
+  (use-package elpy)
+  ;; (use-package lsp-pyright
+  ;;   :ensure t
+  ;;   :hook (python-mode . (lambda ()
+  ;;                           (require 'lsp-pyright)
+  ;;                           (lsp))))  ; or lsp-deferred
+#+END_SRC
+* Elixir
+#+BEGIN_SRC emacs-lisp
+  (use-package lsp-mode
+      :commands lsp
+      :ensure t
+      :diminish lsp-mode
+      :hook
+      (elixir-mode . lsp)
+      (csharp-mode . lsp)
+      :init
+      (add-to-list 'exec-path "~/lsp/elixir-ls"))
 #+END_SRC
 * week number
 #+BEGIN_SRC emacs-lisp

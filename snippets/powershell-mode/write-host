@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Write-Host
+# key: p
+# --
+Write-Host("$1")$0

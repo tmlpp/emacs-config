@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ledger
+# key: a
+# --
+${1:YYYY}/${2:MM}/${3:DD} ${4:Payee}
+    ${5:Tili}      €${6:Sum}
+    ${7:Tili}

@@ -1,0 +1,5 @@
+# key: sq
+# name: square div
+# --
+width: $1;
+height: $1;
