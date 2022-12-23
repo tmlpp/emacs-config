@@ -93,9 +93,8 @@ Removing all the extra bars, messages and such makes Emacs cleaner. Setting up s
 Load theme and set font and set custom themes location.
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist
-               '(font . "Cascadia Code-12"))
-               '(font . "Input Mono-11"))
-  (face-spec-set 'variable-pitch '((t (:family "IBM Plex Sans"))))
+               '(font . "Fira Mono-12"))
+  (face-spec-set 'variable-pitch '((t (:family "Fira Sans"))))
 
   (let ((basedir "~/.emacs.d/themes/"))
     (dolist (f (directory-files basedir))
@@ -440,6 +439,7 @@ Work in progress.
                   "fO" 'find-file-other-window
                   "fp" 'projectile-find-file
                   "fP" 'projectile-find-file
+                  "fb" 'neotree-toggle
                   "u" 'undo-tree-visualize
                   "x" 'counsel-M-x
                   "cc" 'org-ctrl-c-ctrl-c
@@ -450,6 +450,8 @@ Work in progress.
                   "ns" 'org-narrow-to-subtree
                   "nw" 'widen
                   "g" 'hydra-magit/body
+                  "[" 'previous-buffer
+                  "]" 'next-buffer
                   )
 #+END_SRC
 * Yasnippet
@@ -488,6 +490,7 @@ Work in progress.
   (use-package emmet-mode
     :hook (css-mode . emmet-mode)
     (html-mode . emmet-mode)
+    ;; (html-mode . lsp-deferred)
     :bind (:map emmet-mode-keymap
                 ("C-j" . emmet-expand-line)))
 
@@ -516,6 +519,10 @@ Work in progress.
   (use-package restclient
     :mode (("\\.rest\\'" . restclient-mode)))
 
+  (use-package lsp-tailwindcss
+    :init
+    (setq lsp-tailwindcss-add-on-mode t)
+    (setq lsp-tailwindcss-major-modes '(rjsx-mode web-mode html-mode css-mode typescript-mode mhtml-mode)))
 #+END_SRC
 * Tiny
 #+BEGIN_SRC emacs-lisp
@@ -585,8 +592,8 @@ Put ledger file to register for easy access and tell Emacs to start ledger-mode 
   (defun tsl/sidebars-toggle ()
     "Toggle neotree and ibuffer-sidebar"
     (interactive)
-    (neotree-toggle)
-    (ibuffer-sidebar-toggle-sidebar))
+    (neotree-toggle))
+    ;; (ibuffer-sidebar-toggle-sidebar))
 
   (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
   (global-set-key [f8] 'tsl/sidebars-toggle)
@@ -1092,6 +1099,10 @@ http://lgmoneda.github.io/2017/02/19/emacs-python-shell-config-eng.html
   ;;   :hook (python-mode . (lambda ()
   ;;                           (require 'lsp-pyright)
   ;;                           (lsp))))  ; or lsp-deferred
+
+(add-hook 'inferior-python-mode-hook
+          (lambda ()
+            (setq comint-move-point-for-output t)))
 #+END_SRC
 * Elixir
 #+BEGIN_SRC emacs-lisp
