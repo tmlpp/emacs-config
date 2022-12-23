@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: react hook
+# key: hook
+# --
+const [$1, set${1:$(concat (capitalize (substring yas-text 0 1)) (substring yas-text 1 nil))}] = useState($2)
+$0
