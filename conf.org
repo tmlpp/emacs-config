@@ -425,6 +425,8 @@ Work in progress.
                   "bc" 'clone-indirect-buffer-other-window
                   "ss" 'save-buffer
                   "sa" 'tsl/save-all
+                  "w" 'save-buffer
+                  "W" 'tsl/save-all
                   "t" 'org-todo
                   "q" 'evil-quit
                   "Q" 'save-buffers-kill-terminal
